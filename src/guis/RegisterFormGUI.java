@@ -1,4 +1,146 @@
 package guis;
 
-public class RegisterFormGUI {
+import components.CommonConstants;
+import myJDBC.myDB;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+@SuppressWarnings("ALL")
+public class RegisterFormGUI extends Form {
+    public RegisterFormGUI() {
+        super("Register");
+        addGuiComponents();
+    }
+    private void addGuiComponents(){
+        JLabel registerLabel = new JLabel ("New Registration");
+        registerLabel.setFont (new Font("Dialog",Font.BOLD,24));
+         registerLabel.setHorizontalAlignment (SwingConstants.CENTER);
+         registerLabel.setForeground (CommonConstants.TEXT_COLOR);
+         registerLabel.setBounds (130,30,240,50);
+         add (registerLabel);
+         this.getContentPane ().setBackground (CommonConstants.SECONDARY_COLOR);
+
+        JLabel usernameLabel = new JLabel ("Username");
+
+        //configure component properties
+        usernameLabel.setBounds (30,-90,400,400);
+        usernameLabel.setForeground (CommonConstants.TEXT_COLOR);
+        usernameLabel.setFont (new Font("Dialog",Font.PLAIN,18));
+        add (usernameLabel);
+
+        // create a username text field
+        JFormattedTextField usernameTextField = new JFormattedTextField ();
+        usernameTextField.setBounds (43,130,420,30);
+        usernameTextField.setForeground (CommonConstants.TEXT_COLOR);
+        usernameTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+        usernameTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        usernameTextField.setCursor (Cursor.getPredefinedCursor (Cursor.TEXT_CURSOR));
+        add(usernameTextField);
+
+        JLabel passwordLabel = new JLabel ("Password");
+
+        //configure component properties
+        passwordLabel.setBounds (30,0,400,400);
+        passwordLabel.setForeground (CommonConstants.TEXT_COLOR);
+        passwordLabel.setFont (new Font("Dialog",Font.PLAIN,18));
+        add (passwordLabel);
+
+        // create a username text field
+        JPasswordField passwordTextField = new JPasswordField ();
+        passwordTextField.setBounds (43,220,420,30);
+        passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+        passwordTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        add(passwordTextField);
+
+        JLabel rePasswordLabel = new JLabel ("Re-enter Password");
+
+        //configure component properties
+        rePasswordLabel.setBounds (30,90,400,400);
+        rePasswordLabel.setForeground (CommonConstants.TEXT_COLOR);
+        rePasswordLabel.setFont (new Font("Dialog",Font.PLAIN,18));
+        add (rePasswordLabel);
+
+        // create a username text field
+        JPasswordField rePasswordTextField = new JPasswordField ();
+        rePasswordTextField.setBounds (43,310,420,30);
+        rePasswordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        rePasswordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+        rePasswordTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        add(rePasswordTextField);
+
+        JLabel nameLabel = new JLabel ("Name");
+
+        //configure component properties
+        nameLabel.setBounds (30,180,400,400);
+        nameLabel.setForeground (CommonConstants.TEXT_COLOR);
+        nameLabel.setFont (new Font("Dialog",Font.PLAIN,18));
+        add (nameLabel);
+
+        // create a username text field
+        JFormattedTextField nameTextField = new JFormattedTextField ();
+        nameTextField.setBounds (43,400,420,30);
+        nameTextField.setForeground (CommonConstants.TEXT_COLOR);
+        nameTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+        nameTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        add(nameTextField);
+
+        JLabel emailLabel = new JLabel ("E-Mail");
+
+        //configure component properties
+        emailLabel.setBounds (30,270,400,400);
+        emailLabel.setForeground (CommonConstants.TEXT_COLOR);
+        emailLabel.setFont (new Font("Dialog",Font.PLAIN,18));
+        add (emailLabel);
+
+        // create a username text field
+        JFormattedTextField emailTextField = new JFormattedTextField ();
+        emailTextField.setBounds (43,490,420,30);
+        emailTextField.setForeground (CommonConstants.TEXT_COLOR);
+        emailTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+        emailTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        add(emailTextField);
+
+        JButton registerButton = new JButton ("Register!");
+        registerButton.setFont (new Font("Dialog",Font.BOLD,30));
+        registerButton.setBounds (130,550,240,50);
+        registerButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        registerButton.setForeground (CommonConstants.TEXT_COLOR);
+        registerButton.setBackground (CommonConstants.PRIMARY_COLOR);
+        registerButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registerUser (usernameTextField.getText (), passwordTextField.getText (), rePasswordTextField.getText (),
+                        nameTextField.getText (), emailTextField.getText ());
+            }
+        });
+        add(registerButton);
+    }
+
+    private boolean registerUser(String username, String password,String rePassword, String name, String email){
+        if (!validateInput (username, password, rePassword)) {
+            JOptionPane.showMessageDialog (null, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if(myDB.registerUser (username, password, name, email)){
+                JOptionPane.showMessageDialog (RegisterFormGUI.this, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                RegisterFormGUI.this.dispose ();
+                new LoginFormGUI ().setVisible (true);
+                return true;
+
+            }else{
+                JOptionPane.showMessageDialog (RegisterFormGUI.this, "Registration Failed\nUsername Taken", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+    }
+    private boolean validateInput(String username, String password, String rePassword){
+        if (username.isEmpty () || password.isEmpty () || rePassword.isEmpty ()) return false;
+        if (!password.equals (rePassword)) return false;
+        if (username.length () < 5 || username.length () > 15) return false;
+        return true;
+    }
+
 }

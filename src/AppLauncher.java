@@ -1,3 +1,4 @@
+import guis.AdminGUI;
 import guis.LoginFormGUI;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new LoginFormGUI ("Flight Management System").setVisible (true);
+                new AdminGUI ().setVisible (true);
             }
         });
     }
