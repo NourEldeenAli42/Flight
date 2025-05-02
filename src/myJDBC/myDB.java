@@ -12,7 +12,7 @@ public class myDB {
             Connection connection = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
 
-            PreparedStatement getUser = connection.prepareStatement ("SELECT * FROM user WHERE username=?");
+            PreparedStatement getUser = connection.prepareStatement ("SELECT * FROM users WHERE username=?");
             getUser.setString (1,username);
             ResultSet rs = getUser.executeQuery ();
             if (!rs.isBeforeFirst ()) return false;
@@ -24,7 +24,7 @@ public class myDB {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                 CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
             if (checkUser (username)) return false;
-            PreparedStatement insertUser = conn.prepareStatement ("INSERT INTO user (username, password, name, email) VALUES (?,?,?,?)");
+            PreparedStatement insertUser = conn.prepareStatement ("INSERT INTO users (username, password, name, email) VALUES (?,?,?,?)");
             insertUser.setString (1,username);
             insertUser.setString (2,password);
             insertUser.setString (3,name);
@@ -37,7 +37,7 @@ public class myDB {
     public static boolean loginUser(String username, String password){
         try{Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                 CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
-            PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM user WHERE username=? AND password=?");
+            PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM users WHERE username=? AND password=?");
             getUser.setString (1,username);
             getUser.setString (2,password);
             ResultSet rs = getUser.executeQuery ();
