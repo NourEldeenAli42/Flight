@@ -1,19 +1,21 @@
 package guis;
-import myJDBC.myDB;
-import components.CommonConstants;
 
-import javax.swing.*;
+import components.CommonConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.*;
+import myJDBC.myDB;
 
 public class LoginFormGUI extends Form{
+
     public LoginFormGUI() {
         super("Login");
         addGuiComponents();
     }
+
     private void addGuiComponents() {
         // create a login label
         JLabel loginLabel = new JLabel ("Login");
@@ -99,15 +101,20 @@ public class LoginFormGUI extends Form{
         registerLabel.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         registerLabel.setForeground (CommonConstants.TEXT_COLOR);
         registerLabel.setBounds (130, 500, 240, 50);
+
         registerLabel.addMouseListener (new MouseAdapter () {
+            
+            @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked (e);
                 LoginFormGUI.this.dispose ();
                 new RegisterFormGUI ().setVisible (true);
             }
         });
+        
         add(registerLabel);
     }
+    
     public boolean login(String username, String password){
         return myDB.loginUser (username,password);
     }

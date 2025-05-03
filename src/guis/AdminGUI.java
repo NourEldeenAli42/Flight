@@ -1,7 +1,7 @@
 package guis;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class AdminGUI extends Form {
     public AdminGUI() {
@@ -43,6 +43,6 @@ public class AdminGUI extends Form {
         passwordTextField.setBounds (110, 115, 200, 30);
         clientPanel.add (passwordTextField);
 
-        JRadioButton
+        
     }
 }

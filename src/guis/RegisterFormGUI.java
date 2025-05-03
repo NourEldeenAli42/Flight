@@ -1,11 +1,11 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import myJDBC.myDB;
 
 @SuppressWarnings("ALL")
 public class RegisterFormGUI extends Form {
@@ -112,7 +112,7 @@ public class RegisterFormGUI extends Form {
         registerButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registerUser (usernameTextField.getText (), passwordTextField.getText (), rePasswordTextField.getText (),
+                registerUser (usernameTextField.getText (), passwordTextField.getText(), rePasswordTextField.getText (),
                         nameTextField.getText (), emailTextField.getText ());
             }
         });
