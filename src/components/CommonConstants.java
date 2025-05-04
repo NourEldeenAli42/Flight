@@ -14,4 +14,6 @@ public class CommonConstants {
     public static final String DB_PASSWORD = "cihEmBbeXm";
     public static final String DB_USERS_TABLE_NAME = "users";
     public static final String DB_AGENTS_TABLE_NAME = "agents";
+    public static final String DB_FLIGHTS_TABLE_NAME = "flights";
+    public static final String DB_BOOKINGS_TABLE_NAME = "bookings";
 }

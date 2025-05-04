@@ -1,6 +1,8 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,6 +83,24 @@ public class CreatingNewBooking extends Form {
         createBookingButton.setBackground(CommonConstants.TEXT_COLOR);
         createBookingButton.setFont(new Font("Dialog", Font.BOLD, 18));
         createBookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createBookingButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String password = String.valueOf(ClientPasswordTextField.getPassword());
+                if(myDB.createBooking(ClientUsernameTextField.getText(), password, FlightNumberTextField.getText(),
+                        Integer.parseInt(TotalPaidTextField.getText()))){
+                    JOptionPane.showMessageDialog(null, "Booking created successfully");
+                    dispose();
+                    new AgentGUI().setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Booking creation failed");
+                }
+                ClientUsernameTextField.setText("");
+                ClientPasswordTextField.setText("");
+                FlightNumberTextField.setText("");
+                TotalPaidTextField.setText("");
+            }
+        });
         add(createBookingButton);
 
         JButton BackButton = new JButton("Back");
