@@ -1,7 +1,11 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class AdminGUI extends Form {
@@ -23,7 +27,7 @@ public class AdminGUI extends Form {
         JPanel agentPanel = new JPanel ();
         tabbedPane.addTab ("Agent", agentPanel);
         JPanel CustomerPanel = new JPanel ();
-        tabbedPane.addTab ("Agent", CustomerPanel);
+        tabbedPane.addTab ("Customer", CustomerPanel);
 
         adminPanel.setLayout (null);
         agentPanel.setLayout (null);
@@ -47,7 +51,15 @@ public class AdminGUI extends Form {
         ActivateAccountButton.setForeground(CommonConstants.PRIMARY_COLOR);
         ActivateAccountButton.setBounds(43, 200, 420, 60);
         adminPanel.add(ActivateAccountButton);
-       
+
+        ActivateAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new ActivateAccountGUI().setVisible(true);
+            }
+        });
+
         JButton CreateNewAccountButton = new JButton("Create New Account"); 
         CreateNewAccountButton.setFont(new Font("Dialog", Font.BOLD, 18));
         CreateNewAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

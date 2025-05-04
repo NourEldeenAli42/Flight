@@ -34,6 +34,7 @@ public class CreatingNewBooking extends Form {
         ClientUsernameTextField.setBounds(43,130,420,30);
         ClientUsernameTextField.setForeground(CommonConstants.TEXT_COLOR);
         ClientUsernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        ClientUsernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         ClientUsernameTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(ClientUsernameTextField);
 
@@ -47,6 +48,7 @@ public class CreatingNewBooking extends Form {
         ClientPasswordTextField.setBounds(43,220,420,30);
         ClientPasswordTextField.setForeground(CommonConstants.TEXT_COLOR);
         ClientPasswordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        ClientPasswordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         ClientPasswordTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(ClientPasswordTextField);
 
@@ -60,6 +62,7 @@ public class CreatingNewBooking extends Form {
         FlightNumberTextField.setBounds(43,330,420,30);
         FlightNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         FlightNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        FlightNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         FlightNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(FlightNumberTextField);
         
@@ -73,6 +76,7 @@ public class CreatingNewBooking extends Form {
         TotalPaidTextField.setBounds(43,430,420,30);
         TotalPaidTextField.setForeground(CommonConstants.TEXT_COLOR);
         TotalPaidTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        TotalPaidTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         TotalPaidTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(TotalPaidTextField);
 

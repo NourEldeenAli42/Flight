@@ -1,9 +1,8 @@
 package myJDBC;
 import components.CommonConstants;
-
+import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.sql.*;
 
 public class myDB {
 

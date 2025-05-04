@@ -35,6 +35,7 @@ public class ModifyingBooking extends Form {
         clientUsernameTextField.setBounds(43,130,420,30);
         clientUsernameTextField.setForeground(CommonConstants.TEXT_COLOR);
         clientUsernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        clientUsernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         clientUsernameTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(clientUsernameTextField);
 
@@ -48,6 +49,7 @@ public class ModifyingBooking extends Form {
         clientPasswordTextField.setBounds(43,220,420,30);
         clientPasswordTextField.setForeground(CommonConstants.TEXT_COLOR);
         clientPasswordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        clientPasswordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         clientPasswordTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(clientPasswordTextField);
 
@@ -61,6 +63,7 @@ public class ModifyingBooking extends Form {
         flightNumberTextField.setBounds(43,330,420,30);
         flightNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         flightNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        flightNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         flightNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(flightNumberTextField);
         
@@ -74,6 +77,7 @@ public class ModifyingBooking extends Form {
         ANFTextField.setBounds(43,430,420,30);
         ANFTextField.setForeground(CommonConstants.TEXT_COLOR);
         ANFTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        ANFTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         ANFTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(ANFTextField);
 
@@ -88,6 +92,7 @@ public class ModifyingBooking extends Form {
         addPaymentAmountTextField.setBounds(43,520,420,30);
         addPaymentAmountTextField.setForeground(CommonConstants.TEXT_COLOR);
         addPaymentAmountTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        addPaymentAmountTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         addPaymentAmountTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(addPaymentAmountTextField);
         addPaymentAmountTextField.setText ( String.valueOf(0) );
