@@ -1,6 +1,8 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ public class GetAvailableFlights extends Form {
         add(GAFLapel);
 
         JButton BackButton = new JButton("Back");
-        BackButton.setBounds(80,550,350,50);
+        BackButton.setBounds(160,550,200,50);
         BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
         BackButton.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -36,6 +38,27 @@ public class GetAvailableFlights extends Form {
         });
         add(BackButton);
 
+
+        JTable flights = new JTable();
+        flights.setBounds(43,130,420,300);
+        flights.setForeground(CommonConstants.TEXT_COLOR);
+        flights.setBackground(CommonConstants.PRIMARY_COLOR);
+        flights.setFont(new Font("Dialog", Font.PLAIN, 15));
+        add(flights);
+
+        JButton getAvailableFlightsButton = new JButton("Get Available Flights");
+        getAvailableFlightsButton.setBounds(110, 480, 300, 60);
+        getAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        getAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
+        getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        getAvailableFlightsButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flights.setModel (myDB.getAvailableFlight ());
+            }
+        });
+        add(getAvailableFlightsButton);
+
     }
-    
+
 }

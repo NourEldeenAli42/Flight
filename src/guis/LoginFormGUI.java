@@ -85,8 +85,20 @@ public class LoginFormGUI extends Form{
         loginButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (login (usernameTextField.getText (), passwordTextField.getText ())) {
+                String password = new String (passwordTextField.getPassword ());
+                if (login (usernameTextField.getText (),password)) {
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Successful");
+                    LoginFormGUI.this.dispose ();
+                    switch (myDB.getUserType (usernameTextField.getText ())){
+                        case 0:
+                            JOptionPane.showMessageDialog (LoginFormGUI.this, "Account not activated" +
+                                    "\n Contact an administrator");
+                            break;
+
+                        case 1: new AdminGUI ().setVisible (true); break;
+                        case 2: new AgentGUI ().setVisible (true); break;
+                        case 3:
+                    }
                 } else {
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Failed");
                 }
