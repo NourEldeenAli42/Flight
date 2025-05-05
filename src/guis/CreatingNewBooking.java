@@ -80,7 +80,6 @@ public class CreatingNewBooking extends Form {
         TotalPaidTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
         add(TotalPaidTextField);
 
-
         JButton createBookingButton = new JButton("Create Booking");
         createBookingButton.setBounds(250, 500, 200, 60);
         createBookingButton.setForeground(CommonConstants.PRIMARY_COLOR);

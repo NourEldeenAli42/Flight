@@ -1,7 +1,4 @@
-import guis.AdminGUI;
-import guis.AgentGUI;
-import guis.LoginFormGUI;
-import guis.RegisterFormGUI;
+import guis.*;
 
 import javax.swing.*;
 

@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class ScreenManager {
     private static ScreenManager instance;
-    private final Stack<Class<? extends Form>> screenHistory;
+    private final Stack<Class<?extends  Form>> screenHistory;
 
     private ScreenManager() {
         screenHistory = new Stack<>();

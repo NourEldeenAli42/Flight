@@ -88,6 +88,7 @@ public class LoginFormGUI extends Form{
                 String password = new String (passwordTextField.getPassword ());
                 if (login (usernameTextField.getText (),password)) {
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Successful");
+                    CommonConstants.CURRENT_USER_ID=myDB.getUserID (usernameTextField.getText (),password);
                     LoginFormGUI.this.dispose ();
                     switch (myDB.getUserType (usernameTextField.getText ())){
                         case 0:
