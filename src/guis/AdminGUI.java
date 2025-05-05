@@ -25,7 +25,7 @@ public class AdminGUI extends Form {
         JPanel agentPanel = new JPanel ();
         tabbedPane.addTab ("Agent", agentPanel);
         JPanel CustomerPanel = new JPanel ();
-        tabbedPane.addTab ("Agent", CustomerPanel);
+        tabbedPane.addTab ("Client", CustomerPanel);
 
         adminPanel.setLayout (null);
         agentPanel.setLayout (null);
@@ -147,6 +147,69 @@ public class AdminGUI extends Form {
                 new GenerateReport().setVisible(true);
             }
         });
+
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setBackground(CommonConstants.TEXT_COLOR);
+        logoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        logoutButton.setBounds(370,10,120,30);
+        logoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                CommonConstants.CURRENT_USER_ID=-1;
+                dispose();
+                new LoginFormGUI ().setVisible (true);
+            }
+        });
+        adminPanel.add(logoutButton);
+
+        JButton AgentlogoutButton = new JButton("Logout");
+        AgentlogoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        AgentlogoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        AgentlogoutButton.setBackground(CommonConstants.TEXT_COLOR);
+        AgentlogoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        AgentlogoutButton.setBounds(370,10,120,30);
+        AgentlogoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                CommonConstants.CURRENT_USER_ID=-1;
+                dispose();
+                new LoginFormGUI ().setVisible (true);
+            }
+        });
+        agentPanel.add(AgentlogoutButton);
+
+
+        JButton customerlogoutButton = new JButton("Logout");
+        customerlogoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        customerlogoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        customerlogoutButton.setBackground(CommonConstants.TEXT_COLOR);
+        customerlogoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        customerlogoutButton.setBounds(370,10,120,30);
+        customerlogoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                CommonConstants.CURRENT_USER_ID=-1;
+                dispose();
+                new LoginFormGUI ().setVisible (true);
+            }
+        });
+        CustomerPanel.add(customerlogoutButton);
+
+
+
+        JRadioButton profile = new JRadioButton ();
+        profile.setBounds (10, 10, 60, 50);
+        profile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        profile.setBackground (CommonConstants.SECONDARY_COLOR);
+        profile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        profile.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new LoginFormGUI ().setVisible (true);
+            }
+        });
+        adminPanel.add (profile);
 
     }
 }

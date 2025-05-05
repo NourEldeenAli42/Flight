@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Form extends JFrame {
     protected ScreenManager screenManager;
-
     public Form(String title) {
         super(title);
 

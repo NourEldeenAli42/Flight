@@ -107,14 +107,13 @@ public class RegisterFormGUI extends Form {
         registerButton.setFont (new Font("Dialog",Font.BOLD,30));
         registerButton.setBounds (210,550,200,50);
         registerButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        registerButton.setForeground (CommonConstants.TEXT_COLOR);
-        registerButton.setBackground (CommonConstants.PRIMARY_COLOR);
+        registerButton.setForeground (CommonConstants.SECONDARY_COLOR);
+        registerButton.setBackground (CommonConstants.TEXT_COLOR);
         registerButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
                 registerUser (usernameTextField.getText (), passwordTextField.getText(), rePasswordTextField.getText (),
                         nameTextField.getText (), emailTextField.getText ());
-                navigateBack ();
             }
         });
         add(registerButton);
@@ -123,8 +122,8 @@ public class RegisterFormGUI extends Form {
         backButton.setFont (new Font("Dialog",Font.BOLD,30));
         backButton.setBounds (80,550,120,50);
         backButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        backButton.setForeground (CommonConstants.TEXT_COLOR);
-        backButton.setBackground (CommonConstants.PRIMARY_COLOR);
+        backButton.setForeground (CommonConstants.SECONDARY_COLOR);
+        backButton.setBackground (CommonConstants.TEXT_COLOR);
         backButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {

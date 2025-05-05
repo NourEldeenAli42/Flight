@@ -308,4 +308,41 @@ public class myDB {
             }
         }catch (SQLException e){e.printStackTrace();}
     }
+
+
+    public static String getUsername(int userID){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+
+            PreparedStatement getUsername = conn.prepareStatement ("SELECT username FROM users WHERE usersid=?");
+            getUsername.setInt (1,userID);
+            ResultSet rs = getUsername.executeQuery ();
+            if (!rs.isBeforeFirst ()) return null;
+            rs.next ();
+            return rs.getString ("username");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static String getPassword(int userID){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+
+            PreparedStatement getPassword = conn.prepareStatement ("SELECT password FROM users WHERE usersid=?");
+            getPassword.setInt (1,userID);
+            ResultSet rs = getPassword.executeQuery ();
+            if (!rs.isBeforeFirst ()) return null;
+            rs.next ();
+            return rs.getString ("password");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
