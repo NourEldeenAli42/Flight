@@ -1,0 +1,118 @@
+package guis;
+
+import components.CommonConstants;
+import java.awt.*;
+import javax.swing.*;
+
+public class ProfileGUI extends Form {
+    
+    public ProfileGUI(){
+        super("Profile GUI");
+        addGuiComponents();
+    }
+
+    public void addGuiComponents() {
+
+        getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
+
+        JLabel profileLabel = new JLabel("Profile");
+        profileLabel.setForeground(CommonConstants.TEXT_COLOR);
+        profileLabel.setFont(new Font("Dialog", Font.BOLD, 40));
+        profileLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        profileLabel.setBounds(130, 30, 240, 50);
+        add(profileLabel);
+
+        JLabel usernameLabel = new JLabel("Username : ");
+        usernameLabel.setForeground(CommonConstants.TEXT_COLOR);
+        usernameLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+        usernameLabel.setBounds(30, -30, 150, 400);
+        add(usernameLabel);
+
+        JTextField usernameTextField = new JTextField();
+        usernameTextField.setBounds(170, 150, 300, 50);
+        usernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        usernameTextField.setForeground(CommonConstants.TEXT_COLOR);
+        usernameTextField.setEnabled(false);
+        usernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        usernameTextField.setText("Marwan"); 
+        usernameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        add(usernameTextField);
+
+        JLabel passwordLabel = new JLabel("Password : ");
+        passwordLabel.setForeground(CommonConstants.TEXT_COLOR);
+        passwordLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+        passwordLabel.setBounds(30, 70, 150, 400);
+        add(passwordLabel);
+
+        JPasswordField passwordTextField = new JPasswordField();
+        passwordTextField.setBounds(170, 250, 200, 50);
+        passwordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        passwordTextField.setForeground(CommonConstants.TEXT_COLOR);
+        passwordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        passwordTextField.setText("EL_7nklolo");
+        passwordTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        add(passwordTextField);
+
+        JCheckBox showPasswordCheckBox = new JCheckBox("Show");
+        showPasswordCheckBox.setBounds(400, 260, 110, 30);
+        showPasswordCheckBox.setBackground(CommonConstants.SECONDARY_COLOR);
+        showPasswordCheckBox.setForeground(CommonConstants.TEXT_COLOR);
+        showPasswordCheckBox.setFont(new Font("Dialog", Font.PLAIN, 15));
+        showPasswordCheckBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        showPasswordCheckBox.addActionListener(e -> {
+            if (showPasswordCheckBox.isSelected()) {
+                passwordTextField.setEchoChar((char) 0);
+            } else {
+                passwordTextField.setEchoChar('●');
+            }
+        });
+        add(showPasswordCheckBox);
+
+        JLabel nameLabel = new JLabel("Name : ");
+        nameLabel.setForeground(CommonConstants.TEXT_COLOR);
+        nameLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+        nameLabel.setBounds(30, 170, 150, 400);
+        add(nameLabel);
+
+        JTextField nameTextField = new JTextField();
+        nameTextField.setBounds(170, 350, 300, 50);
+        nameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        nameTextField.setForeground(CommonConstants.TEXT_COLOR);
+        nameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        nameTextField.setText("Nour EL Bolbolahi");
+        nameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        add(nameTextField);
+
+        JLabel emailLabel = new JLabel("Email : ");
+        emailLabel.setForeground(CommonConstants.TEXT_COLOR);   
+        emailLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+        emailLabel.setBounds(30, 270, 150, 400);
+        add(emailLabel);
+
+        JTextField emailTextField = new JTextField();
+        emailTextField.setBounds(170, 450, 300, 50);
+        emailTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        emailTextField.setForeground(CommonConstants.TEXT_COLOR);
+        emailTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        emailTextField.setText("Marwan7nklolo@gmail.com");
+        emailTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        add(emailTextField);
+
+        JButton saveButton = new JButton("Save Changes");
+        saveButton.setBounds(270, 550, 200, 60);
+        saveButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        saveButton.setBackground(CommonConstants.TEXT_COLOR);
+        saveButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        add(saveButton);
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBounds(30, 550, 200, 60);
+        logoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        logoutButton.setBackground(CommonConstants.TEXT_COLOR);
+        logoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        add(logoutButton);
+    }
+
+}

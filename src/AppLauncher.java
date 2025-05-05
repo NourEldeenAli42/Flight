@@ -1,6 +1,7 @@
 import guis.AdminGUI;
 import guis.AgentGUI;
 import guis.LoginFormGUI;
+import guis.ProfileGUI;
 import guis.RegisterFormGUI;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new LoginFormGUI ().setVisible (true);
+                new ProfileGUI ().setVisible (true);
             }
         });
     }
