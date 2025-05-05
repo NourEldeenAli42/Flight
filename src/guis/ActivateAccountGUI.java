@@ -4,8 +4,6 @@ import components.CommonConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.*;
 import myJDBC.myDB;
 
@@ -126,16 +124,17 @@ public class ActivateAccountGUI extends Form {
         });
         add(activateAccountButton);
         
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        backButton.setBounds(400, 550, 100, 50);
-        backButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        backButton.setBackground(CommonConstants.TEXT_COLOR);
-        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        backButton.addActionListener(new ActionListener() {
+        JButton BackButton = new JButton("Back");
+        BackButton.setBounds(60,570,400,50);
+        BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        BackButton.setBackground(CommonConstants.TEXT_COLOR);
+        BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
+        BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 navigateBack();
             }
         });
+        add(BackButton);
     }   
 }

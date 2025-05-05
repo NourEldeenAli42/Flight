@@ -76,7 +76,7 @@ public class LoginFormGUI extends Form{
 
         //create a login button
         JButton loginButton = new JButton ("Login");
-        loginButton.setFont (new Font ("Dialog", Font.PLAIN, 18));
+        loginButton.setFont (new Font ("Dialog", Font.BOLD, 25));
 
         // change cursor to hand while hovering
         loginButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
@@ -97,7 +97,7 @@ public class LoginFormGUI extends Form{
                             break;
 
                         case 1: new AdminGUI ().setVisible (true); break;
-                        case 2: new AgentGUI ().setVisible (true); break;
+                        case 2: new ClientGUI ().setVisible (true); break;
                         case 3:
                     }
                 } else {
@@ -110,6 +110,7 @@ public class LoginFormGUI extends Form{
 
         //create a register label
         JLabel registerLabel = new JLabel ("New User? Register Here");
+        registerLabel.setFont (new Font ("Dialog", Font.PLAIN, 15));
         registerLabel.setHorizontalAlignment (SwingConstants.CENTER);
         registerLabel.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         registerLabel.setForeground (CommonConstants.TEXT_COLOR);

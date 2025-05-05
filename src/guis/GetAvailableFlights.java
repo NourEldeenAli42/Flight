@@ -1,12 +1,11 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import myJDBC.myDB;
 
 public class GetAvailableFlights extends Form {
     public GetAvailableFlights() {
@@ -28,7 +27,7 @@ public class GetAvailableFlights extends Form {
         BackButton.setBounds(160,550,200,50);
         BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
-        BackButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -49,7 +48,7 @@ public class GetAvailableFlights extends Form {
         getAvailableFlightsButton.setBounds(110, 480, 300, 60);
         getAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
         getAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
-        getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 25));
         getAvailableFlightsButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {

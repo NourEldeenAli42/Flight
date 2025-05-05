@@ -6,16 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class GenerateReport extends Form {
-    public GenerateReport() {
-        super("Generate Report");
+public class AddPaymentGUI extends Form {
+    public AddPaymentGUI() {
+        super("Add Payment");
         addGuiComponents();
     }
 
     private void addGuiComponents() {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
 
-        JLabel GRLapel = new JLabel("Generate Report");
+        JLabel GRLapel = new JLabel("Add Payment");
         GRLapel.setForeground(CommonConstants.TEXT_COLOR);
         GRLapel.setFont(new Font("Dialog", Font.BOLD, 24));
         GRLapel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -26,7 +26,7 @@ public class GenerateReport extends Form {
         BackButton.setBounds(80,550,350,50);
         BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
-        BackButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

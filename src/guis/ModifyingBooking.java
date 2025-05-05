@@ -1,12 +1,11 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import myJDBC.myDB;
 
 public class ModifyingBooking extends Form {
     public ModifyingBooking() {
@@ -25,6 +24,8 @@ public class ModifyingBooking extends Form {
         MBLabel.setBounds(130,30,240,50);
         add(MBLabel);
 
+
+        //TO DO : REMOVE CLIENT USERNAME AND PASSWORD FROM THE GUI
         JLabel clientUsernameLabel = new JLabel("Client username : ");
         clientUsernameLabel.setForeground(CommonConstants.TEXT_COLOR);
         clientUsernameLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -56,11 +57,11 @@ public class ModifyingBooking extends Form {
         JLabel flightNumberLabel = new JLabel("Flight Number : ");
         flightNumberLabel.setForeground(CommonConstants.TEXT_COLOR);
         flightNumberLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        flightNumberLabel.setBounds(30,100,400,400);
+        flightNumberLabel.setBounds(30,90,400,400);
         add(flightNumberLabel);
 
         JTextField flightNumberTextField = new JTextField();
-        flightNumberTextField.setBounds(43,330,420,30);
+        flightNumberTextField.setBounds(43,310,420,30);
         flightNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         flightNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         flightNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -70,11 +71,11 @@ public class ModifyingBooking extends Form {
         JLabel ANFLabel = new JLabel("Assign New Flight : ");
         ANFLabel.setForeground(CommonConstants.TEXT_COLOR);
         ANFLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        ANFLabel.setBounds(30,200,400,400);
+        ANFLabel.setBounds(30,180,400,400);
         add(ANFLabel);
 
         JTextField ANFTextField = new JTextField();
-        ANFTextField.setBounds(43,430,420,30);
+        ANFTextField.setBounds(43,410,420,30);
         ANFTextField.setForeground(CommonConstants.TEXT_COLOR);
         ANFTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         ANFTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -85,11 +86,11 @@ public class ModifyingBooking extends Form {
         JLabel addPaymentAmount = new JLabel("Add Payment Amount : ");
         addPaymentAmount.setForeground(CommonConstants.TEXT_COLOR);
         addPaymentAmount.setFont(new Font("Dialog", Font.PLAIN, 18));
-        addPaymentAmount.setBounds(30,300,400,400);
+        addPaymentAmount.setBounds(30,280,400,400);
         add(addPaymentAmount);
 
         JTextField addPaymentAmountTextField = new JTextField();
-        addPaymentAmountTextField.setBounds(43,520,420,30);
+        addPaymentAmountTextField.setBounds(43,500,420,30);
         addPaymentAmountTextField.setForeground(CommonConstants.TEXT_COLOR);
         addPaymentAmountTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         addPaymentAmountTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -97,12 +98,42 @@ public class ModifyingBooking extends Form {
         add(addPaymentAmountTextField);
         addPaymentAmountTextField.setText ( String.valueOf(0) );
 
+        JRadioButton classAButton = new JRadioButton("Class A");
+        classAButton.setBounds(60, 560, 100, 30);
+        classAButton.setForeground(CommonConstants.TEXT_COLOR);
+        classAButton.setBackground(CommonConstants.SECONDARY_COLOR);
+        classAButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classAButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        add(classAButton);
+
+        JRadioButton classBButton = new JRadioButton("Class B");
+        classBButton.setBounds(200, 560, 100, 30);
+        classBButton.setForeground(CommonConstants.TEXT_COLOR);
+        classBButton.setBackground(CommonConstants.SECONDARY_COLOR);
+        classBButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classBButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        classBButton.setSelected(true);
+        add(classBButton);
+
+        JRadioButton classCButton = new JRadioButton("Class C");
+        classCButton.setBounds(340, 560, 100, 30);
+        classCButton.setForeground(CommonConstants.TEXT_COLOR);
+        classCButton.setBackground(CommonConstants.SECONDARY_COLOR);
+        classCButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classCButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        add(classCButton);
+
+        ButtonGroup classButtonGroup = new ButtonGroup();
+        classButtonGroup.add(classAButton);
+        classButtonGroup.add(classBButton);
+        classButtonGroup.add(classCButton);
+
 
         JButton modifyBooking = new JButton("Modify Booking");
-        modifyBooking.setBounds(250, 600, 200, 60);
-        modifyBooking.setForeground(CommonConstants.PRIMARY_COLOR);
+        modifyBooking.setBounds(250, 620, 200, 60);
+        modifyBooking.setForeground(CommonConstants.SECONDARY_COLOR);
         modifyBooking.setBackground(CommonConstants.TEXT_COLOR);
-        modifyBooking.setFont(new Font("Dialog", Font.BOLD, 18));
+        modifyBooking.setFont(new Font("Dialog", Font.BOLD, 25));
         modifyBooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         modifyBooking.addActionListener (new ActionListener () {
             @Override
@@ -114,7 +145,7 @@ public class ModifyingBooking extends Form {
                 if(myDB.modifyBooking (clientUsernameTextField.getText (),password,paymentAmount,flightNumber,newflightnumber)){
                     JOptionPane.showMessageDialog(null, "Booking modified successfully");
                     dispose();
-                    new AgentGUI().setVisible(true);
+                    new ClientGUI().setVisible(true);
                 }else{
                     JOptionPane.showMessageDialog(null, "Booking modification failed");
                 }
@@ -126,10 +157,10 @@ public class ModifyingBooking extends Form {
         add(modifyBooking);
 
         JButton BackButton = new JButton("Back");
-        BackButton.setBounds(43, 600, 200, 60);
-        BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        BackButton.setBounds(43, 620, 200, 60);
+        BackButton.setForeground(CommonConstants.SECONDARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
-        BackButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
