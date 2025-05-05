@@ -1,26 +1,26 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
-import myJDBC.myDB;
 
-@SuppressWarnings("ALL")
-public class RegisterFormGUI extends Form {
-    public RegisterFormGUI() {
+public class RegisterFromAdmin extends Form {
+    public RegisterFromAdmin() {
         super("Register");
         addGuiComponents();
     }
     private void addGuiComponents(){
         JLabel registerLabel = new JLabel ("New Registration");
-        registerLabel.setFont (new Font("Dialog",Font.BOLD,24));
-         registerLabel.setHorizontalAlignment (SwingConstants.CENTER);
-         registerLabel.setForeground (CommonConstants.TEXT_COLOR);
-         registerLabel.setBounds (130,30,240,50);
-         add (registerLabel);
-         this.getContentPane ().setBackground (CommonConstants.SECONDARY_COLOR);
+        registerLabel.setFont (new Font ("Dialog",Font.BOLD,24));
+        registerLabel.setHorizontalAlignment (SwingConstants.CENTER);
+        registerLabel.setForeground (CommonConstants.TEXT_COLOR);
+        registerLabel.setBounds (130,30,240,50);
+        add (registerLabel);
+        this.getContentPane ().setBackground (CommonConstants.SECONDARY_COLOR);
 
         JLabel usernameLabel = new JLabel ("Username");
 
@@ -105,33 +105,20 @@ public class RegisterFormGUI extends Form {
 
         JButton registerButton = new JButton ("Register!");
         registerButton.setFont (new Font("Dialog",Font.BOLD,30));
-        registerButton.setBounds (210,550,200,50);
+        registerButton.setBounds (130,550,240,50);
         registerButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         registerButton.setForeground (CommonConstants.TEXT_COLOR);
         registerButton.setBackground (CommonConstants.PRIMARY_COLOR);
         registerButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registerUser (usernameTextField.getText (), passwordTextField.getText(), rePasswordTextField.getText (),
+                String password = new String (passwordTextField.getPassword ());
+                String rePassword = new String (rePasswordTextField.getPassword ());
+                registerUser (usernameTextField.getText (), password, rePassword,
                         nameTextField.getText (), emailTextField.getText ());
-                navigateBack ();
             }
         });
         add(registerButton);
-
-        JButton backButton = new JButton ("Back");
-        backButton.setFont (new Font("Dialog",Font.BOLD,30));
-        backButton.setBounds (80,550,120,50);
-        backButton.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        backButton.setForeground (CommonConstants.TEXT_COLOR);
-        backButton.setBackground (CommonConstants.PRIMARY_COLOR);
-        backButton.addActionListener (new ActionListener () {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                navigateBack ();
-            }
-        });
-        add(backButton);
     }
 
     private boolean registerUser(String username, String password,String rePassword, String name, String email){
@@ -140,22 +127,22 @@ public class RegisterFormGUI extends Form {
             return false;
         } else {
             if(myDB.registerUser (username, password, name, email)){
-                JOptionPane.showMessageDialog (RegisterFormGUI.this, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                RegisterFormGUI.this.dispose ();
+                JOptionPane.showMessageDialog (RegisterFromAdmin.this, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                RegisterFromAdmin.this.dispose ();
                 new LoginFormGUI ().setVisible (true);
                 return true;
 
             }else{
-                JOptionPane.showMessageDialog (RegisterFormGUI.this, "Registration Failed\nUsername Taken", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog (RegisterFromAdmin.this, "Registration Failed\nUsername Taken", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+
         }
     }
     protected boolean validateInput(String username, String password, String rePassword){
         if (username.isEmpty () || password.isEmpty () || rePassword.isEmpty ()) return false;
         if (!password.equals (rePassword)) return false;
-        if (username.length () < 5 || username.length () > 15) return false;
-        return true;
+        return username.length () >= 5 && username.length () <= 15;
     }
 
 }

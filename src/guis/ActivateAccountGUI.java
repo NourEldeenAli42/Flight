@@ -11,6 +11,7 @@ import myJDBC.myDB;
 
 
 public class ActivateAccountGUI extends Form {
+    int userType=3;
     public ActivateAccountGUI() {
         super("Activate Account");
         addGuiComponents();
@@ -18,6 +19,8 @@ public class ActivateAccountGUI extends Form {
 
     private void addGuiComponents() {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
+
+
 
         JLabel activateAccountLapel = new JLabel("Activate Account GUI");
         activateAccountLapel.setFont(new Font ("Dialog" , Font.BOLD, 30));
@@ -60,6 +63,12 @@ public class ActivateAccountGUI extends Form {
         adminRadioButton.setBackground(CommonConstants.SECONDARY_COLOR);
         adminRadioButton.setForeground(CommonConstants.TEXT_COLOR);
         adminRadioButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        adminRadioButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userType = 1;
+            }
+        });
         add(adminRadioButton);
 
         JRadioButton agentRadioButton = new JRadioButton("Agent");
@@ -68,6 +77,12 @@ public class ActivateAccountGUI extends Form {
         agentRadioButton.setBackground(CommonConstants.SECONDARY_COLOR);
         agentRadioButton.setForeground(CommonConstants.TEXT_COLOR);
         agentRadioButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        agentRadioButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userType = 2;
+            }
+        });
         add(agentRadioButton);
 
         JRadioButton customerRadioButton = new JRadioButton("Customer");
@@ -76,19 +91,51 @@ public class ActivateAccountGUI extends Form {
         customerRadioButton.setBackground(CommonConstants.SECONDARY_COLOR);
         customerRadioButton.setForeground(CommonConstants.TEXT_COLOR);
         customerRadioButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        customerRadioButton.setSelected(true);
+        customerRadioButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userType = 3;
+            }
+        });
         add(customerRadioButton);
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(adminRadioButton);
         buttonGroup.add(agentRadioButton);
         buttonGroup.add(customerRadioButton);
-        
+
+
+
         JButton activateAccountButton = new JButton("Activate Account");
         activateAccountButton.setFont (new Font ("Dialog" , Font.BOLD , 25));
         activateAccountButton.setBounds (60, 500, 400, 50);
         activateAccountButton.setForeground(CommonConstants.SECONDARY_COLOR);
         activateAccountButton.setBackground(CommonConstants.TEXT_COLOR);
         activateAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        activateAccountButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String password = new String (passwordTextField.getPassword ());
+                     if(myDB.changeUserType (usernameTextField.getText (),password,userType)){
+                         JOptionPane.showMessageDialog (ActivateAccountGUI.this, "Account Activated");
+                         ActivateAccountGUI.this.dispose ();
+                         new AdminGUI ().setVisible (true);
+                     }
+            }
+        });
         add(activateAccountButton);
+        
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        backButton.setBounds(400, 550, 100, 50);
+        backButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        backButton.setBackground(CommonConstants.TEXT_COLOR);
+        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                navigateBack();
+            }
+        });
     }   
 }

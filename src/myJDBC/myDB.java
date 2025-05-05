@@ -22,6 +22,23 @@ public class myDB {
     }
 
 
+    public static boolean checkPassword(String username,String password){
+        try{
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM users WHERE username=?");
+            getUser.setString (1,username);
+            ResultSet rs = getUser.executeQuery ();
+            if (!rs.isBeforeFirst ()) return false;
+            rs.next ();
+            return rs.getString ("password").equals (password);
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public static boolean registerUser(String username, String password, String name, String email){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
@@ -164,6 +181,12 @@ public class myDB {
             }
             PreparedStatement modifyBooking = conn.prepareStatement ("UPDATE bookings SET totalpaid=? , flightid = ?," +
                     "bookingtime = CURRENT_TIMESTAMP"+" WHERE bookerid=? AND flightid=?");
+
+            PreparedStatement setSeats = conn.prepareStatement ("UPDATE flights SET seats=seats+1 WHERE flightid=?");
+            setSeats.setInt (1,newflightid);
+            setSeats.executeUpdate ();
+            PreparedStatement minusSeats = conn.prepareStatement ("UPDATE flights SET seats=seats-1 WHERE flightid=?");
+            minusSeats.setInt (1,flightid);
             modifyBooking.setInt (1,paidamount+getTotalPaid (username,password,flightid));
             modifyBooking.setInt (2,newflightid);
             modifyBooking.setInt (3,getUserID(username,password));
@@ -225,5 +248,64 @@ public class myDB {
         String[] columnNames = {"Flight No.","From","To","Ticket Price","Available St."};
         JOptionPane.showMessageDialog (null, "No flights available", "Error", JOptionPane.ERROR_MESSAGE);
         return new DefaultTableModel (columnNames,0);
+    }
+
+
+    public static boolean changeUserType(String username, String password, int type){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            if (!checkUser (username)){
+                JOptionPane.showMessageDialog (null, "Invalid username", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;}
+            if (!checkPassword (username,password)) {
+                JOptionPane.showMessageDialog (null, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;}
+            PreparedStatement changeType = conn.prepareStatement ("UPDATE users SET usertype=? WHERE username=?");
+            changeType.setInt (1,type);
+            changeType.setString (2,username);
+            deleteFromTable (username,password);
+            changeType.executeUpdate ();
+            if (type==1){
+                PreparedStatement addAdmin = conn.prepareStatement ("INSERT INTO admins (user) VALUES (?)");
+                addAdmin.setInt (1,getUserID(username,password));
+                addAdmin.executeUpdate ();
+            } else if (type==2){
+                PreparedStatement addAgent = conn.prepareStatement ("INSERT INTO agents (user) VALUES (?)");
+                addAgent.setInt (1,getUserID(username,password));
+                addAgent.executeUpdate ();
+            }else if (type==3){
+                PreparedStatement addCustomer = conn.prepareStatement ("INSERT INTO customers (user) VALUES (?)");
+                addCustomer.setInt (1,getUserID(username,password));
+                addCustomer.executeUpdate ();
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    
+    private static void deleteFromTable(String username,String password){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            int type = getUserType (username);
+            int userID = getUserID (username,password);
+            if (type==1){
+                PreparedStatement deleteAdmin = conn.prepareStatement ("DELETE FROM admins WHERE user=?");
+                deleteAdmin.setInt (1,userID);
+                deleteAdmin.executeUpdate ();
+            } else if (type==2){
+                PreparedStatement deleteAgent = conn.prepareStatement ("DELETE FROM agents WHERE user=?");
+                deleteAgent.setInt (1,userID);
+                deleteAgent.executeUpdate ();
+            }else if (type==3){
+                PreparedStatement deleteCustomer = conn.prepareStatement ("DELETE FROM customers WHERE user=?");
+                deleteCustomer.setInt (1,userID);
+                deleteCustomer.executeUpdate ();
+            }
+        }catch (SQLException e){e.printStackTrace();}
     }
 }

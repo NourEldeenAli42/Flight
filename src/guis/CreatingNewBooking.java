@@ -115,8 +115,7 @@ public class CreatingNewBooking extends Form {
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                dispose();
-                new AgentGUI().setVisible(true);
+                navigateBack();
             }
         });
         add(BackButton);
