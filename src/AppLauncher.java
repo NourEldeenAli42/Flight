@@ -9,7 +9,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new ModifyingBooking ().setVisible (true);
+                new LoginFormGUI ().setVisible (true);
             }
         });
     }

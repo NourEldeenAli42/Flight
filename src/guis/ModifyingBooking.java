@@ -133,7 +133,7 @@ public class ModifyingBooking extends Form {
         modifyBooking.setBounds(250, 620, 200, 60);
         modifyBooking.setForeground(CommonConstants.SECONDARY_COLOR);
         modifyBooking.setBackground(CommonConstants.TEXT_COLOR);
-        modifyBooking.setFont(new Font("Dialog", Font.BOLD, 25));
+        modifyBooking.setFont(new Font("Dialog", Font.BOLD, 20));
         modifyBooking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         modifyBooking.addActionListener (new ActionListener () {
             @Override
