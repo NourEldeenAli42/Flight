@@ -100,7 +100,7 @@ public class ClientGUI extends Form {
 
         JRadioButton clientProfile = new JRadioButton ();
         clientProfile.setBounds (10, 10, 60, 50);
-        clientProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        clientProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH_MARO));
         clientProfile.setBackground (CommonConstants.SECONDARY_COLOR);
         clientProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         clientProfile.addActionListener (new ActionListener () {

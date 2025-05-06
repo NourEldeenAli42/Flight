@@ -97,7 +97,7 @@ public class AgentGUI extends Form {
 
         JRadioButton agentProfile = new JRadioButton ();
         agentProfile.setBounds (10, 10, 60, 50);
-        agentProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        agentProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH_MARO));
         agentProfile.setBackground (CommonConstants.SECONDARY_COLOR);
         agentProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         agentProfile.addActionListener (new ActionListener () {
