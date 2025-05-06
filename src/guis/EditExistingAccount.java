@@ -6,23 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class ProfileGUI extends Form {
-    
-    public ProfileGUI(){
-        super("Profile GUI");
+public class EditExistingAccount extends  Form {
+    public EditExistingAccount() {
+        super("Edit Existing Account");
         addGuiComponents();
     }
 
-    public void addGuiComponents() {
-
+    private void addGuiComponents() {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
 
-        JLabel profileLabel = new JLabel("Profile");
-        profileLabel.setForeground(CommonConstants.TEXT_COLOR);
-        profileLabel.setFont(new Font("Dialog", Font.BOLD, 40));
-        profileLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        profileLabel.setBounds(130, 30, 240, 50);
-        add(profileLabel);
+        JLabel editAccountLabel = new JLabel("Edit Existing Account");
+        editAccountLabel.setFont(new Font("Dialog", Font.BOLD, 30));
+        editAccountLabel.setBounds(0, 30, 520, 50);
+        editAccountLabel.setForeground(CommonConstants.TEXT_COLOR);
+        editAccountLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(editAccountLabel);
 
         JLabel usernameLabel = new JLabel("Username : ");
         usernameLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -34,9 +32,7 @@ public class ProfileGUI extends Form {
         usernameTextField.setBounds(170, 110, 300, 50);
         usernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         usernameTextField.setForeground(CommonConstants.TEXT_COLOR);
-        usernameTextField.setEnabled(false);
         usernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        usernameTextField.setText("Marwan"); 
         usernameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(usernameTextField);
 
@@ -51,7 +47,6 @@ public class ProfileGUI extends Form {
         passwordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         passwordTextField.setForeground(CommonConstants.TEXT_COLOR);
         passwordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        passwordTextField.setText("EL_7nklolo");
         passwordTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(passwordTextField);
 
@@ -81,7 +76,6 @@ public class ProfileGUI extends Form {
         nameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         nameTextField.setForeground(CommonConstants.TEXT_COLOR);
         nameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        nameTextField.setText("Nour EL Bolbolahi");
         nameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(nameTextField);
 
@@ -96,7 +90,6 @@ public class ProfileGUI extends Form {
         emailTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         emailTextField.setForeground(CommonConstants.TEXT_COLOR);
         emailTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        emailTextField.setText("Marwan7nklolo@gmail.com");
         emailTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(emailTextField);
 
@@ -144,7 +137,7 @@ public class ProfileGUI extends Form {
         saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         add(saveButton);
 
-        JButton logoutButton = new JButton("Logout");
+        JButton logoutButton = new JButton("Back");
         logoutButton.setBounds(30, 560, 200, 60);
         logoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
         logoutButton.setBackground(CommonConstants.TEXT_COLOR);
@@ -152,26 +145,13 @@ public class ProfileGUI extends Form {
         logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CommonConstants.CURRENT_USER_ID=-1;
-                dispose();
-                new LoginFormGUI ().setVisible (true);
-            }
-        });
-        add(logoutButton);
-
-        JLabel backButton = new JLabel("Back");
-        backButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        backButton.setForeground(CommonConstants.TEXT_COLOR);
-        backButton.setBounds(20, 20, 100, 30);
-        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navigateBack();
 
             }
         });
-        
-        add(backButton);
-    }
+        add(logoutButton);
 
+    }
 }
+
+
