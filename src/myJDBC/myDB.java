@@ -362,9 +362,9 @@ public class myDB {
     }
 
 
-    public static boolean createNewFlight(String origin,String destination,
-                                          java.util.Date takeoffDate,int ticketPrice,
-                                          int Aseats,int Bseats,int Cseats){
+    public static void createNewFlight(String origin, String destination,
+                                       java.util.Date takeoffDate, int ticketPrice,
+                                       int Aseats, int Bseats, int Cseats){
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
@@ -380,12 +380,10 @@ public class myDB {
             createFlight.executeUpdate ();
             JOptionPane .showMessageDialog (null, "Flight created successfully",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-            return true;
         }catch (SQLException e){
             e.printStackTrace();
             JOptionPane .showMessageDialog (null, "Failed to create flight",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
     }
     private static java.sql.Date getDate(java.util.Date date){

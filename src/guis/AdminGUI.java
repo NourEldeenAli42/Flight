@@ -17,23 +17,27 @@ public class AdminGUI extends Form {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
 
         JTabbedPane tabbedPane = new JTabbedPane ();
-        tabbedPane.setBounds (0, 0, 1000, 800);
+        tabbedPane.setBounds (0, 0, 520, 680);
+        tabbedPane.setBackground(CommonConstants.SECONDARY_COLOR);
+        tabbedPane.setForeground(CommonConstants.TEXT_COLOR);
         add (tabbedPane);
 
         JPanel adminPanel = new JPanel ();
+        adminPanel.setBackground (CommonConstants.SECONDARY_COLOR);
         tabbedPane.addTab ("Admin", adminPanel);
         JPanel agentPanel = new JPanel ();
+        agentPanel.setBackground (CommonConstants.SECONDARY_COLOR);
         tabbedPane.addTab ("Agent", agentPanel);
         JPanel clientPanel = new JPanel ();
+        clientPanel.setBackground (CommonConstants.SECONDARY_COLOR);
         tabbedPane.addTab ("Client", clientPanel);
+
+
 
         adminPanel.setLayout (null);
         agentPanel.setLayout (null);
         clientPanel.setLayout (null);
 
-        adminPanel.setBackground(CommonConstants.SECONDARY_COLOR);
-        agentPanel.setBackground(CommonConstants.SECONDARY_COLOR);
-        clientPanel.setBackground(CommonConstants.SECONDARY_COLOR);
 
         JLabel adminLabel = new JLabel("Admin GUI");
         adminLabel.setForeground(CommonConstants.TEXT_COLOR);
