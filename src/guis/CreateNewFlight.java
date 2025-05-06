@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
-import com.toedter.calendar.*;
+import com.toedter.calendar.JDateChooser;
+
 import myJDBC.myDB;
 
 import javax.swing.event.DocumentListener;
