@@ -24,7 +24,7 @@ public class CreatingNewBooking extends Form {
         add(CNBLapel);
 
 
-        //TO DO : REMOVE CLIENT USERNAME AND PASSWORD FROM THE GUI
+        //TODO : REMOVE CLIENT USERNAME AND PASSWORD FROM THE GUI
         JLabel ClientUsernameLapel = new JLabel("Client username : ");
         ClientUsernameLapel.setForeground(CommonConstants.TEXT_COLOR);
         ClientUsernameLapel.setFont(new Font("Dialog", Font.PLAIN, 18));

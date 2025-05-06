@@ -14,10 +14,10 @@ public class myDB {
             PreparedStatement getUser = connection.prepareStatement (
                 "SELECT * FROM users WHERE username=?");
                 getUser.setString (1,username);
-                
+
             ResultSet rs = getUser.executeQuery ();
             if (!rs.isBeforeFirst ()) return false;
-        }catch (Exception e){e.printStackTrace();}
+        }catch (SQLException e){e.printStackTrace();}
         return true;
     }
 
@@ -54,8 +54,8 @@ public class myDB {
         }catch (Exception e){e.printStackTrace();}
         return false;
     }
-   
-   
+
+
     public static boolean loginUser(String username, String password){
         try{Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                 CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
@@ -103,7 +103,7 @@ public class myDB {
             } else {
                 return -2;
             }
-        }catch (Exception e){e.printStackTrace();}
+        }catch (SQLException e){e.printStackTrace();}
         return -1;
     }
 
@@ -173,25 +173,31 @@ public class myDB {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
             if (!checkUser (username)){
-                JOptionPane.showMessageDialog (null, "Invalid username", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog (null, "Invalid username",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if (!hasBooked (username,password)) {
-                JOptionPane.showMessageDialog (null, "You have not booked a flight", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog (null, "You have not booked a flight",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
+
             PreparedStatement modifyBooking = conn.prepareStatement ("UPDATE bookings SET totalpaid=? , flightid = ?," +
                     "bookingtime = CURRENT_TIMESTAMP"+" WHERE bookerid=? AND flightid=?");
 
-            PreparedStatement setSeats = conn.prepareStatement ("UPDATE flights SET seats=seats+1 WHERE flightid=?");
-            setSeats.setInt (1,newflightid);
-            setSeats.executeUpdate ();
-            PreparedStatement minusSeats = conn.prepareStatement ("UPDATE flights SET seats=seats-1 WHERE flightid=?");
-            minusSeats.setInt (1,flightid);
             modifyBooking.setInt (1,paidamount+getTotalPaid (username,password,flightid));
             modifyBooking.setInt (2,newflightid);
             modifyBooking.setInt (3,getUserID(username,password));
             modifyBooking.setInt (4,flightid);
             modifyBooking.executeUpdate ();
+
+            PreparedStatement setSeats = conn.prepareStatement ("UPDATE flights SET seats=seats-1 WHERE flightid=?");
+            setSeats.setInt (1,newflightid);
+            setSeats.executeUpdate ();
+            PreparedStatement minusSeats = conn.prepareStatement ("UPDATE flights SET seats=seats+1 WHERE flightid=?");
+            minusSeats.setInt (1,flightid);
+            minusSeats.executeUpdate ();
+
             return true;
 
         }catch (SQLException e){
@@ -225,20 +231,30 @@ public class myDB {
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
             PreparedStatement getFlights = conn.prepareStatement ("SELECT * FROM flights");
             ResultSet rs = getFlights.executeQuery ();
-            String[] columnNames = {"Flight Number","From","To","Ticket Price","Seats Available"};
+            String[] columnNames = {"Flight Number","From","To","Price","A Class","B Class","C Class"
+                    ,"Take Off Date"};
             DefaultTableModel model = new DefaultTableModel (columnNames,0);
-            String[] row = {"Flight No.","From","To","Ticket Price","Available St."};
+            String[] row = {"Flight No.","From","To","Price","A Class","B Class","C Class"
+                    ,"Take Off"};
             model.addRow (row);
             if (!rs.isBeforeFirst ()) {
-                JOptionPane.showMessageDialog (null, "No flights available", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog (null, "No flights available", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
             while (rs.next ()) {
                 String flightNumber = rs.getString ("flightid");
                 String from = rs.getString ("from");
                 String to = rs.getString ("to");
                 int ticketprice = rs.getInt ("ticketprice");
-                int seatsavailable = rs.getInt ("seats");
-                String[] text = {flightNumber,from,to,Integer.toString (ticketprice),Integer.toString (seatsavailable)};
+                String tfDate = rs.getString ("takeoffdate");
+
+                int Aseats = rs.getInt ("Aseats");
+                int Bseats = rs.getInt ("Bseats");
+                int Cseats = rs.getInt ("Cseats");
+
+
+                String[] text = {flightNumber,from,to, ticketprice +"$",Integer.toString (Aseats),
+                        Integer.toString (Bseats),Integer.toString (Cseats), tfDate};
                 model.addRow (text);
             }
             return model;
@@ -285,8 +301,8 @@ public class myDB {
             return false;
         }
     }
-    
-    
+
+
     private static void deleteFromTable(String username,String password){
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
@@ -345,4 +361,34 @@ public class myDB {
         return null;
     }
 
+
+    public static boolean createNewFlight(String origin,String destination,
+                                          java.util.Date takeoffDate,int ticketPrice,
+                                          int Aseats,int Bseats,int Cseats){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+
+            PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats) VALUES (?,?,?,?,?,?,?)");
+            createFlight.setString (1,origin);
+            createFlight.setString (2,destination);
+            createFlight.setDate (3,getDate(takeoffDate));
+            createFlight.setInt (4,ticketPrice);
+            createFlight.setInt (5,Aseats);
+            createFlight.setInt (6,Bseats);
+            createFlight.setInt (7,Cseats);
+            createFlight.executeUpdate ();
+            JOptionPane .showMessageDialog (null, "Flight created successfully",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            JOptionPane .showMessageDialog (null, "Failed to create flight",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    private static java.sql.Date getDate(java.util.Date date){
+        return new Date (date.getTime ());
+    }
 }
