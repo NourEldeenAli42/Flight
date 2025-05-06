@@ -98,6 +98,8 @@ public class ProfileGUI extends Form {
         emailTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(emailTextField);
 
+
+        //TODO: mark radiobutton according to usertype Nour ELdeen
         JRadioButton adminRadioButton = new JRadioButton("Admin");
         adminRadioButton.setBounds(80, 490, 100, 30);
         adminRadioButton.setBackground(CommonConstants.SECONDARY_COLOR);
