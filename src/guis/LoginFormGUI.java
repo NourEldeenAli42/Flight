@@ -98,7 +98,7 @@ public class LoginFormGUI extends Form{
 
                         case 1: new AdminGUI ().setVisible (true); break;
                         case 2: new ClientGUI ().setVisible (true); break;
-                        case 3:
+                        case 3: new AgentGUI ().setVisible (true); break;
                     }
                 } else {
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Failed");

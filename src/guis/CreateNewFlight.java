@@ -44,6 +44,21 @@ public class CreateNewFlight extends Form {
         flightOriginTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         flightOriginTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         flightOriginTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        flightOriginTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = flightOriginTextField.getText();
+
+                if (text.length() >= 20) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isLetter(c) && c != ' ') {
+                    e.consume();
+                }
+            }
+        });
         add (flightOriginTextField);
 
         JLabel flightDestination = new JLabel("Flight Destination:");
@@ -58,6 +73,21 @@ public class CreateNewFlight extends Form {
         flightDestinationTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         flightDestinationTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         flightDestinationTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        flightDestinationTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = flightOriginTextField.getText();
+
+                if (text.length() >= 20) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isLetter(c) && c != ' ') {
+                    e.consume();
+                }
+            }
+        });
         add (flightDestinationTextField);
 
         JLabel flightDate = new JLabel("Flight Date:");
@@ -129,6 +159,21 @@ public class CreateNewFlight extends Form {
         aClassSeatsTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         aClassSeatsTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         aClassSeatsTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        aClassSeatsTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = aClassSeatsTextField.getText();
+
+                if (text.length() >= 3) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+        });
         add (aClassSeatsTextField);
 
         
@@ -155,6 +200,21 @@ public class CreateNewFlight extends Form {
         bClassSeatsTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         bClassSeatsTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         bClassSeatsTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        bClassSeatsTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = bClassSeatsTextField.getText();
+
+                if (text.length() >= 3) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+        });
         add (bClassSeatsTextField);
 
 
@@ -181,6 +241,21 @@ public class CreateNewFlight extends Form {
         cClassSeatsTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         cClassSeatsTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         cClassSeatsTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        cClassSeatsTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = cClassSeatsTextField.getText();
+
+                if (text.length() >= 3) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+        });
         add (cClassSeatsTextField);
 
 

@@ -10,7 +10,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new CreatingNewBooking ().setVisible (true);
+                new AdminGUI ().setVisible (true);
             }
         });
     }
