@@ -1,15 +1,27 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class AddPaymentGUI extends Form {
-    public AddPaymentGUI() {
+    private static int flightid;
+    public AddPaymentGUI(int flightid) {
         super("Add Payment");
         addGuiComponents();
+        AddPaymentGUI.flightid =flightid;
+    }
+
+    public static int getFlightid() {
+        return flightid;
+    }
+
+    public static void setFlightid(int flightid) {
+        AddPaymentGUI.flightid = flightid;
     }
 
     private void addGuiComponents() {
@@ -72,6 +84,21 @@ public class AddPaymentGUI extends Form {
 
                     revalidate();
                     repaint();
+
+                    JButton payButton = new JButton("Pay");
+                    payButton.setBounds(80,470,350,50);
+                    payButton.setForeground(CommonConstants.SECONDARY_COLOR);
+                    payButton.setBackground(CommonConstants.TEXT_COLOR);
+                    payButton.setFont(new Font("Dialog", Font.BOLD, 25));
+                    payButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    payButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+
+                            JOptionPane.showMessageDialog(null, "Booking Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            navigateBack();
+                        }
+                    });
+                    add(payButton);
                 }
             }
         });
@@ -105,6 +132,19 @@ public class AddPaymentGUI extends Form {
                     cashTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
                     add(cashTextField);
 
+                    JButton payButton = new JButton("Pay");
+                    payButton.setBounds(80,470,350,50);
+                    payButton.setForeground(CommonConstants.SECONDARY_COLOR);
+                    payButton.setBackground(CommonConstants.TEXT_COLOR);
+                    payButton.setFont(new Font("Dialog", Font.BOLD, 25));
+                    payButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    payButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            myDB.addPayment (CommonConstants.CURRENT_USER_ID,flightid,Integer.parseInt(cashTextField.getText()),"Cash");
+                        }
+                    });
+                    add(payButton);
+
                     
                     revalidate();
                     repaint();
@@ -117,20 +157,7 @@ public class AddPaymentGUI extends Form {
         paymentMethodGroup.add(creditCardRadioButton);
         paymentMethodGroup.add(cashRadioButton);
 
-        JButton payButton = new JButton("Pay");
-        payButton.setBounds(80,470,350,50);
-        payButton.setForeground(CommonConstants.SECONDARY_COLOR);
-        payButton.setBackground(CommonConstants.TEXT_COLOR);
-        payButton.setFont(new Font("Dialog", Font.BOLD, 25));
-        payButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        payButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                
-                JOptionPane.showMessageDialog(null, "Booking Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                navigateBack();
-            }
-        });
-        add(payButton);
+
 
 
         JButton BackButton = new JButton("Back");

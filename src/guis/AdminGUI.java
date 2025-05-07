@@ -218,7 +218,7 @@ public class AdminGUI extends Form {
         addPaymentMethodButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
-                new AddPaymentGUI().setVisible(true);
+                new AddPaymentGUI(1).setVisible(true);
             }
         });
 

@@ -239,8 +239,7 @@ public class CreateNewFlight extends Form {
                         flightDateChooser.getDate (),Integer.parseInt (setPriceTextField.getText ()),
                         Integer.parseInt (aClassSeatsTextField.getText ()),Integer.parseInt (bClassSeatsTextField.getText ())
                 ,Integer.parseInt (cClassSeatsTextField.getText ()));
-                dispose ();
-                new AddPaymentGUI().setVisible (true);
+                navigateBack ();
             }
         });
         add (createNewFlight);

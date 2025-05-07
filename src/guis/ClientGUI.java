@@ -79,7 +79,7 @@ public class ClientGUI extends Form {
         AddPaymentMethodButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
-                new AddPaymentGUI().setVisible(true);
+                new AddPaymentGUI(1).setVisible(true);
             }
         });
         

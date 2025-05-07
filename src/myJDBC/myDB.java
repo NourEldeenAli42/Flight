@@ -63,7 +63,10 @@ public class myDB {
             getUser.setString (1,username);
             getUser.setString (2,password);
             ResultSet rs = getUser.executeQuery ();
-            return rs.isBeforeFirst ();
+            if (!rs.isBeforeFirst ()) return false;
+            rs.next ();
+            CommonConstants.CURRENT_USER_ID=rs.getInt ("usersid");
+            return true;
 
         }catch (Exception e){e.printStackTrace();}
         return false;
@@ -108,59 +111,53 @@ public class myDB {
     }
 
 
-    public static boolean createBooking(String username,String password, String flightNumber,int totalpaid){
+    public static boolean createBooking(String username,String password, int flightNumber,int tickettype){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                 CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
             if (!checkUser (username)) return false;
-            int ticketprice = getFlightPrice (Integer.parseInt (flightNumber));
 
-            if (ticketprice<totalpaid){
-                JOptionPane.showMessageDialog (null, "Ticket price is" + ticketprice
-                        , "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if (hasBooked (username,password)) {
+
+            if (hasBooked (username,password,flightNumber)) {
                 JOptionPane.showMessageDialog (null, "You have already booked a flight", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            PreparedStatement addBooking = conn.prepareStatement ("INSERT INTO bookings (bookerid, flightid,totalpaid) VALUES (?,?,?)");
+            PreparedStatement addBooking = conn.prepareStatement ("INSERT INTO bookings (bookerid, flightid,tickettype) VALUES (?,?,?)");
             addBooking.setInt (1,getUserID(username,password));
-            addBooking.setString (2,flightNumber);
-            addBooking.setInt (3,totalpaid);
+            addBooking.setInt (2,flightNumber);
+            addBooking.setInt (3,tickettype);
             addBooking.executeUpdate ();
-            PreparedStatement addFlight = conn.prepareStatement ("UPDATE flights SET seats=seats-1 WHERE flightid=?");
-            addFlight.setString (1,flightNumber);
-            addFlight.executeUpdate ();
+            PreparedStatement addAFlight = conn.prepareStatement ("UPDATE flights SET Aseats=Aseats-1 WHERE flightid=?");
+            PreparedStatement addBFlight = conn.prepareStatement ("UPDATE flights SET Bseats=Bseats-1 WHERE flightid=?");
+            PreparedStatement addCFlight = conn.prepareStatement ("UPDATE flights SET Cseats=Cseats-1 WHERE flightid=?");
+            switch (tickettype){
+                case 1:
+                    addAFlight.setInt (1,flightNumber);
+                    addAFlight.executeUpdate ();
+                    break;
+                case 2:
+                    addBFlight.setInt (1,flightNumber);
+                    addBFlight.executeUpdate ();
+                    break;
+                case 3:
+                    addCFlight.setInt (1,flightNumber);
+                    addCFlight.executeUpdate ();
+                    break;
+            }
             return true;
 
-        }catch (Exception e){e.printStackTrace();}
+        }catch (SQLException e){e.printStackTrace();}
         return false;
     }
 
 
-    public static int getFlightPrice(int flightid){
+    public static boolean hasBooked(String username,String password,int flightid){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
-            PreparedStatement getPrice = conn.prepareStatement ("SELECT ticketprice FROM flights WHERE flightid=?");
-            getPrice.setInt (1,flightid);
-            ResultSet rs = getPrice.executeQuery ();
-            if (!rs.isBeforeFirst ()) return -1;
-            rs.next ();
-            return rs.getInt ("ticketprice");
-        } catch (SQLException e) {
-        e.printStackTrace();}
-        return -1;
-    }
-
-
-    public static boolean hasBooked(String username,String password){
-        try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
-            PreparedStatement getBooking = conn.prepareStatement ("SELECT * FROM bookings WHERE bookerid=?");
+            PreparedStatement getBooking = conn.prepareStatement ("SELECT * FROM bookings WHERE bookerid=? AND flightid=?");
             getBooking.setInt (1,getUserID(username,password));
+            getBooking.setInt (2,flightid);
             ResultSet rs = getBooking.executeQuery ();
             return rs.isBeforeFirst ();
         }catch (SQLException e){e.printStackTrace();}
@@ -177,7 +174,7 @@ public class myDB {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            if (!hasBooked (username,password)) {
+            if (!hasBooked (username,password,flightid)) {
                 JOptionPane.showMessageDialog (null, "You have not booked a flight",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -362,9 +359,7 @@ public class myDB {
     }
 
 
-    public static void createNewFlight(String origin, String destination,
-                                       java.util.Date takeoffDate, int ticketPrice,
-                                       int Aseats, int Bseats, int Cseats){
+    public static void createNewFlight(String origin, String destination, java.util.Date takeoffDate, int ticketPrice, int Aseats, int Bseats, int Cseats){
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
@@ -386,7 +381,129 @@ public class myDB {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
     private static java.sql.Date getDate(java.util.Date date){
         return new Date (date.getTime ());
+    }
+
+
+    public static void addPayment(int userid,int flightid,int amount,String paymentMethod){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement addPayment = conn.prepareStatement ("INSERT INTO payments (user,flight,amount,paymentmethod,paymenttime) VALUES (?,?,?,?,?)");
+            addPayment.setInt (1,userid);
+            addPayment.setInt (2,flightid);
+            addPayment.setInt (3,amount);
+            addPayment.setString (4,paymentMethod);
+            addPayment.setTimestamp (5,new Timestamp (System.currentTimeMillis ()));
+            addPayment.executeUpdate ();
+            JOptionPane.showMessageDialog (null, "Payment successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }catch (SQLException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog (null, "Payment failed", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    public static DefaultTableModel filterflights(String origin, String destination, java.util.Date takeoffDate) {
+    try {
+        Connection conn = DriverManager.getConnection(CommonConstants.DB_URL,
+                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+        
+        PreparedStatement filterFlights;
+        ResultSet rs;
+        String[] columnNames = {"Flight Number", "From", "To", "Price", "TakeOff Date"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        String[] row = {"Flight No.", "From", "To", "Price", "Take Off"};
+        model.addRow(row);
+        if (origin.equals("Select Origin") && destination.equals("Select Destination") && takeoffDate == null) {
+            // If no filters are applied, retrieve all flights
+            filterFlights = conn.prepareStatement("SELECT * FROM flights");
+        } else if (origin.equals ("Select Origin") && destination.equals ("Select Destination")) {
+            // If only takeoff date is provided
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE takeoffdate = ?");
+            filterFlights.setDate(1, new java.sql.Date(takeoffDate.getTime()));
+        } else if (origin.equals ("Select Origin") && takeoffDate == null) {
+            // If only destination is provided
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `to` = ?");
+            filterFlights.setString(1, destination);
+        } else if (origin.equals ("Select Origin")) {
+            // If only origin is provided
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `from` = ?");
+            filterFlights.setString(1, origin);
+        } else if (destination.equals ("Select Destination") && takeoffDate == null){
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `from` = ?");
+            filterFlights.setString(1, origin);
+        } else if (destination.equals ("Select Destination")) {
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `from` = ? AND takeoffdate = ?");
+            filterFlights.setString(1, origin);
+            filterFlights.setDate(2, new java.sql.Date(takeoffDate.getTime()));
+        } else if (takeoffDate == null) {
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `from` = ? AND `to` = ?");
+            filterFlights.setString(1, origin);
+            filterFlights.setString(2, destination);
+        } else {
+            filterFlights = conn.prepareStatement("SELECT * FROM flights WHERE `from` = ? AND `to` = ? AND takeoffdate = ?");
+            filterFlights.setString(1, origin);
+            filterFlights.setString (2,destination);
+            filterFlights.setDate (3,getDate(takeoffDate));
+        }
+        // Execute the query
+        rs = filterFlights.executeQuery();
+        
+        // Check if results exist
+        if (!rs.isBeforeFirst()) {
+            JOptionPane.showMessageDialog(null, "No flights available for the selected criteria", 
+                    "No Results", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Add results to the model
+            while (rs.next()) {
+                String flightNumber = rs.getString("flightid");
+                String from = rs.getString("from");
+                String to = rs.getString("to");
+                int ticketprice = rs.getInt("ticketprice");
+                String tfDate = rs.getString("takeoffdate");
+
+                String[] text = {flightNumber, from, to, ticketprice + "$", tfDate};
+                model.addRow(text);
+            }
+        }
+        return model;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error retrieving flight information", 
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        
+        // Return an empty model in case of error
+        String[] columnNames = {"Flight Number", "From", "To", "Price", "TakeOff Date"};
+        return new DefaultTableModel(columnNames, 0);
+    }
+}
+
+
+    public static ResultSet getOrigins(){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getOrigins = conn.prepareStatement ("SELECT DISTINCT `from` FROM flights");
+            return getOrigins.executeQuery ();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResultSet getDestinations(){
+       try {Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+               CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+           PreparedStatement getOrigins = conn.prepareStatement ("SELECT DISTINCT `to` FROM flights");
+           return getOrigins.executeQuery ();
+       }catch (SQLException e){
+           e.printStackTrace ();
+       }
+       return null;
     }
 }

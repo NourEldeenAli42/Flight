@@ -1,3 +1,4 @@
+import com.mysql.cj.log.Log;
 import guis.*;
 import javax.swing.*;
 
@@ -9,7 +10,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new LoginFormGUI ().setVisible (true);
+                new CreatingNewBooking ().setVisible (true);
             }
         });
     }
