@@ -228,8 +228,8 @@ public class CreateNewFlight extends Form {
 
         JButton createNewFlight = new JButton("Create New Flight");
         createNewFlight.setBounds(103, 490, 300, 40);
-        createNewFlight.setBackground(CommonConstants.PRIMARY_COLOR);
-        createNewFlight.setForeground(CommonConstants.TEXT_COLOR);
+        createNewFlight.setBackground(CommonConstants.TEXT_COLOR);
+        createNewFlight.setForeground(CommonConstants.SECONDARY_COLOR);
         createNewFlight.setFont(new Font("Dialog", Font.BOLD, 20));
         createNewFlight.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         createNewFlight.addActionListener (new ActionListener () {
@@ -239,7 +239,8 @@ public class CreateNewFlight extends Form {
                         flightDateChooser.getDate (),Integer.parseInt (setPriceTextField.getText ()),
                         Integer.parseInt (aClassSeatsTextField.getText ()),Integer.parseInt (bClassSeatsTextField.getText ())
                 ,Integer.parseInt (cClassSeatsTextField.getText ()));
-                navigateBack ();
+                dispose ();
+                new AddPaymentGUI().setVisible (true);
             }
         });
         add (createNewFlight);

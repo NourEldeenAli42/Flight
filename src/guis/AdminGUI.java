@@ -84,22 +84,14 @@ public class AdminGUI extends Form {
         EditExistingAccountButton.setBackground(CommonConstants.TEXT_COLOR);
         EditExistingAccountButton.setForeground(CommonConstants.PRIMARY_COLOR);
         EditExistingAccountButton.setBounds(43, 400, 420, 60);
-        adminPanel.add(EditExistingAccountButton);
-
-        JLabel adminBackButton = new JLabel("Back");
-        adminBackButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        adminBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        adminBackButton.setForeground(CommonConstants.TEXT_COLOR);
-        adminBackButton.setBounds(420, 50, 100, 30);
-        adminBackButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navigateBack();
-
+        EditExistingAccountButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new EditExistingAccount ().setVisible (true);
             }
         });
-
-        adminPanel.add(adminBackButton);
-
+        adminPanel.add(EditExistingAccountButton);
 
         JLabel agentLabel = new JLabel("Agent GUI");
         agentLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -165,19 +157,6 @@ public class AdminGUI extends Form {
             }
         });
 
-        JLabel agentBackButton = new JLabel("Back");
-        agentBackButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        agentBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        agentBackButton.setForeground(CommonConstants.TEXT_COLOR);
-        agentBackButton.setBounds(420, 50, 100, 30);
-        agentBackButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navigateBack();
-
-            }
-        });
-        agentPanel.add(agentBackButton);
-
         
         JLabel clientLabel = new JLabel("Client GUI");
         clientLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -242,68 +221,6 @@ public class AdminGUI extends Form {
                 new AddPaymentGUI().setVisible(true);
             }
         });
-        
-
-        JLabel clientBackButton = new JLabel("Back");
-        clientBackButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        clientBackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        clientBackButton.setForeground(CommonConstants.TEXT_COLOR);
-        clientBackButton.setBounds(420, 50, 100, 30);
-        clientBackButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navigateBack();
-
-            }
-        });
-        
-        clientPanel.add(clientBackButton);
-
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        logoutButton.setBackground(CommonConstants.TEXT_COLOR);
-        logoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        logoutButton.setBounds(370,10,120,30);
-        logoutButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                CommonConstants.CURRENT_USER_ID=-1;
-                dispose();
-                new LoginFormGUI ().setVisible (true);
-            }
-        });
-        adminPanel.add(logoutButton);
-
-        JButton AgentlogoutButton = new JButton("Logout");
-        AgentlogoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        AgentlogoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        AgentlogoutButton.setBackground(CommonConstants.TEXT_COLOR);
-        AgentlogoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        AgentlogoutButton.setBounds(370,10,120,30);
-        AgentlogoutButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                CommonConstants.CURRENT_USER_ID=-1;
-                dispose();
-                new LoginFormGUI ().setVisible (true);
-            }
-        });
-        agentPanel.add(AgentlogoutButton);
-
-
-        JButton customerlogoutButton = new JButton("Logout");
-        customerlogoutButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        customerlogoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        customerlogoutButton.setBackground(CommonConstants.TEXT_COLOR);
-        customerlogoutButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        customerlogoutButton.setBounds(370,10,120,30);
-        customerlogoutButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                CommonConstants.CURRENT_USER_ID=-1;
-                dispose();
-                new LoginFormGUI ().setVisible (true);
-            }
-        });
-        clientPanel.add(customerlogoutButton);
-
 
 
         JRadioButton adminProfile = new JRadioButton ();

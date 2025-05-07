@@ -126,7 +126,7 @@ public class ActivateAccountGUI extends Form {
         
         JButton BackButton = new JButton("Back");
         BackButton.setBounds(60,570,400,50);
-        BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        BackButton.setForeground(CommonConstants.SECONDARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
         BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
