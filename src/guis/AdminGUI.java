@@ -308,7 +308,7 @@ public class AdminGUI extends Form {
 
         JRadioButton adminProfile = new JRadioButton ();
         adminProfile.setBounds (10, 10, 60, 50);
-        adminProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH_MARO));
+        adminProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
         adminProfile.setBackground (CommonConstants.SECONDARY_COLOR);
         adminProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
         adminProfile.addActionListener (new ActionListener () {

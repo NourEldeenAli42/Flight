@@ -17,7 +17,6 @@ public class CommonConstants {
     public static final String DB_FLIGHTS_TABLE_NAME = "flights";
     public static final String DB_BOOKINGS_TABLE_NAME = "bookings";
     public static int CURRENT_USER_ID;
-    public static String USER_ICON_PATH_NONO = "C:\\Users\\NooNo\\Documents\\GitHub\\Flight\\userIcon.jpg";
-    public static String USER_ICON_PATH_MARO = "C:\\Users\\Marwan A. El-Mahdi\\Documents\\GitHub\\Flight\\userIcon.jpg";
+    public static String USER_ICON_PATH = "C:\\Users\\NooNo\\Documents\\GitHub\\Flight\\userIcon.jpg";
 
 }
