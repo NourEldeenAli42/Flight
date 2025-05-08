@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
+import java.beans.*;
 
 import myJDBC.myDB;
 
@@ -26,6 +27,32 @@ public class CreatingNewBooking extends Form {
         CNBLapel.setHorizontalAlignment(SwingConstants.CENTER);
         CNBLapel.setBounds(130,30,240,50);
         add(CNBLapel);
+
+        JTable filteredflights = new JTable();
+        filteredflights.setBackground ( CommonConstants.PRIMARY_COLOR );
+        filteredflights.setForeground ( CommonConstants.TEXT_COLOR );
+        filteredflights.setFont ( new Font ( "Dialog", Font.PLAIN, 15 ) );
+        filteredflights.setBounds(43, 190, 420, 150);
+        filteredflights.setRowHeight ( 30 );
+        filteredflights.setSelectionBackground ( CommonConstants.TEXT_COLOR );
+        filteredflights.setSelectionForeground ( CommonConstants.PRIMARY_COLOR );
+        filteredflights.setGridColor ( CommonConstants.TEXT_COLOR );
+        filteredflights.setShowGrid ( true );
+        filteredflights.setAutoResizeMode ( JTable.AUTO_RESIZE_ALL_COLUMNS );
+        filteredflights.setFillsViewportHeight ( true );
+        JScrollPane scrollPane = new JScrollPane ( filteredflights );
+        scrollPane.setBounds ( 43, 210, 420, 200 );
+        scrollPane.setBackground ( CommonConstants.PRIMARY_COLOR );
+        scrollPane.setForeground ( CommonConstants.TEXT_COLOR );
+        scrollPane.setBorder ( BorderFactory.createLineBorder ( CommonConstants.TEXT_COLOR ) );
+        add ( scrollPane );
+        JButton filterFlightsButton = new JButton("Filter Flights");
+        filterFlightsButton.setBounds(43, 460, 420, 30);
+        filterFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        filterFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
+        filterFlightsButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        filterFlightsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
 
         JComboBox<String> destination = new JComboBox<>();
         ResultSet destinations = myDB.getDestinations ();
@@ -68,31 +95,7 @@ public class CreatingNewBooking extends Form {
         }
         add (origin);
 
-        JTable filteredflights = new JTable();
-        filteredflights.setBackground ( CommonConstants.PRIMARY_COLOR );
-        filteredflights.setForeground ( CommonConstants.TEXT_COLOR );
-        filteredflights.setFont ( new Font ( "Dialog", Font.PLAIN, 15 ) );
-        filteredflights.setBounds(43, 190, 420, 150);
-        filteredflights.setRowHeight ( 30 );
-        filteredflights.setSelectionBackground ( CommonConstants.TEXT_COLOR );
-        filteredflights.setSelectionForeground ( CommonConstants.PRIMARY_COLOR );
-        filteredflights.setGridColor ( CommonConstants.TEXT_COLOR );
-        filteredflights.setShowGrid ( true );
-        filteredflights.setAutoResizeMode ( JTable.AUTO_RESIZE_ALL_COLUMNS );
-        filteredflights.setFillsViewportHeight ( true );
-        JScrollPane scrollPane = new JScrollPane ( filteredflights );
-        scrollPane.setBounds ( 43, 210, 420, 200 );
-        scrollPane.setBackground ( CommonConstants.PRIMARY_COLOR );
-        scrollPane.setForeground ( CommonConstants.TEXT_COLOR );
-        scrollPane.setBorder ( BorderFactory.createLineBorder ( CommonConstants.TEXT_COLOR ) );
-        add ( scrollPane );
-        JButton filterFlightsButton = new JButton("Filter Flights");
-        filterFlightsButton.setBounds(43, 460, 420, 30);
-        filterFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        filterFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
-        filterFlightsButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        filterFlightsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
+        
         JDateChooser dateChooser = new JDateChooser();
         dateChooser.setBounds(43, 140, 430, 30);
         dateChooser.setForeground(CommonConstants.TEXT_COLOR);
@@ -103,52 +106,39 @@ public class CreatingNewBooking extends Form {
         dateChooser.getDateEditor ().getUiComponent ().setBackground ( CommonConstants.PRIMARY_COLOR );
         dateChooser.getDateEditor ().getUiComponent ().setForeground ( CommonConstants.TEXT_COLOR );
         dateChooser.getDateEditor ().getUiComponent ().setFont ( new Font ( "Dialog", Font.PLAIN, 15 ) );
-
         add(dateChooser);
 
+        destination.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        //TODO : REMOVE CLIENT USERNAME AND PASSWORD FROM THE GUI
-//        JLabel ClientUsernameLapel = new JLabel("Client username : ");
-//        ClientUsernameLapel.setForeground(CommonConstants.TEXT_COLOR);
-//        ClientUsernameLapel.setFont(new Font("Dialog", Font.PLAIN, 18));
-//        ClientUsernameLapel.setBounds(30,-100,400,400);
-//        add(ClientUsernameLapel);
-//
-//        JTextField ClientUsernameTextField = new JTextField();
-//        ClientUsernameTextField.setBounds(43,115,420,30);
-//        ClientUsernameTextField.setForeground(CommonConstants.TEXT_COLOR);
-//        ClientUsernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
-//        ClientUsernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-//        ClientUsernameTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
-//        add(ClientUsernameTextField);
-//
-//        JLabel ClientPasswordLapel = new JLabel("Client password : ");
-//        ClientPasswordLapel.setForeground(CommonConstants.TEXT_COLOR);
-//        ClientPasswordLapel.setFont(new Font("Dialog", Font.PLAIN, 18));
-//        ClientPasswordLapel.setBounds(30,-10,400,400);
-//        add(ClientPasswordLapel);
-//
-//        JPasswordField ClientPasswordTextField = new JPasswordField();
-//        ClientPasswordTextField.setBounds(43,210,420,30);
-//        ClientPasswordTextField.setForeground(CommonConstants.TEXT_COLOR);
-//        ClientPasswordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
-//        ClientPasswordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-//        ClientPasswordTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
-//        add(ClientPasswordTextField);
+                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+            }
+        });
 
-//TODO : REMOVE FLIGHT NUMBER FROM THE GUI and add show flighs button instead
-//TODO : update table everytime filter changes
-//TODO : create booking according to selected row
-        JTextField FlightNumberTextField = new JTextField();
-        FlightNumberTextField.setBounds(43,470,420,30);
-        //FlightNumberTextField.setBounds(43,315,420,30);
-        FlightNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
-        FlightNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
-        FlightNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        FlightNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
-        add(FlightNumberTextField);
+        origin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+            }
+        });
 
+        dateChooser.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+            }
+        });
 
+        filteredflights.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) {
+                int selectedRow = filteredflights.getSelectedRow(); 
+                if (selectedRow != -1) { 
+                    int columnIndex = 0; 
+                    Object value = filteredflights.getValueAt(selectedRow, columnIndex); 
+                }
+            }
+        });
+        
         JRadioButton classAButton = new JRadioButton("Class A");
         classAButton.setBounds(60, 510, 100, 30);
         classAButton.setForeground(CommonConstants.TEXT_COLOR);
@@ -188,7 +178,7 @@ public class CreatingNewBooking extends Form {
         createBookingButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filteredflights.setModel (myDB.filterflights (origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+                
             }
         });
 //        createBookingButton.addActionListener (new ActionListener () {

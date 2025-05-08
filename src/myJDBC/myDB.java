@@ -455,8 +455,7 @@ public class myDB {
         
         // Check if results exist
         if (!rs.isBeforeFirst()) {
-            JOptionPane.showMessageDialog(null, "No flights available for the selected criteria", 
-                    "No Results", JOptionPane.INFORMATION_MESSAGE);
+            
         } else {
             // Add results to the model
             while (rs.next()) {
