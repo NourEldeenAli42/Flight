@@ -76,12 +76,6 @@ public class ClientGUI extends Form {
         AddPaymentMethodButton.setForeground(CommonConstants.PRIMARY_COLOR);
         AddPaymentMethodButton.setBounds(43,500,420,60);
         add(AddPaymentMethodButton);
-        AddPaymentMethodButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                dispose();
-                new AddPaymentGUI(1).setVisible(true);
-            }
-        });
         
 
         JLabel backButton = new JLabel("Back");

@@ -42,21 +42,7 @@ public class ActivateAccountGUI extends Form {
         usernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         usernameTextField.setForeground(CommonConstants.TEXT_COLOR);
         usernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        usernameTextField.addKeyListener(new KeyAdapter () {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                String text = usernameTextField.getText();
 
-                if (text.length() >= 15) {
-                    e.consume();
-                    return;
-                }
-                char c = e.getKeyChar();
-                if (!Character.isLetter(c)) {
-                    e.consume();
-                }
-            }
-        });
         add(usernameTextField);
 
         JLabel passwordLabel = new JLabel("Password : ");

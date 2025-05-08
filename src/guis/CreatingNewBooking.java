@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
 import java.beans.*;
+import java.util.Objects;
 
 import myJDBC.myDB;
 
@@ -56,8 +57,10 @@ public class CreatingNewBooking extends Form {
 
         JComboBox<String> destination = new JComboBox<>();
         ResultSet destinations = myDB.getDestinations ();
+        destination.addItem ( "Select Destination");
         while (true) {
             try {
+                if (destinations==null)break;
                 if (!destinations.next()) break;
                 String destinationCity = destinations.getString("to");
                 destination.addItem(destinationCity);
@@ -71,7 +74,7 @@ public class CreatingNewBooking extends Form {
         destination.setFont ( new Font ( "Dialog", Font.PLAIN, 15 ) );
         destination.setBounds(260, 100, 210, 30);
         destination.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        destination.addItem ( "Select Destination");
+        destination.setSelectedIndex (0);
 
         add (destination);
 
@@ -82,9 +85,11 @@ public class CreatingNewBooking extends Form {
         origin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         origin.setBounds(43, 100, 210, 30);
         origin.addItem ( "Select Origin");
+        origin.setSelectedIndex(0);
         ResultSet origins = myDB.getOrigins();
         while (true) {
             try {
+                if (origins==null)break;
                 if (!origins.next()) break;
                 String originCity = origins.getString("from");
                 origin.addItem(originCity);
@@ -112,33 +117,37 @@ public class CreatingNewBooking extends Form {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+                    filteredflights.setModel(myDB.filterflights(Objects.requireNonNull (origin.getSelectedItem ()).toString(), Objects.requireNonNull (destination.getSelectedItem ()).toString(), dateChooser.getDate()));
             }
         });
 
         origin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+                    filteredflights.setModel(myDB.filterflights(Objects.requireNonNull (origin.getSelectedItem ()).toString(), Objects.requireNonNull (destination.getSelectedItem ()).toString(), dateChooser.getDate()));
             }
         });
 
         dateChooser.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                    filteredflights.setModel(myDB.filterflights(origin.getSelectedItem().toString(), destination.getSelectedItem().toString(), dateChooser.getDate()));
+                    filteredflights.setModel(myDB.filterflights(Objects.requireNonNull (origin.getSelectedItem ()).toString(), Objects.requireNonNull (destination.getSelectedItem ()).toString(), dateChooser.getDate()));
             }
         });
 
+
+        final Object[] flight = {null};
         filteredflights.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) {
-                int selectedRow = filteredflights.getSelectedRow(); 
-                if (selectedRow != -1) { 
-                    int columnIndex = 0; 
-                    Object value = filteredflights.getValueAt(selectedRow, columnIndex); 
+                int selectedRow = filteredflights.getSelectedRow();
+                if (selectedRow != -1) {
+                    int columnIndex = 0;
+                    flight[0] = filteredflights.getValueAt(selectedRow, columnIndex);
                 }
             }
         });
-        
+
+
+
         JRadioButton classAButton = new JRadioButton("Class A");
         classAButton.setBounds(60, 510, 100, 30);
         classAButton.setForeground(CommonConstants.TEXT_COLOR);
@@ -175,34 +184,30 @@ public class CreatingNewBooking extends Form {
         createBookingButton.setBackground(CommonConstants.TEXT_COLOR);
         createBookingButton.setFont(new Font("Dialog", Font.BOLD, 22));
         createBookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         createBookingButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                String username = myDB.getUsername(CommonConstants.CURRENT_USER_ID);
+                String password = String.valueOf(myDB.getPassword(CommonConstants.CURRENT_USER_ID));
+                int flightno = Integer.parseInt(flight[0].toString());
+                if (myDB.hasBooked (username, password, flightno)) {
+                    JOptionPane.showMessageDialog (CreatingNewBooking.this, "You have already booked this flight");
+                } else {
+                    int classType = classAButton.isSelected() ? 1 : classBButton.isSelected() ? 2 : 3;
+
+                    if (myDB.createBooking(username, password,flightno, classType)) {
+                        JOptionPane.showMessageDialog(CreatingNewBooking.this, "Booking created successfully");
+                        dispose();
+                        new AddPaymentGUI (flightno).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(CreatingNewBooking.this, "Failed to create booking");
+                    }
+                }
             }
         });
-//        createBookingButton.addActionListener (new ActionListener () {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String username = myDB.getUsername(CommonConstants.CURRENT_USER_ID);
-//                String password = String.valueOf(myDB.getPassword(CommonConstants.CURRENT_USER_ID));
-//                int flightno = Integer.parseInt (FlightNumberTextField.getText ());
-//                if (myDB.hasBooked (username, password, flightno)) {
-//                    JOptionPane.showMessageDialog (CreatingNewBooking.this, "You have already booked this flight");
-//                } else {
-//                    String flightNumber = FlightNumberTextField.getText();
-//                    int classType = classAButton.isSelected() ? 1 : classBButton.isSelected() ? 2 : 3;
-//
-//                    if (myDB.createBooking(username, password,flightno, classType)) {
-//                        JOptionPane.showMessageDialog(CreatingNewBooking.this, "Booking created successfully");
-//                        dispose();
-//                        new AddPaymentGUI (flightno).setVisible(true);
-//                    } else {
-//                        JOptionPane.showMessageDialog(CreatingNewBooking.this, "Failed to create booking");
-//                    }
-//                }
-//            }
-//        });
+        
+
         add(createBookingButton);
 
         JButton BackButton = new JButton("Back");
@@ -218,5 +223,5 @@ public class CreatingNewBooking extends Form {
         });
         add(BackButton);
     }
-    
+
 }

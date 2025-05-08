@@ -22,6 +22,40 @@ public class myDB {
     }
 
 
+    public static String getEmail(int id){
+        try{
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getEmail = conn.prepareStatement ("SELECT email FROM users WHERE usersid=?");
+            getEmail.setInt (1,id);
+            ResultSet rs = getEmail.executeQuery ();
+            if (!rs.isBeforeFirst ()) return null;
+            rs.next ();
+            return rs.getString ("email");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static String getName(int id){
+        try{
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getName = conn.prepareStatement ("SELECT name FROM users WHERE usersid=?");
+            getName.setInt (1,id);
+            ResultSet rs = getName.executeQuery ();
+            if (!rs.isBeforeFirst ()) return null;
+            rs.next ();
+            return rs.getString ("name");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    return null;
+    }
+
+
     public static boolean checkPassword(String username,String password){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
@@ -73,12 +107,12 @@ public class myDB {
     }
 
 
-    public static int getUserType(String username){
+    public static int getUserType(int userID){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
-            PreparedStatement gettype = conn.prepareStatement ("SELECT * FROM users WHERE username = ?");
-            gettype.setString (1,username);
+            PreparedStatement gettype = conn.prepareStatement ("SELECT * FROM users WHERE usersid = ?");
+            gettype.setInt (1,userID);
             ResultSet rs = gettype.executeQuery ();
             if (!rs.isBeforeFirst ()){
                 JOptionPane.showMessageDialog (null,"The user doesn't exist","Error",JOptionPane.ERROR_MESSAGE);
@@ -123,7 +157,7 @@ public class myDB {
                 return false;
             }
             PreparedStatement addBooking = conn.prepareStatement ("INSERT INTO bookings (bookerid, flightid,tickettype) VALUES (?,?,?)");
-            addBooking.setInt (1,getUserID(username,password));
+            addBooking.setInt (1,CommonConstants.CURRENT_USER_ID);
             addBooking.setInt (2,flightNumber);
             addBooking.setInt (3,tickettype);
             addBooking.executeUpdate ();
@@ -277,7 +311,7 @@ public class myDB {
             PreparedStatement changeType = conn.prepareStatement ("UPDATE users SET usertype=? WHERE username=?");
             changeType.setInt (1,type);
             changeType.setString (2,username);
-            deleteFromTable (username,password);
+            deleteFromTable (getUserID (username,password));
             changeType.executeUpdate ();
             if (type==1){
                 PreparedStatement addAdmin = conn.prepareStatement ("INSERT INTO admins (user) VALUES (?)");
@@ -300,12 +334,11 @@ public class myDB {
     }
 
 
-    private static void deleteFromTable(String username,String password){
+    private static void deleteFromTable(int userID){
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                     CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
-            int type = getUserType (username);
-            int userID = getUserID (username,password);
+            int type = getUserType (userID);
             if (type==1){
                 PreparedStatement deleteAdmin = conn.prepareStatement ("DELETE FROM admins WHERE user=?");
                 deleteAdmin.setInt (1,userID);
@@ -399,6 +432,21 @@ public class myDB {
             addPayment.setString (4,paymentMethod);
             addPayment.setTimestamp (5,new Timestamp (System.currentTimeMillis ()));
             addPayment.executeUpdate ();
+            PreparedStatement getPaymentID = conn.prepareStatement ("SELECT paymentid FROM payments WHERE user=? AND flight=? AND amount=? AND paymentmethod=?");
+            getPaymentID.setInt (1,userid);
+            getPaymentID.setInt (2,flightid);
+            getPaymentID.setInt (3,amount);
+            getPaymentID.setString (4,paymentMethod);
+            ResultSet rs = getPaymentID.executeQuery ();
+            if (!rs.isBeforeFirst ()) return;
+            rs.next ();
+
+            int paymentID = rs.getInt ("paymentid");
+            PreparedStatement updateBooking = conn.prepareStatement ("UPDATE bookings SET paymentid=? WHERE bookerid=? AND flightid=?");
+            updateBooking.setInt (1,paymentID);
+            updateBooking.setInt (2,userid);
+            updateBooking.setInt (3,flightid);
+            updateBooking.executeUpdate ();
             JOptionPane.showMessageDialog (null, "Payment successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         }catch (SQLException e){
             e.printStackTrace();
@@ -454,9 +502,7 @@ public class myDB {
         rs = filterFlights.executeQuery();
         
         // Check if results exist
-        if (!rs.isBeforeFirst()) {
-            
-        } else {
+
             // Add results to the model
             while (rs.next()) {
                 String flightNumber = rs.getString("flightid");
@@ -468,7 +514,6 @@ public class myDB {
                 String[] text = {flightNumber, from, to, ticketprice + "$", tfDate};
                 model.addRow(text);
             }
-        }
         return model;
 
     } catch (SQLException e) {
@@ -495,6 +540,7 @@ public class myDB {
         return null;
     }
 
+
     public static ResultSet getDestinations(){
        try {Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
@@ -505,4 +551,46 @@ public class myDB {
        }
        return null;
     }
+
+
+    public static int getTicketType(int userID, int flightID){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getTicketType = conn.prepareStatement ("SELECT tickettype FROM bookings WHERE bookerid=? AND flightid=?");
+            getTicketType.setInt (1,userID);
+            getTicketType.setInt (2,flightID);
+            ResultSet rs = getTicketType.executeQuery ();
+            if (!rs.isBeforeFirst ()) return -1;
+            rs.next ();
+            return rs.getInt ("tickettype");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+
+    }
+
+
+    public static double getTicketPrice(int userid,int flightID){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement getTicketPrice = conn.prepareStatement ("SELECT ticketprice FROM flights WHERE flightid=?");
+            getTicketPrice.setInt (1,flightID);
+            ResultSet rs = getTicketPrice.executeQuery ();
+            if (!rs.isBeforeFirst ()) {return -1;}
+            rs.next ();
+            int type = getTicketType (userid,flightID);
+            if (type==1) return rs.getInt ("ticketprice")*1.5;
+            else if (type==2) return rs.getInt ("ticketprice");
+            else if (type==3) return rs.getInt ("ticketprice")*0.5;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+
 }

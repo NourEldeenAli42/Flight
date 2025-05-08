@@ -1,6 +1,8 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,7 @@ public class ProfileGUI extends Form {
     public void addGuiComponents() {
 
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
+
 
         JLabel profileLabel = new JLabel("Profile");
         profileLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -36,7 +39,7 @@ public class ProfileGUI extends Form {
         usernameTextField.setForeground(CommonConstants.TEXT_COLOR);
         usernameTextField.setEnabled(false);
         usernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        usernameTextField.setText("Marwan"); 
+        usernameTextField.setText(myDB.getUsername ( CommonConstants.CURRENT_USER_ID));
         usernameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(usernameTextField);
 
@@ -51,7 +54,7 @@ public class ProfileGUI extends Form {
         passwordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         passwordTextField.setForeground(CommonConstants.TEXT_COLOR);
         passwordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        passwordTextField.setText("EL_7nklolo");
+        passwordTextField.setText(myDB.getPassword ( CommonConstants.CURRENT_USER_ID));
         passwordTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(passwordTextField);
 
@@ -61,7 +64,7 @@ public class ProfileGUI extends Form {
         showPasswordCheckBox.setForeground(CommonConstants.TEXT_COLOR);
         showPasswordCheckBox.setFont(new Font("Dialog", Font.PLAIN, 15));
         showPasswordCheckBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        showPasswordCheckBox.addActionListener(e -> {
+        showPasswordCheckBox.addActionListener(_ -> {
             if (showPasswordCheckBox.isSelected()) {
                 passwordTextField.setEchoChar((char) 0);
             } else {
@@ -81,7 +84,7 @@ public class ProfileGUI extends Form {
         nameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         nameTextField.setForeground(CommonConstants.TEXT_COLOR);
         nameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        nameTextField.setText("Nour EL Bolbolahi");
+        nameTextField.setText(myDB.getName ( CommonConstants.CURRENT_USER_ID));
         nameTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(nameTextField);
 
@@ -96,12 +99,12 @@ public class ProfileGUI extends Form {
         emailTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         emailTextField.setForeground(CommonConstants.TEXT_COLOR);
         emailTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        emailTextField.setText("Marwan7nklolo@gmail.com");
+        emailTextField.setText(myDB.getEmail ( CommonConstants.CURRENT_USER_ID));
         emailTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
         add(emailTextField);
 
 
-        //TODO: mark radiobutton according to usertype Nour ELdeen
+
         JRadioButton adminRadioButton = new JRadioButton("Admin");
         adminRadioButton.setBounds(80, 490, 100, 30);
         adminRadioButton.setBackground(CommonConstants.SECONDARY_COLOR);
@@ -136,6 +139,24 @@ public class ProfileGUI extends Form {
         userTypeGroup.add(clientRadioButton);
         userTypeGroup.setSelected(adminRadioButton.getModel(), true);
 
+        int userType = myDB.getUserType ( CommonConstants.CURRENT_USER_ID);
+        switch (userType) {
+            case 1:
+                adminRadioButton.setSelected(true);
+                break;
+            case 2:
+                agentRadioButton.setSelected(true);
+                break;
+            case 3:
+                clientRadioButton.setSelected(true);
+                break;
+            case 0:
+                adminRadioButton.setEnabled(false);
+                agentRadioButton.setEnabled(false);
+                clientRadioButton.setEnabled(false);
+                break;
+        }
+//TODO make this functional
         JButton saveButton = new JButton("Save Changes");
         saveButton.setBounds(270, 560, 200, 60);
         saveButton.setForeground(CommonConstants.PRIMARY_COLOR);

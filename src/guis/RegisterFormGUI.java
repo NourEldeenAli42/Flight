@@ -140,8 +140,7 @@ public class RegisterFormGUI extends Form {
         } else {
             if(myDB.registerUser (username, password, name, email)){
                 JOptionPane.showMessageDialog (RegisterFormGUI.this, "Registration Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                RegisterFormGUI.this.dispose ();
-                new LoginFormGUI ().setVisible (true);
+                navigateBack ();
                 return true;
 
             }else{

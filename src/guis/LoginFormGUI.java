@@ -90,15 +90,16 @@ public class LoginFormGUI extends Form{
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Successful");
                     CommonConstants.CURRENT_USER_ID=myDB.getUserID (usernameTextField.getText (),password);
                     LoginFormGUI.this.dispose ();
-                    switch (myDB.getUserType (usernameTextField.getText ())){
+                    switch (myDB.getUserType (CommonConstants.CURRENT_USER_ID)){
                         case 0:
                             JOptionPane.showMessageDialog (LoginFormGUI.this, "Account not activated" +
                                     "\n Contact an administrator");
+                            new LoginFormGUI ().setVisible (true);
                             break;
 
                         case 1: new AdminGUI ().setVisible (true); break;
-                        case 2: new ClientGUI ().setVisible (true); break;
-                        case 3: new AgentGUI ().setVisible (true); break;
+                        case 2: new AgentGUI ().setVisible (true); break;
+                        case 3: new ClientGUI ().setVisible (true); break;
                     }
                 } else {
                     JOptionPane.showMessageDialog (LoginFormGUI.this, "login Failed");

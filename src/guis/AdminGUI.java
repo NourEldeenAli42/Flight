@@ -215,12 +215,6 @@ public class AdminGUI extends Form {
         addPaymentMethodButton.setForeground(CommonConstants.PRIMARY_COLOR);
         addPaymentMethodButton.setBounds(43,500,420,60);
         clientPanel.add(addPaymentMethodButton);
-        addPaymentMethodButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                dispose();
-                new AddPaymentGUI(1).setVisible(true);
-            }
-        });
 
 
         JRadioButton adminProfile = new JRadioButton ();
