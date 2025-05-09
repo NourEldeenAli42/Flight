@@ -10,13 +10,9 @@ public class CommonConstants {
     public static final Color ERROR_COLOR = Color.decode ("#FF0000");
 
 
-    public static final String DB_URL = "jdbc:mysql://sql7.freesqldatabase.com/sql7776523";
-    public static final String DB_USERNAME = "sql7776523";
-    public static final String DB_PASSWORD = "cihEmBbeXm";
-    public static final String DB_USERS_TABLE_NAME = "users";
-    public static final String DB_AGENTS_TABLE_NAME = "agents";
-    public static final String DB_FLIGHTS_TABLE_NAME = "flights";
-    public static final String DB_BOOKINGS_TABLE_NAME = "bookings";
+    public static final String DB_URL = "jdbc:mysql://mysql-9963341-noureldeenali42-97cf.l.aivencloud.com/defaultdb";
+    public static final String DB_USERNAME = "avnadmin";
+    public static final String DB_PASSWORD = "AVNS_POV9XsE7g395dEQMJlu";
     public static int CURRENT_USER_ID;
     public static String USER_ICON_PATH = "C:\\Users\\NooNo\\Documents\\GitHub\\Flight\\userIcon.jpg";
 
