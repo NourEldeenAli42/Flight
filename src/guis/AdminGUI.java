@@ -232,7 +232,21 @@ public class AdminGUI extends Form {
         adminPanel.add (adminProfile);
         agentPanel.add (adminProfile);
         clientPanel.add (adminProfile);
-        
 
+
+        JButton showSystemLogs = new JButton ("Show System Logs");
+        showSystemLogs.setFont (new Font ("Dialog", Font.BOLD, 18));
+        showSystemLogs.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        showSystemLogs.setBackground (CommonConstants.TEXT_COLOR);
+        showSystemLogs.setForeground (CommonConstants.PRIMARY_COLOR);
+        showSystemLogs.setBounds (43, 500, 420, 60);
+        showSystemLogs.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new SystemLogsGUI ().setVisible (true);
+            }
+        });
+        adminPanel.add (showSystemLogs);
     }
 }

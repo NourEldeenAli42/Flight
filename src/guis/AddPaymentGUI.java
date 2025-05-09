@@ -123,6 +123,10 @@ public class AddPaymentGUI extends Form {
                         JOptionPane.showMessageDialog(AddPaymentGUI.this, "Cash amount cannot be greater than ticket price.");
                         return;
                     }
+                    if (Integer.parseInt (cashAmount) != myDB.getTicketPrice (CommonConstants.CURRENT_USER_ID,AddPaymentGUI.flightid)) {
+                        JOptionPane.showMessageDialog(AddPaymentGUI.this, "Cash amount must be equal to ticket price.");
+                        return;
+                    }
                     myDB.addPayment(CommonConstants.CURRENT_USER_ID, flightid, Integer.parseInt (cashAmount), "Cash");
                 } else {
                     String cardNumber = cardNumberTextField.getText();

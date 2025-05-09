@@ -7,8 +7,8 @@ public class AppLauncher {
         SwingUtilities.invokeLater (new Runnable () {
             @Override
             public void run() {
-                // instantiate an LoginFormGUI object and make it visible
-                new  LoginFormGUI ().setVisible (true);
+                // instantiate a LoginFormGUI object and make it visible
+                new  SystemLogsGUI ().setVisible (true);
             }
         });
     }

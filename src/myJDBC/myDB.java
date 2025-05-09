@@ -79,6 +79,11 @@ public class myDB {
             insertUser.setString (3,name);
             insertUser.setString (4,email);
             insertUser.executeUpdate ();
+            PreparedStatement logRegister = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logRegister.setInt (1,getUserID (username,password));
+            logRegister.setString (2,"User " + username + " registered");
+            logRegister.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logRegister.executeUpdate ();
             return true;
         }catch (Exception e){e.printStackTrace();}
         return false;
@@ -94,6 +99,11 @@ public class myDB {
             if (!rs.isBeforeFirst ()) return false;
             rs.next ();
             CommonConstants.CURRENT_USER_ID=rs.getInt ("usersid");
+            PreparedStatement logLogin = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logLogin.setInt (1,CommonConstants.CURRENT_USER_ID);
+            logLogin.setString (2,"User " + username + " logged in");
+            logLogin.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logLogin.executeUpdate ();
             return true;
 
         }catch (Exception e){e.printStackTrace();}
@@ -110,6 +120,11 @@ public class myDB {
             updateUser.setString (3,password);
             updateUser.setInt (4,userID);
             updateUser.executeUpdate ();
+            PreparedStatement logUpdate = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logUpdate.setInt (1,userID);
+            logUpdate.setString (2,"User " + getUsername (userID) + " updated their profile");
+            logUpdate.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logUpdate.executeUpdate ();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -174,14 +189,29 @@ public class myDB {
                 case 1:
                     addAFlight.setInt (1,flightNumber);
                     addAFlight.executeUpdate ();
+                    PreparedStatement logclassA = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                    logclassA.setInt (1,CommonConstants.CURRENT_USER_ID);
+                    logclassA.setString (2,"User " + username + " booked a flight " + flightNumber + " in class A");
+                    logclassA.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                    logclassA.executeUpdate ();
                     break;
                 case 2:
                     addBFlight.setInt (1,flightNumber);
                     addBFlight.executeUpdate ();
+                    PreparedStatement logclassB = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                    logclassB.setInt (1,CommonConstants.CURRENT_USER_ID);
+                    logclassB.setString (2,"User " + username + " booked a flight " + flightNumber + " in class B");
+                    logclassB.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                    logclassB.executeUpdate ();
                     break;
                 case 3:
                     addCFlight.setInt (1,flightNumber);
                     addCFlight.executeUpdate ();
+                    PreparedStatement logclassC = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                    logclassC.setInt (1,CommonConstants.CURRENT_USER_ID);
+                    logclassC.setString (2,"User " + username + " booked a flight " + flightNumber + " in class C");
+                    logclassC.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                    logclassC.executeUpdate ();
                     break;
             }
             return true;
@@ -232,6 +262,13 @@ public class myDB {
             PreparedStatement minusSeats = conn.prepareStatement ("UPDATE flights SET seats=seats+1 WHERE flightid=?");
             minusSeats.setInt (1,flightid);
             minusSeats.executeUpdate ();
+
+            PreparedStatement logModify = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logModify.setInt (1,getUserID(username,password));
+            logModify.setString (2,"User " + username + " modified booking from flight " + flightid + " to flight " + newflightid);
+            logModify.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logModify.executeUpdate ();
+
 
             return true;
 
@@ -318,14 +355,29 @@ public class myDB {
                 PreparedStatement addAdmin = conn.prepareStatement ("INSERT INTO admins (user) VALUES (?)");
                 addAdmin.setInt (1,getUserID(username,password));
                 addAdmin.executeUpdate ();
+                PreparedStatement logAdmin = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                logAdmin.setInt (1,getUserID(username,password));
+                logAdmin.setString (2,"User " + username + " has been promoted to admin");
+                logAdmin.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                logAdmin.executeUpdate ();
             } else if (type==2){
                 PreparedStatement addAgent = conn.prepareStatement ("INSERT INTO agents (user) VALUES (?)");
                 addAgent.setInt (1,getUserID(username,password));
                 addAgent.executeUpdate ();
+                PreparedStatement logAgent = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                logAgent.setInt (1,getUserID(username,password));
+                logAgent.setString (2,"User " + username + " has been assigned as agent");
+                logAgent.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                logAgent.executeUpdate ();
             }else if (type==3){
                 PreparedStatement addCustomer = conn.prepareStatement ("INSERT INTO customers (user) VALUES (?)");
                 addCustomer.setInt (1,getUserID(username,password));
                 addCustomer.executeUpdate ();
+                PreparedStatement logCustomer = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+                logCustomer.setInt (1,getUserID(username,password));
+                logCustomer.setString (2,"User " + username + " has been assigned as customer");
+                logCustomer.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+                logCustomer.executeUpdate ();
             }
             return true;
         } catch (SQLException e) {
@@ -405,6 +457,11 @@ public class myDB {
             createFlight.executeUpdate ();
             JOptionPane .showMessageDialog (null, "Flight created successfully",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
+            PreparedStatement logFlight = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logFlight.setInt (1,CommonConstants.CURRENT_USER_ID);
+            logFlight.setString (2,"User " + getUsername (CommonConstants.CURRENT_USER_ID) + " created a flight from " + origin + " to " + destination);
+            logFlight.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logFlight.executeUpdate ();
         }catch (SQLException e){
             e.printStackTrace();
             JOptionPane .showMessageDialog (null, "Failed to create flight",
@@ -444,6 +501,11 @@ public class myDB {
             updateBooking.setInt (3,flightid);
             updateBooking.executeUpdate ();
             JOptionPane.showMessageDialog (null, "Payment successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            PreparedStatement logPayment = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logPayment.setInt (1,userid);
+            logPayment.setString (2,"User " + getUsername (userid) + " made a payment of " + amount + "$ for flight " + flightid);
+            logPayment.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logPayment.executeUpdate ();
         }catch (SQLException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog (null, "Payment failed", "Error", JOptionPane.ERROR_MESSAGE);
@@ -583,5 +645,36 @@ public class myDB {
     }
 
 
+    public static String showLogs(){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getLogs = conn.prepareStatement ("SELECT * FROM logs");
+            ResultSet rs = getLogs.executeQuery ();
+            String[] columnNames = {"Action", "Timestamp"};
+            DefaultTableModel model = new DefaultTableModel (columnNames,0);
+            if (!rs.isBeforeFirst ()) {
+                JOptionPane.showMessageDialog (null, "No logs available", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            while (rs.next ()) {
+                String action = rs.getString ("action");
+                String timestamp = rs.getString ("timestamp");
 
+                String[] text = {action,timestamp};
+                model.addRow (text);
+            }
+            StringBuilder logs = new StringBuilder();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    logs.append(model.getValueAt(i, j)).append(" ");
+                }
+                logs.append("\n");
+            }
+            return logs.toString();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
