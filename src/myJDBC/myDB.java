@@ -8,8 +8,7 @@ public class myDB {
 
     public static boolean checkUser(String username){
         try{
-            Connection connection = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection connection = DriverManager.getConnection (CommonConstants.DB_URL);
 
             PreparedStatement getUser = connection.prepareStatement (
                 "SELECT * FROM users WHERE username=?");
@@ -24,8 +23,7 @@ public class myDB {
 
     public static String getEmail(int id){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getEmail = conn.prepareStatement ("SELECT email FROM users WHERE usersid=?");
             getEmail.setInt (1,id);
             ResultSet rs = getEmail.executeQuery ();
@@ -41,8 +39,7 @@ public class myDB {
 
     public static String getName(int id){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getName = conn.prepareStatement ("SELECT name FROM users WHERE usersid=?");
             getName.setInt (1,id);
             ResultSet rs = getName.executeQuery ();
@@ -58,8 +55,7 @@ public class myDB {
 
     public static boolean checkPassword(String username,String password){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM users WHERE username=?");
             getUser.setString (1,username);
             ResultSet rs = getUser.executeQuery ();
@@ -75,8 +71,7 @@ public class myDB {
 
     public static boolean registerUser(String username, String password, String name, String email){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             if (checkUser (username)) return false;
             PreparedStatement insertUser = conn.prepareStatement ("INSERT INTO users (username, password, name, email) VALUES (?,?,?,?)");
             insertUser.setString (1,username);
@@ -91,8 +86,7 @@ public class myDB {
 
 
     public static boolean loginUser(String username, String password){
-        try{Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+        try{Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM users WHERE username=? AND password=?");
             getUser.setString (1,username);
             getUser.setString (2,password);
@@ -109,8 +103,7 @@ public class myDB {
 
     public static void updateUser(int userID, String name, String email, String password){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement updateUser = conn.prepareStatement ("UPDATE users SET name=?, email=?, password=? WHERE usersid=?");
             updateUser.setString (1,name);
             updateUser.setString (2,email);
@@ -125,8 +118,7 @@ public class myDB {
 
     public static int getUserType(int userID){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement gettype = conn.prepareStatement ("SELECT * FROM users WHERE usersid = ?");
             gettype.setInt (1,userID);
             ResultSet rs = gettype.executeQuery ();
@@ -144,8 +136,7 @@ public class myDB {
 
     public static int getUserID(String username,String password){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getUser = conn.prepareStatement ("SELECT * FROM users WHERE username=?");
             getUser.setString (1,username);
             ResultSet rs = getUser.executeQuery ();
@@ -163,8 +154,7 @@ public class myDB {
 
     public static boolean createBooking(String username,String password, int flightNumber,int tickettype){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             if (!checkUser (username)) return false;
 
 
@@ -203,8 +193,7 @@ public class myDB {
 
     public static boolean hasBooked(String username,String password,int flightid){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getBooking = conn.prepareStatement ("SELECT * FROM bookings WHERE bookerid=? AND flightid=?");
             getBooking.setInt (1,getUserID(username,password));
             getBooking.setInt (2,flightid);
@@ -217,8 +206,7 @@ public class myDB {
 
     public static boolean modifyBooking(String username, String password,int paidamount,int flightid,int newflightid){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             if (!checkUser (username)){
                 JOptionPane.showMessageDialog (null, "Invalid username",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -256,8 +244,7 @@ public class myDB {
 
     public static int getTotalPaid(String username, String password,int flightid){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getBooking = conn.prepareStatement ("SELECT totalpaid FROM bookings WHERE bookerid=? AND flightid=?");
             getBooking.setInt (1,getUserID(username,password));
             getBooking.setInt (2,flightid);
@@ -274,8 +261,7 @@ public class myDB {
 
     public static DefaultTableModel getAvailableFlight(){
         try{
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getFlights = conn.prepareStatement ("SELECT * FROM flights");
             ResultSet rs = getFlights.executeQuery ();
             String[] columnNames = {"Flight Number","From","To","Price","A Class","B Class","C Class"
@@ -316,8 +302,7 @@ public class myDB {
 
     public static boolean changeUserType(String username, String password, int type){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             if (!checkUser (username)){
                 JOptionPane.showMessageDialog (null, "Invalid username", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;}
@@ -352,8 +337,7 @@ public class myDB {
 
     private static void deleteFromTable(int userID){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             int type = getUserType (userID);
             if (type==1){
                 PreparedStatement deleteAdmin = conn.prepareStatement ("DELETE FROM admins WHERE user=?");
@@ -374,8 +358,7 @@ public class myDB {
 
     public static String getUsername(int userID){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
 
             PreparedStatement getUsername = conn.prepareStatement ("SELECT username FROM users WHERE usersid=?");
             getUsername.setInt (1,userID);
@@ -392,8 +375,7 @@ public class myDB {
 
     public static String getPassword(int userID){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
 
             PreparedStatement getPassword = conn.prepareStatement ("SELECT password FROM users WHERE usersid=?");
             getPassword.setInt (1,userID);
@@ -410,8 +392,7 @@ public class myDB {
 
     public static void createNewFlight(String origin, String destination, java.util.Date takeoffDate, int ticketPrice, int Aseats, int Bseats, int Cseats){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
 
             PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats) VALUES (?,?,?,?,?,?,?)");
             createFlight.setString (1,origin);
@@ -439,8 +420,7 @@ public class myDB {
 
     public static void addPayment(int userid,int flightid,int amount,String paymentMethod){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement addPayment = conn.prepareStatement ("INSERT INTO payments (user,flight,amount,paymentmethod,paymenttime) VALUES (?,?,?,?,?)");
             addPayment.setInt (1,userid);
             addPayment.setInt (2,flightid);
@@ -473,8 +453,7 @@ public class myDB {
 
     public static DefaultTableModel filterflights(String origin, String destination, java.util.Date takeoffDate) {
     try {
-        Connection conn = DriverManager.getConnection(CommonConstants.DB_URL,
-                CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+        Connection conn = DriverManager.getConnection(CommonConstants.DB_URL);
         
         PreparedStatement filterFlights;
         ResultSet rs;
@@ -546,8 +525,7 @@ public class myDB {
 
     public static ResultSet getOrigins(){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getOrigins = conn.prepareStatement ("SELECT DISTINCT `from` FROM flights");
             return getOrigins.executeQuery ();
         }catch (SQLException e){
@@ -558,8 +536,7 @@ public class myDB {
 
 
     public static ResultSet getDestinations(){
-       try {Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-               CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+       try {Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
            PreparedStatement getOrigins = conn.prepareStatement ("SELECT DISTINCT `to` FROM flights");
            return getOrigins.executeQuery ();
        }catch (SQLException e){
@@ -571,8 +548,7 @@ public class myDB {
 
     public static int getTicketType(int userID, int flightID){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getTicketType = conn.prepareStatement ("SELECT tickettype FROM bookings WHERE bookerid=? AND flightid=?");
             getTicketType.setInt (1,userID);
             getTicketType.setInt (2,flightID);
@@ -590,8 +566,7 @@ public class myDB {
 
     public static double getTicketPrice(int userid,int flightID){
         try {
-            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
-                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getTicketPrice = conn.prepareStatement ("SELECT ticketprice FROM flights WHERE flightid=?");
             getTicketPrice.setInt (1,flightID);
             ResultSet rs = getTicketPrice.executeQuery ();
