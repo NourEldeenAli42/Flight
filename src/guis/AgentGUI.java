@@ -160,6 +160,34 @@ public class AgentGUI extends Form {
         clientPanel.add(addPaymentMethodButton);
 
 
+        JButton agentProfile1 = new JButton ();
+        agentProfile1.setBounds (10, 10, 60, 50);
+        agentProfile1.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        agentProfile1.setBackground (CommonConstants.SECONDARY_COLOR);
+        agentProfile1.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        agentProfile1.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new ProfileGUI ().setVisible (true);
+            }
+        });
+        
+
+        JButton agentProfile2 = new JButton ();
+        agentProfile2.setBounds (10, 10, 60, 50);
+        agentProfile2.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        agentProfile2.setBackground (CommonConstants.SECONDARY_COLOR);
+        agentProfile2.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        agentProfile2.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new ProfileGUI ().setVisible (true);
+            }
+        });
+        agentPanel.add(agentProfile1);
+        clientPanel.add(agentProfile2);
 
     }
 }
