@@ -163,6 +163,15 @@ public class ProfileGUI extends Form {
         saveButton.setBackground(CommonConstants.TEXT_COLOR);
         saveButton.setFont(new Font("Dialog", Font.BOLD, 18));
         saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                String name = nameTextField.getText();
+                String email = emailTextField.getText();
+                String password = new String(passwordTextField.getPassword());
+                myDB.updateUser ( CommonConstants.CURRENT_USER_ID, name, email, password);
+                JOptionPane.showMessageDialog(null, "Profile updated successfully");
+            }
+        });
         add(saveButton);
 
         JButton logoutButton = new JButton("Logout");

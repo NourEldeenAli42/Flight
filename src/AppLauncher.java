@@ -1,4 +1,3 @@
-import com.mysql.cj.log.Log;
 import guis.*;
 import javax.swing.*;
 
@@ -10,7 +9,6 @@ public class AppLauncher {
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
                 new  LoginFormGUI ().setVisible (true);
-
             }
         });
     }

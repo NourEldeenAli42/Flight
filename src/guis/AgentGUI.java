@@ -17,12 +17,31 @@ public class AgentGUI extends Form {
         
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
 
+        JTabbedPane tabbedPane = new JTabbedPane ();
+        tabbedPane.setBounds (0, 0, 520, 680);
+        tabbedPane.setBackground(CommonConstants.SECONDARY_COLOR);
+        tabbedPane.setForeground(CommonConstants.TEXT_COLOR);
+        add (tabbedPane);
+
+        JPanel agentPanel = new JPanel ();
+        agentPanel.setBackground (CommonConstants.SECONDARY_COLOR);
+        tabbedPane.addTab ("Agent", agentPanel);
+        JPanel clientPanel = new JPanel ();
+        clientPanel.setBackground (CommonConstants.SECONDARY_COLOR);
+        tabbedPane.addTab ("Client", clientPanel);
+
+
+
+        agentPanel.setLayout (null);
+        clientPanel.setLayout (null);
+
+
         JLabel agentLabel = new JLabel("Agent GUI");
         agentLabel.setForeground(CommonConstants.TEXT_COLOR);
         agentLabel.setFont(new Font("Dialog", Font.BOLD, 40));
         agentLabel.setBounds(0, 25, 520, 100);
         agentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(agentLabel);
+        agentPanel.add(agentLabel);
 
         JButton createNewFlightButton = new JButton("Create New Flight");
         createNewFlightButton.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -30,7 +49,7 @@ public class AgentGUI extends Form {
         createNewFlightButton.setBackground(CommonConstants.TEXT_COLOR);
         createNewFlightButton.setForeground(CommonConstants.PRIMARY_COLOR);
         createNewFlightButton.setBounds(43,200,420,60);
-        add(createNewFlightButton);
+        agentPanel.add(createNewFlightButton);
         createNewFlightButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
@@ -44,7 +63,7 @@ public class AgentGUI extends Form {
         modifyExistingFlightButton.setBackground(CommonConstants.TEXT_COLOR);
         modifyExistingFlightButton.setForeground(CommonConstants.PRIMARY_COLOR);
         modifyExistingFlightButton.setBounds(43,300,420,60);
-        add(modifyExistingFlightButton);
+        agentPanel.add(modifyExistingFlightButton);
         modifyExistingFlightButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
@@ -59,7 +78,7 @@ public class AgentGUI extends Form {
         generateReportOfFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
         generateReportOfFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
         generateReportOfFlightsButton.setBounds(43,400,420,60);
-        add(generateReportOfFlightsButton);
+        agentPanel.add(generateReportOfFlightsButton);
         generateReportOfFlightsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
@@ -67,47 +86,80 @@ public class AgentGUI extends Form {
             }
         });
 
-        JButton GenerateReportButton = new JButton("Modify Client Booking");
-        GenerateReportButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        GenerateReportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        GenerateReportButton.setBackground(CommonConstants.TEXT_COLOR);
-        GenerateReportButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        GenerateReportButton.setBounds(43,500,420,60);
-        add(GenerateReportButton);
-        GenerateReportButton.addActionListener(new ActionListener() {
+        JButton ModifyClientBookingButton = new JButton("Modify Client Booking");
+        ModifyClientBookingButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        ModifyClientBookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        ModifyClientBookingButton.setBackground(CommonConstants.TEXT_COLOR);
+        ModifyClientBookingButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        ModifyClientBookingButton.setBounds(43,500,420,60);
+        agentPanel.add(ModifyClientBookingButton);
+        ModifyClientBookingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
                 new ModifyingBooking().setVisible(true);
             }
         });
 
-        JLabel backButton = new JLabel("Back");
-        backButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        backButton.setForeground(CommonConstants.TEXT_COLOR);
-        backButton.setBounds(420, 20, 100, 30);
-        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navigateBack();
 
+        JLabel clientLabel = new JLabel("Client GUI");
+        clientLabel.setForeground(CommonConstants.TEXT_COLOR);
+        clientLabel.setFont(new Font("Dialog", Font.BOLD, 40));
+        clientLabel.setBounds(0, 25, 520, 100);
+        clientLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        clientPanel.add(clientLabel);
+
+        JButton createBookingButton = new JButton("Create Booking");
+        createBookingButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        createBookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createBookingButton.setBackground(CommonConstants.TEXT_COLOR);
+        createBookingButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        createBookingButton.setBounds(43,200,420,60);
+        clientPanel.add(createBookingButton);
+        createBookingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+                new CreatingNewBooking().setVisible(true);
             }
         });
-        
-        add(backButton);
 
-        JRadioButton agentProfile = new JRadioButton ();
-        agentProfile.setBounds (10, 10, 60, 50);
-        agentProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
-        agentProfile.setBackground (CommonConstants.SECONDARY_COLOR);
-        agentProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        agentProfile.addActionListener (new ActionListener () {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose ();
-                new ProfileGUI ().setVisible (true);
+        JButton modifyBookingButton = new JButton("Modify Booking");
+        modifyBookingButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        modifyBookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        modifyBookingButton.setBackground(CommonConstants.TEXT_COLOR);
+        modifyBookingButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        modifyBookingButton.setBounds(43,300,420,60);
+        clientPanel.add(modifyBookingButton);
+        modifyBookingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+                new ModifyingBooking().setVisible(true);
             }
         });
-        add (agentProfile);
-    
+
+
+        JButton getAvailableFlightsButton = new JButton("Get Available Flights");
+        getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        getAvailableFlightsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        getAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
+        getAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        getAvailableFlightsButton.setBounds(43,400,420,60);
+        clientPanel.add(getAvailableFlightsButton);
+        getAvailableFlightsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+                new GetAvailableFlights().setVisible(true);
+            }
+        });
+
+        JButton addPaymentMethodButton = new JButton("Add Payment Method");
+        addPaymentMethodButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        addPaymentMethodButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addPaymentMethodButton.setBackground(CommonConstants.TEXT_COLOR);
+        addPaymentMethodButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        addPaymentMethodButton.setBounds(43,500,420,60);
+        clientPanel.add(addPaymentMethodButton);
+
+
+
     }
 }

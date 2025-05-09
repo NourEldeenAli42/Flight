@@ -118,6 +118,10 @@ public class ActivateAccountGUI extends Form {
         activateAccountButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (usernameTextField.getText ().equals (myDB.getUsername (CommonConstants.CURRENT_USER_ID))){
+                    JOptionPane.showMessageDialog (ActivateAccountGUI.this, "You cannot activate your own account");
+                    return;
+                }
                 String password = new String (passwordTextField.getPassword ());
                      if(myDB.changeUserType (usernameTextField.getText (),password,userType)){
                          JOptionPane.showMessageDialog (ActivateAccountGUI.this, "Account Activated");

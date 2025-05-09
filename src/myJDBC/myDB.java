@@ -107,6 +107,22 @@ public class myDB {
     }
 
 
+    public static void updateUser(int userID, String name, String email, String password){
+        try{
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,
+                    CommonConstants.DB_USERNAME, CommonConstants.DB_PASSWORD);
+            PreparedStatement updateUser = conn.prepareStatement ("UPDATE users SET name=?, email=?, password=? WHERE usersid=?");
+            updateUser.setString (1,name);
+            updateUser.setString (2,email);
+            updateUser.setString (3,password);
+            updateUser.setInt (4,userID);
+            updateUser.executeUpdate ();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
     public static int getUserType(int userID){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL,

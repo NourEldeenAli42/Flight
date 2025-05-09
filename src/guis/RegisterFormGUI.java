@@ -53,6 +53,8 @@ public class RegisterFormGUI extends Form {
         passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
         passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
         passwordTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        passwordTextField.setCursor (Cursor.getPredefinedCursor (Cursor.TEXT_CURSOR));
+        passwordTextField.setEchoChar ('*');
         add(passwordTextField);
 
         JLabel rePasswordLabel = new JLabel ("Re-enter Password");
@@ -69,6 +71,8 @@ public class RegisterFormGUI extends Form {
         rePasswordTextField.setForeground (CommonConstants.TEXT_COLOR);
         rePasswordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
         rePasswordTextField.setFont (new Font("Dialog",Font.PLAIN,24));
+        rePasswordTextField.setCursor (Cursor.getPredefinedCursor (Cursor.TEXT_CURSOR));
+        rePasswordTextField.setEchoChar ('*');
         add(rePasswordTextField);
 
         JLabel nameLabel = new JLabel ("Name");
@@ -112,8 +116,10 @@ public class RegisterFormGUI extends Form {
         registerButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (validatePassword (passwordTextField, rePasswordTextField)){
                 registerUser (usernameTextField.getText (), passwordTextField.getText(), rePasswordTextField.getText (),
                         nameTextField.getText (), emailTextField.getText ());
+                }
             }
         });
         add(registerButton);
@@ -156,4 +162,50 @@ public class RegisterFormGUI extends Form {
         return true;
     }
 
+    private boolean validatePassword(JPasswordField passwordTextField, JPasswordField rePasswordTextField){
+        if (!passwordTextField.getText ().equals (rePasswordTextField.getText ())) {
+            rePasswordTextField.setForeground (CommonConstants.ERROR_COLOR);
+            JOptionPane.showMessageDialog (null, "Passwords do not match", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            rePasswordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+            rePasswordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        }
+        if (passwordTextField.getText ().length () < 5 || passwordTextField.getText ().length () > 15) {
+            passwordTextField.setForeground (CommonConstants.ERROR_COLOR);
+            JOptionPane.showMessageDialog (null, "Password must be between 5 and 15 characters", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+            passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        }
+        if (passwordTextField.getText ().isEmpty ()) {
+            passwordTextField.setForeground (CommonConstants.ERROR_COLOR);
+            JOptionPane.showMessageDialog (null, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+            passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        }
+        if (passwordTextField.getText ().contains (" ")) {
+            passwordTextField.setForeground (CommonConstants.ERROR_COLOR);
+            JOptionPane.showMessageDialog (null, "Password cannot contain spaces", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+            passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        }
+        if (!passwordTextField.getText ().contains ("*") && !passwordTextField.getText ().contains ("#")
+        && !passwordTextField.getText ().contains ("_")&&!passwordTextField.getText ().contains ("/")&&
+                !passwordTextField.getText ().contains ("%")&&!passwordTextField.getText ().contains ("&")&&
+                !passwordTextField.getText ().contains ("@")&&!passwordTextField.getText ().contains ("!")) {
+            passwordTextField.setForeground (CommonConstants.ERROR_COLOR);
+            JOptionPane.showMessageDialog (null, "Password must contain at least one special character", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            passwordTextField.setBackground (CommonConstants.PRIMARY_COLOR);
+            passwordTextField.setForeground (CommonConstants.TEXT_COLOR);
+        }
+        return true;
+    }
 }

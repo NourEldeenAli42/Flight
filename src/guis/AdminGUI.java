@@ -217,7 +217,7 @@ public class AdminGUI extends Form {
         clientPanel.add(addPaymentMethodButton);
 
 
-        JRadioButton adminProfile = new JRadioButton ();
+        JButton adminProfile = new JButton ();
         adminProfile.setBounds (10, 10, 60, 50);
         adminProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
         adminProfile.setBackground (CommonConstants.SECONDARY_COLOR);
@@ -230,6 +230,8 @@ public class AdminGUI extends Form {
             }
         });
         adminPanel.add (adminProfile);
+        agentPanel.add (adminProfile);
+        clientPanel.add (adminProfile);
         
 
     }
