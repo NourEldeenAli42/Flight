@@ -12,6 +12,6 @@ public class CommonConstants {
 
     public static final String DB_URL = "jdbc:mysql://avnadmin:AVNS_POV9XsE7g395dEQMJlu@mysql-9963341-noureldeenali42-97cf.l.aivencloud.com:24857/defaultdb?ssl-mode=REQUIRED";
     public static int CURRENT_USER_ID;
-    public static String USER_ICON_PATH = "C:\\Users\\NooNo\\Documents\\GitHub\\Flight\\userIcon.jpg";
+    public static String USER_ICON_PATH = "C:\\Users\\Marwan A. El-Mahdi\\Documents\\GitHub\\Flight\\userIcon.jpg";
 
 }

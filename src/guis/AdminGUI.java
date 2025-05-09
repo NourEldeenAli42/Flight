@@ -217,21 +217,47 @@ public class AdminGUI extends Form {
         clientPanel.add(addPaymentMethodButton);
 
 
-        JButton adminProfile = new JButton ();
-        adminProfile.setBounds (10, 10, 60, 50);
-        adminProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
-        adminProfile.setBackground (CommonConstants.SECONDARY_COLOR);
-        adminProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        adminProfile.addActionListener (new ActionListener () {
+        JButton adminProfile1 = new JButton ();
+        adminProfile1.setBounds (10, 10, 60, 50);
+        adminProfile1.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        adminProfile1.setBackground (CommonConstants.SECONDARY_COLOR);
+        adminProfile1.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        adminProfile1.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose ();
                 new ProfileGUI ().setVisible (true);
             }
         });
-        adminPanel.add (adminProfile);
-        agentPanel.add (adminProfile);
-        clientPanel.add (adminProfile);
+
+        JButton adminProfile2 = new JButton ();
+        adminProfile2.setBounds (10, 10, 60, 50);
+        adminProfile2.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        adminProfile2.setBackground (CommonConstants.SECONDARY_COLOR);
+        adminProfile2.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        adminProfile2.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new ProfileGUI ().setVisible (true);
+            }
+        });
+
+        JButton adminProfile3 = new JButton ();
+        adminProfile3.setBounds (10, 10, 60, 50);
+        adminProfile3.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
+        adminProfile3.setBackground (CommonConstants.SECONDARY_COLOR);
+        adminProfile3.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
+        adminProfile3.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new ProfileGUI ().setVisible (true);
+            }
+        });
+        adminPanel.add (adminProfile1);
+        agentPanel.add (adminProfile2);
+        clientPanel.add (adminProfile3);
         
 
     }

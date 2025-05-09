@@ -92,7 +92,7 @@ public class ClientGUI extends Form {
         
         add(backButton);
 
-        JRadioButton clientProfile = new JRadioButton ();
+        JButton clientProfile = new JButton ();
         clientProfile.setBounds (10, 10, 60, 50);
         clientProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
         clientProfile.setBackground (CommonConstants.SECONDARY_COLOR);
