@@ -69,6 +69,21 @@ public class myDB {
     }
 
 
+    public static boolean hasPassengerData(int userID) {
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getPassengerData = conn.prepareStatement ("SELECT * FROM users WHERE usersid=?");
+            getPassengerData.setInt (1, userID);
+            ResultSet rs = getPassengerData.executeQuery ();
+            if (!rs.isBeforeFirst ()) return false;
+            rs.next ();
+            return rs.getString ("passportnumber") != null && rs.getDate ("dateofbirth") != null;
+        } catch (SQLException e) {
+            e.printStackTrace ();
+        }
+        return false;
+    }
+
     public static boolean checkPassword(String username,String password){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
@@ -193,10 +208,12 @@ public class myDB {
                 JOptionPane.showMessageDialog (null, "You have already booked a flight", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            PreparedStatement addBooking = conn.prepareStatement ("INSERT INTO bookings (bookerid, flightid,tickettype) VALUES (?,?,?)");
+            PreparedStatement addBooking = conn.prepareStatement ("INSERT INTO bookings (bookerid, flightid,tickettype,bookingtime) VALUES (?,?,?,?)");
             addBooking.setInt (1,CommonConstants.CURRENT_USER_ID);
             addBooking.setInt (2,flightNumber);
             addBooking.setInt (3,tickettype);
+            addBooking.setTimestamp (4,new Timestamp (System.currentTimeMillis ()));
+
             addBooking.executeUpdate ();
             PreparedStatement addAFlight = conn.prepareStatement ("UPDATE flights SET Aseats=Aseats-1 WHERE flightid=?");
             PreparedStatement addBFlight = conn.prepareStatement ("UPDATE flights SET Bseats=Bseats-1 WHERE flightid=?");
@@ -462,7 +479,7 @@ public class myDB {
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
 
-            PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats,seats) VALUES (?,?,?,?,?,?,?,?)");
             createFlight.setString (1,origin);
             createFlight.setString (2,destination);
             createFlight.setDate (3,getDate(takeoffDate));
@@ -470,6 +487,7 @@ public class myDB {
             createFlight.setInt (5,Aseats);
             createFlight.setInt (6,Bseats);
             createFlight.setInt (7,Cseats);
+            createFlight.setInt (8,Aseats+Bseats+Cseats);
             createFlight.executeUpdate ();
             JOptionPane .showMessageDialog (null, "Flight created successfully",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -655,9 +673,9 @@ public class myDB {
             if (type==1) price += rs.getInt ("ticketprice")*1.5;
             else if (type==2) price += rs.getInt ("ticketprice");
             else if (type==3) price += rs.getInt ("ticketprice")*0.5;
-            PreparedStatement checkmeals = conn.prepareStatement ("SELECT meals FROM passengers WHERE flight=? AND customer=?");
+            PreparedStatement checkmeals = conn.prepareStatement ("SELECT meals FROM passengers WHERE flight=? AND user=?");
             checkmeals.setInt (1,flightID);
-            checkmeals.setInt (2,getCustomerID (userid));
+            checkmeals.setInt (2,userid);
             ResultSet rs1 = checkmeals.executeQuery ();
             if (!rs1.isBeforeFirst ()) return price;
             rs1.next ();
@@ -708,10 +726,9 @@ public class myDB {
 
     public static void createProgram(int UserID,int flightID,String hotelName,int meals,String type){
         try {
-            int customerID = getCustomerID (UserID);
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
-            PreparedStatement createProgram = conn.prepareStatement ("INSERT INTO passengers (customer,flight,hotel,meals,type) VALUES (?,?,?,?,?)");
-            createProgram.setInt (1,customerID);
+            PreparedStatement createProgram = conn.prepareStatement ("INSERT INTO passengers (user,flight,hotel,meals,type) VALUES (?,?,?,?,?)");
+            createProgram.setInt (1,UserID);
             createProgram.setInt (2,flightID);
             createProgram.setString (3,hotelName);
             createProgram.setInt (4,meals);
@@ -719,11 +736,9 @@ public class myDB {
             createProgram.executeUpdate ();
             PreparedStatement logProgram = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
             logProgram.setInt (1,UserID);
-            logProgram.setString (2,"User " + getUsername (UserID) + " created a program with hotel " + hotelName + " and meals " + meals);
+            logProgram.setString (2,"User " + getUsername (UserID) + " created a program with hotel " + hotelName + " and with "+ meals+ "meals");
             logProgram.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
             logProgram.executeUpdate ();
-
-            JOptionPane.showMessageDialog (null, "Program created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
         }catch (SQLException e){
             e.printStackTrace();
         }

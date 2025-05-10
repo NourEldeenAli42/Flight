@@ -1,6 +1,8 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +12,12 @@ public class DesignFlightProgram extends Form {
 
     private static int flightNumber = 0;
 
-    public DesignFlightProgram(int flightNumber) {
+    public static void setFlightNumber(int flightNumber) {
+        DesignFlightProgram.flightNumber = flightNumber;
+    }
+
+    public DesignFlightProgram() {
         super("Design Flight Program");
-        this.flightNumber = flightNumber;
         addGuiComponents();
     }
 
@@ -28,7 +33,15 @@ public class DesignFlightProgram extends Form {
         add(designFlightLabel);
 
         JComboBox<String> type = new JComboBox<>();
-        type.addItem ( "Select Type");
+        type.addItem("Select Type");
+        type.addItem("Commercial Flight");
+        type.addItem("Charter Flight");
+        type.addItem("Private Jet");
+        type.addItem("Cargo Flight");
+        type.addItem("Emergency Medical");
+        type.addItem("Military Transport");
+        type.addItem("Training Flight");
+        type.addItem("Sightseeing Tour");
         type.setBackground ( CommonConstants.PRIMARY_COLOR );
         type.setForeground ( CommonConstants.TEXT_COLOR );
         type.setFont ( new Font ( "Dialog", Font.PLAIN, 20) );
@@ -89,10 +102,15 @@ public class DesignFlightProgram extends Form {
             public void actionPerformed(ActionEvent evt) {
                 String typeSelected = (String) type.getSelectedItem();
                 String resident = residentTextField.getText();
-                boolean breakfastSelected = breakfast.isSelected();
-                boolean dinnerSelected = Dinner.isSelected();
+                int meals = 0;
+                if (breakfast.isSelected()) {
+                    meals ++;
+                }
+                if (Dinner.isSelected()) {
+                    meals++;
+                }
 
-                if (typeSelected.equals("Select Type")) {
+                if (type.getSelectedItem ().toString().equals ("Select Type")) {
                     JOptionPane.showMessageDialog(DesignFlightProgram.this, "Please select a type.");
                     return;
                 }
@@ -101,9 +119,12 @@ public class DesignFlightProgram extends Form {
                     JOptionPane.showMessageDialog(DesignFlightProgram.this, "Please enter a resident.");
                     return;
                 }
-
+                myDB.createProgram (CommonConstants.CURRENT_USER_ID,flightNumber,resident,meals,typeSelected);
                 JOptionPane.showMessageDialog(DesignFlightProgram.this, "Flight Program designed successfully!");
-                new AddPaymentGUI(flightNumber).setVisible(true);
+                AddPaymentGUI.setFlightid ( flightNumber );
+                AddPaymentGUI temp = new AddPaymentGUI();
+                dispose ();
+                temp.setVisible(true);
                 }
             });
         add(confirmButton);

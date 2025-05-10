@@ -156,7 +156,6 @@ public class ProfileGUI extends Form {
                 clientRadioButton.setEnabled(false);
                 break;
         }
-//TODO make this functional
         JButton saveButton = new JButton("Save Changes");
         saveButton.setBounds(270, 560, 200, 60);
         saveButton.setForeground(CommonConstants.PRIMARY_COLOR);
