@@ -199,11 +199,15 @@ public class myDB {
             addBooking.setTimestamp (4,new Timestamp (System.currentTimeMillis ()));
 
             addBooking.executeUpdate ();
-            PreparedStatement addAFlight = conn.prepareStatement ("UPDATE flights SET Aseats=Aseats-1 WHERE flightid=?");
-            PreparedStatement addBFlight = conn.prepareStatement ("UPDATE flights SET Bseats=Bseats-1 WHERE flightid=?");
-            PreparedStatement addCFlight = conn.prepareStatement ("UPDATE flights SET Cseats=Cseats-1 WHERE flightid=?");
+            PreparedStatement addAFlight = conn.prepareStatement ("UPDATE flights SET Areserved=Areserved+1 WHERE flightid=?");
+            PreparedStatement addBFlight = conn.prepareStatement ("UPDATE flights SET Breserved=Breserved+1 WHERE flightid=?");
+            PreparedStatement addCFlight = conn.prepareStatement ("UPDATE flights SET Creserved=Creserved+1 WHERE flightid=?");
             switch (tickettype){
                 case 1:
+                    if (getAreserved (flightNumber)+1> getFlightASeats (flightNumber)){
+                        JOptionPane.showMessageDialog (null, "No seats available in class A", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                     addAFlight.setInt (1,flightNumber);
                     addAFlight.executeUpdate ();
                     PreparedStatement logclassA = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
@@ -213,6 +217,10 @@ public class myDB {
                     logclassA.executeUpdate ();
                     break;
                 case 2:
+                    if (getBreserved (flightNumber)+1> getFlightBSeats (flightNumber)){
+                        JOptionPane.showMessageDialog (null, "No seats available in class B", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                     addBFlight.setInt (1,flightNumber);
                     addBFlight.executeUpdate ();
                     PreparedStatement logclassB = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
@@ -222,6 +230,10 @@ public class myDB {
                     logclassB.executeUpdate ();
                     break;
                 case 3:
+                    if (getCreserved (flightNumber)+1> getFlightCSeats (flightNumber)){
+                        JOptionPane.showMessageDialog (null, "No seats available in class C", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                     addCFlight.setInt (1,flightNumber);
                     addCFlight.executeUpdate ();
                     PreparedStatement logclassC = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
@@ -503,6 +515,12 @@ public class myDB {
             addPayment.setString (4,paymentMethod);
             addPayment.setTimestamp (5,new Timestamp (System.currentTimeMillis ()));
             addPayment.executeUpdate ();
+
+            PreparedStatement updateFlight = conn.prepareStatement ("UPDATE flights SET totalgained=totalgained+? WHERE flightid=?");
+            updateFlight.setInt (1,amount);
+            updateFlight.setInt (2,flightid);
+            updateFlight.executeUpdate ();
+
             PreparedStatement getPaymentID = conn.prepareStatement ("SELECT paymentid FROM payments WHERE user=? AND flight=? AND amount=? AND paymentmethod=?");
             getPaymentID.setInt (1,userid);
             getPaymentID.setInt (2,flightid);
@@ -820,66 +838,126 @@ public class myDB {
     }
 
 
-    public static String getFlightPrice(int flightID){
+    public static int getFlightPrice(int flightID){
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getFlightTicketPrice = conn.prepareStatement ("SELECT ticketprice FROM flights WHERE flightid=?");
             getFlightTicketPrice.setInt (1,flightID);
             ResultSet rs = getFlightTicketPrice.executeQuery ();
-            if (!rs.isBeforeFirst ()) return "Null";
+            if (!rs.isBeforeFirst ()) return -1;
             rs.next ();
-            return rs.getString ("ticketprice");
+            return rs.getInt ("ticketprice");
         }catch (SQLException e) {
             e.printStackTrace ();
-            return "Null";
+            return -1;
         }
     }
 
 
-    public static String getFlightASeats(int flightID) {
+    public static int getFlightASeats(int flightID) {
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getFlightASeats = conn.prepareStatement ("SELECT Aseats FROM flights WHERE flightid=?");
             getFlightASeats.setInt (1, flightID);
             ResultSet rs = getFlightASeats.executeQuery ();
-            if (!rs.isBeforeFirst ()) return "Null";
+            if (!rs.isBeforeFirst ()) return -1;
             rs.next ();
-            return rs.getString ("Aseats");
+            return rs.getInt ("Aseats");
         } catch (SQLException e) {
             e.printStackTrace ();
-            return "Null";
+            return -1;
         }
     }
 
 
-    public static String getFlightBSeats(int flightID) {
+    public static int getFlightBSeats(int flightID) {
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getFlightBSeats = conn.prepareStatement ("SELECT Bseats FROM flights WHERE flightid=?");
             getFlightBSeats.setInt (1, flightID);
             ResultSet rs = getFlightBSeats.executeQuery ();
-            if (!rs.isBeforeFirst ()) return "Null";
+            if (!rs.isBeforeFirst ()) return -1;
             rs.next ();
-            return rs.getString ("Bseats");
+            return rs.getInt ("Bseats");
         } catch (SQLException e) {
             e.printStackTrace ();
-            return "Null";
+            return -1;
         }
     }
 
 
-    public static String getFlightCSeats(int flightID) {
+    public static int getFlightCSeats(int flightID) {
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
             PreparedStatement getFlightCSeats = conn.prepareStatement ("SELECT Cseats FROM flights WHERE flightid=?");
             getFlightCSeats.setInt (1, flightID);
             ResultSet rs = getFlightCSeats.executeQuery ();
-            if (!rs.isBeforeFirst ()) return "Null";
+            if (!rs.isBeforeFirst ()) return -1;
             rs.next ();
-            return rs.getString ("Cseats");
+            return rs.getInt ("Cseats");
         } catch (SQLException e) {
             e.printStackTrace ();
-            return "Null";
+            return -1;
         }
+    }
+
+
+    public static int getAreserved(int flightID) {
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getFlightSeats = conn.prepareStatement ("SELECT Areserved FROM flights WHERE flightid=?");
+            getFlightSeats.setInt (1, flightID);
+            ResultSet rs = getFlightSeats.executeQuery ();
+            if (!rs.isBeforeFirst ()) return -1;
+            rs.next ();
+            return rs.getInt ("Areserved");
+        } catch (SQLException e) {
+            e.printStackTrace ();
+            return -1;
+        }
+    }
+
+
+    public static int getBreserved(int flightID) {
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getFlightSeats = conn.prepareStatement ("SELECT Breserved FROM flights WHERE flightid=?");
+            getFlightSeats.setInt (1, flightID);
+            ResultSet rs = getFlightSeats.executeQuery ();
+            if (!rs.isBeforeFirst ()) return -1;
+            rs.next ();
+            return rs.getInt ("Breserved");
+        } catch (SQLException e) {
+            e.printStackTrace ();
+            return -1;
+        }
+    }
+
+
+    public static int getCreserved(int flightID) {
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getFlightSeats = conn.prepareStatement ("SELECT Creserved FROM flights WHERE flightid=?");
+            getFlightSeats.setInt (1, flightID);
+            ResultSet rs = getFlightSeats.executeQuery ();
+            if (!rs.isBeforeFirst ()) return -1;
+            rs.next ();
+            return rs.getInt ("Creserved");
+        } catch (SQLException e) {
+            e.printStackTrace ();
+            return -1;
+        }
+    }
+
+
+    public static ResultSet getFlightsReport(){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getFlightsReport = conn.prepareStatement ("SELECT * FROM flights");
+            return getFlightsReport.executeQuery ();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

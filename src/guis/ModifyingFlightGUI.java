@@ -336,10 +336,11 @@ public class ModifyingFlightGUI extends Form {
                     flightOriginTextField.setText (myDB.getFlightOrigin (flightID));
                     flightDestinationTextField.setText (myDB.getFlightDestination (flightID));
                     flightDateChooser.setDate (myDB.getFlightDate (flightID));
-                    setPriceTextField.setText (myDB.getFlightPrice (flightID));
-                    aClassSeatsTextField.setText (myDB.getFlightASeats (flightID));
-                    bClassSeatsTextField.setText (myDB.getFlightBSeats (flightID));
-                    cClassSeatsTextField.setText (myDB.getFlightCSeats (flightID));
+                    int flightPrice = myDB.getFlightPrice (flightID);
+                    setPriceTextField.setText (String.valueOf (flightPrice));
+                    aClassSeatsTextField.setText (String.valueOf (myDB.getFlightASeats (flightID)));
+                    bClassSeatsTextField.setText (String.valueOf (myDB.getFlightBSeats (flightID)));
+                    cClassSeatsTextField.setText (String.valueOf (myDB.getFlightCSeats (flightID)));
                     }
                 }
             }
