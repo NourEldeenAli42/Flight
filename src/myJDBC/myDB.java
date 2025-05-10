@@ -21,6 +21,22 @@ public class myDB {
     }
 
 
+    private static int getCustomerID(int userID){
+        try{
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getCustomerID = conn.prepareStatement ("SELECT customerid FROM customers WHERE user=?");
+            getCustomerID.setInt (1,userID);
+            ResultSet rs = getCustomerID.executeQuery ();
+            if (!rs.isBeforeFirst ()) return -1;
+            rs.next ();
+            return rs.getInt ("customerid");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
     public static String getEmail(int id){
         try{
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
@@ -516,7 +532,7 @@ public class myDB {
     public static DefaultTableModel filterflights(String origin, String destination, java.util.Date takeoffDate) {
     try {
         Connection conn = DriverManager.getConnection(CommonConstants.DB_URL);
-        
+
         PreparedStatement filterFlights;
         ResultSet rs;
         String[] columnNames = {"Flight Number", "From", "To", "Price", "TakeOff Date"};
@@ -557,7 +573,7 @@ public class myDB {
         }
         // Execute the query
         rs = filterFlights.executeQuery();
-        
+
         // Check if results exist
 
             // Add results to the model
@@ -575,9 +591,9 @@ public class myDB {
 
     } catch (SQLException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error retrieving flight information", 
+        JOptionPane.showMessageDialog(null, "Error retrieving flight information",
                 "Database Error", JOptionPane.ERROR_MESSAGE);
-        
+
         // Return an empty model in case of error
         String[] columnNames = {"Flight Number", "From", "To", "Price", "TakeOff Date"};
         return new DefaultTableModel(columnNames, 0);
@@ -635,9 +651,20 @@ public class myDB {
             if (!rs.isBeforeFirst ()) {return -1;}
             rs.next ();
             int type = getTicketType (userid,flightID);
-            if (type==1) return rs.getInt ("ticketprice")*1.5;
-            else if (type==2) return rs.getInt ("ticketprice");
-            else if (type==3) return rs.getInt ("ticketprice")*0.5;
+            double price = 0;
+            if (type==1) price += rs.getInt ("ticketprice")*1.5;
+            else if (type==2) price += rs.getInt ("ticketprice");
+            else if (type==3) price += rs.getInt ("ticketprice")*0.5;
+            PreparedStatement checkmeals = conn.prepareStatement ("SELECT meals FROM passengers WHERE flight=? AND customer=?");
+            checkmeals.setInt (1,flightID);
+            checkmeals.setInt (2,getCustomerID (userid));
+            ResultSet rs1 = checkmeals.executeQuery ();
+            if (!rs1.isBeforeFirst ()) return price;
+            rs1.next ();
+            int meals = rs1.getInt ("meals");
+            if (meals==1) price += 100;
+            else if (meals==2) price += 200;
+            return price;
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -676,5 +703,29 @@ public class myDB {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static void createProgram(int UserID,int flightID,String hotelName,int meals,String type){
+        try {
+            int customerID = getCustomerID (UserID);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement createProgram = conn.prepareStatement ("INSERT INTO passengers (customer,flight,hotel,meals,type) VALUES (?,?,?,?,?)");
+            createProgram.setInt (1,customerID);
+            createProgram.setInt (2,flightID);
+            createProgram.setString (3,hotelName);
+            createProgram.setInt (4,meals);
+            createProgram.setString (5,type);
+            createProgram.executeUpdate ();
+            PreparedStatement logProgram = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logProgram.setInt (1,UserID);
+            logProgram.setString (2,"User " + getUsername (UserID) + " created a program with hotel " + hotelName + " and meals " + meals);
+            logProgram.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logProgram.executeUpdate ();
+
+            JOptionPane.showMessageDialog (null, "Program created successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
