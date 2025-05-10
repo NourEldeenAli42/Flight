@@ -14,6 +14,7 @@ import java.util.Objects;
 import myJDBC.myDB;
 
 public class CreatingNewBooking extends Form {
+
     public CreatingNewBooking() {
         super("Create New Booking");
         addGuiComponents();
@@ -199,7 +200,7 @@ public class CreatingNewBooking extends Form {
                     if (myDB.createBooking(username, password,flightno, classType)) {
                         JOptionPane.showMessageDialog(CreatingNewBooking.this, "Booking created successfully");
                         dispose();
-                        new AddPaymentGUI (flightno).setVisible(true);
+                        new DesignFlightProgram(flightno).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(CreatingNewBooking.this, "Failed to create booking");
                     }
