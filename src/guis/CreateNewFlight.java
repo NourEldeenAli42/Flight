@@ -35,11 +35,11 @@ public class CreateNewFlight extends Form {
         JLabel flightOrigin = new JLabel("Flight Origin:");
         flightOrigin.setForeground(CommonConstants.TEXT_COLOR);
         flightOrigin.setFont(new Font("Dialog", Font.PLAIN, 18));
-        flightOrigin.setBounds(30, -60, 400, 400);
+        flightOrigin.setBounds(30, -90, 400, 400);
         add(flightOrigin);
 
         JTextField flightOriginTextField = new JTextField();
-        flightOriginTextField.setBounds(140, 125, 200, 30);
+        flightOriginTextField.setBounds(140, 95, 200, 30);
         flightOriginTextField.setForeground(CommonConstants.TEXT_COLOR);
         flightOriginTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         flightOriginTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -64,11 +64,11 @@ public class CreateNewFlight extends Form {
         JLabel flightDestination = new JLabel("Flight Destination:");
         flightDestination.setForeground(CommonConstants.TEXT_COLOR);
         flightDestination.setFont(new Font("Dialog", Font.PLAIN, 18));
-        flightDestination.setBounds(30, -10, 400, 400);
+        flightDestination.setBounds(30, -40, 400, 400);
         add(flightDestination);
 
         JTextField flightDestinationTextField = new JTextField();
-        flightDestinationTextField.setBounds(180, 175, 200, 30);
+        flightDestinationTextField.setBounds(180, 145, 200, 30);
         flightDestinationTextField.setForeground(CommonConstants.TEXT_COLOR);
         flightDestinationTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         flightDestinationTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -89,6 +89,34 @@ public class CreateNewFlight extends Form {
             }
         });
         add (flightDestinationTextField);
+
+        JLabel airlineNumber = new JLabel("Airline Number : ");
+        airlineNumber.setForeground(CommonConstants.TEXT_COLOR);
+        airlineNumber.setFont(new Font("Dialog", Font.PLAIN, 18));
+        airlineNumber.setBounds(30, 0, 400, 400);
+        add(airlineNumber);
+        JTextField airlineNumberTextField = new JTextField();
+        airlineNumberTextField.setBounds(180, 185, 200, 30);
+        airlineNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
+        airlineNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
+        airlineNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        airlineNumberTextField.setCursor (Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        airlineNumberTextField.addKeyListener (new KeyAdapter () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String text = airlineNumberTextField.getText();
+
+                if (text.length() >= 2) {
+                    e.consume();
+                    return;
+                }
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != ' ') {
+                    e.consume();
+                }
+            }
+        });
+        add (airlineNumberTextField);
 
         JLabel flightDate = new JLabel("Flight Date:");
         flightDate.setForeground(CommonConstants.TEXT_COLOR);
