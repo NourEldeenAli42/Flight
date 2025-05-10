@@ -9,11 +9,8 @@ import javax.swing.*;
 
 public class TicketGUI extends Form {
 
-    private static int flightNumber = 0;
-
-    public TicketGUI(int flightNumber) {
+    public TicketGUI() {
         super("Ticket");
-        this.flightNumber = flightNumber;
         setSize(700, 400);
         addGuiComponents();
     }
@@ -157,7 +154,7 @@ public class TicketGUI extends Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-                new DesignFlightProgram(flightNumber).setVisible(true);
+                new DesignFlightProgram().setVisible(true);
             }
         });
         add(flightProgramLabel);
