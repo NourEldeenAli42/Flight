@@ -83,12 +83,31 @@ public class AddPaymentGUI extends Form {
         cardNumberLabel.setBounds(30, 220, 250, 50);
 
 
+
         JTextField cardNumberTextField = new JTextField();
         cardNumberTextField.setBounds(230, 220, 250, 50);
         cardNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         cardNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         cardNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         cardNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        cardNumberTextField.addKeyListener (new KeyListener () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar () < '0' || e.getKeyChar () > '9') {
+                    e.consume ();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
 
 
         JLabel amountLabel = new JLabel("Amount : ");
@@ -103,6 +122,24 @@ public class AddPaymentGUI extends Form {
         amountTextField.setForeground(CommonConstants.TEXT_COLOR);
         amountTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         amountTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
+        amountTextField.addKeyListener (new KeyListener () {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar () < '0' || e.getKeyChar () > '9') {
+                    e.consume ();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
 
         JButton payButton = new JButton("Pay");
         payButton.setBounds(80,500,350,50);
