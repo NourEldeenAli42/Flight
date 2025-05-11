@@ -36,7 +36,7 @@ public class AddPaymentGUI extends Form {
         add(paymentMethodLabel);
 
         JTextField requiered = new JTextField ();
-        requiered.setBounds (30, 350, 400, 50);
+        requiered.setBounds (55, 400, 400, 50);
         requiered.setBackground (CommonConstants.SECONDARY_COLOR);
         requiered.setForeground (CommonConstants.TEXT_COLOR);
         requiered.setFont (new Font ("Dialog", Font.PLAIN, 18));
@@ -50,10 +50,10 @@ public class AddPaymentGUI extends Form {
         JLabel cashLabel = new JLabel("Cash Amount : ");
         cashLabel.setForeground(CommonConstants.TEXT_COLOR);
         cashLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-        cashLabel.setBounds(30, 250, 250, 50);
+        cashLabel.setBounds(30, 220, 250, 50);
 
         JTextField cashTextField = new JTextField();
-        cashTextField.setBounds(230, 250, 250, 50);
+        cashTextField.setBounds(230, 220, 250, 50);
         cashTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         cashTextField.setForeground(CommonConstants.TEXT_COLOR);
         cashTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -80,11 +80,11 @@ public class AddPaymentGUI extends Form {
         JLabel cardNumberLabel = new JLabel("Card Number : ");
         cardNumberLabel.setForeground(CommonConstants.TEXT_COLOR);
         cardNumberLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-        cardNumberLabel.setBounds(30, 250, 250, 50);
+        cardNumberLabel.setBounds(30, 220, 250, 50);
 
 
         JTextField cardNumberTextField = new JTextField();
-        cardNumberTextField.setBounds(230, 250, 250, 50);
+        cardNumberTextField.setBounds(230, 220, 250, 50);
         cardNumberTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         cardNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         cardNumberTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -94,18 +94,18 @@ public class AddPaymentGUI extends Form {
         JLabel amountLabel = new JLabel("Amount : ");
         amountLabel.setForeground(CommonConstants.TEXT_COLOR);
         amountLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-        amountLabel.setBounds(30, 350, 250, 50);
+        amountLabel.setBounds(30, 320, 250, 50);
 
 
         JTextField amountTextField = new JTextField();
-        amountTextField.setBounds(230, 350, 250, 50);
+        amountTextField.setBounds(230, 320, 250, 50);
         amountTextField.setBackground(CommonConstants.PRIMARY_COLOR);
         amountTextField.setForeground(CommonConstants.TEXT_COLOR);
         amountTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         amountTextField.setFont(new Font("Dialog", Font.PLAIN, 18));
 
         JButton payButton = new JButton("Pay");
-        payButton.setBounds(80,470,350,50);
+        payButton.setBounds(80,500,350,50);
         payButton.setForeground(CommonConstants.SECONDARY_COLOR);
         payButton.setBackground(CommonConstants.TEXT_COLOR);
         payButton.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -144,7 +144,7 @@ public class AddPaymentGUI extends Form {
         add(payButton);
 
         JButton BackButton = new JButton("Back");
-        BackButton.setBounds(80,550,350,50);
+        BackButton.setBounds(80,580,350,50);
         BackButton.setForeground(CommonConstants.SECONDARY_COLOR);
         BackButton.setBackground(CommonConstants.TEXT_COLOR);
         BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
