@@ -1,14 +1,13 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.table.JTableHeader;
+import myJDBC.myDB;
 
 public class GetAvailableFlights extends Form {
     public GetAvailableFlights() {
@@ -81,7 +80,7 @@ public class GetAvailableFlights extends Form {
         buttonPanel.setBackground(CommonConstants.SECONDARY_COLOR);
 
         JButton getAvailableFlightsButton = new JButton("Get Available Flights");
-        getAvailableFlightsButton.setPreferredSize(new Dimension(350, 70));
+        getAvailableFlightsButton.setPreferredSize(new Dimension(250, 60));
         getAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
         getAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
         getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 20));

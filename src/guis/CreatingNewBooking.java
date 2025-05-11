@@ -150,27 +150,27 @@ public class CreatingNewBooking extends Form {
 
 
         JRadioButton classAButton = new JRadioButton("Class A");
-        classAButton.setBounds(60, 510, 100, 30);
+        classAButton.setBounds(60, 460, 100, 30);
         classAButton.setForeground(CommonConstants.TEXT_COLOR);
         classAButton.setBackground(CommonConstants.SECONDARY_COLOR);
-        classAButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classAButton.setFont(new Font("Dialog", Font.PLAIN, 20));
         classAButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         add(classAButton);
 
         JRadioButton classBButton = new JRadioButton("Class B");
-        classBButton.setBounds(200, 510, 100, 30);
+        classBButton.setBounds(200, 460, 100, 30);
         classBButton.setForeground(CommonConstants.TEXT_COLOR);
         classBButton.setBackground(CommonConstants.SECONDARY_COLOR);
-        classBButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classBButton.setFont(new Font("Dialog", Font.PLAIN, 20));
         classBButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         classBButton.setSelected(true);
         add(classBButton);
 
         JRadioButton classCButton = new JRadioButton("Class C");
-        classCButton.setBounds(340, 510, 100, 30);
+        classCButton.setBounds(340, 460, 100, 30);
         classCButton.setForeground(CommonConstants.TEXT_COLOR);
         classCButton.setBackground(CommonConstants.SECONDARY_COLOR);
-        classCButton.setFont(new Font("Dialog", Font.PLAIN, 17));
+        classCButton.setFont(new Font("Dialog", Font.PLAIN, 20));
         classCButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         add(classCButton);
 

@@ -216,7 +216,7 @@ public class TicketGUI extends Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-                new DesignFlightProgram().setVisible(true);
+                new FlightProgram().setVisible(true);
             }
         });
         add(flightProgramLabel);
