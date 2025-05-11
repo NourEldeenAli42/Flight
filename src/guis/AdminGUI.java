@@ -222,13 +222,20 @@ public class AdminGUI extends Form {
             }
         });
 
-        JButton addPaymentMethodButton = new JButton("Add Payment Method");
-        addPaymentMethodButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        addPaymentMethodButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        addPaymentMethodButton.setBackground(CommonConstants.TEXT_COLOR);
-        addPaymentMethodButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        addPaymentMethodButton.setBounds(43,500,420,60);
-        clientPanel.add(addPaymentMethodButton);
+        JButton show_cancelFlight = new JButton("Show | Cancel Flight");
+        show_cancelFlight.setFont(new Font("Dialog", Font.BOLD, 18));
+        show_cancelFlight.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        show_cancelFlight.setBackground(CommonConstants.TEXT_COLOR);
+        show_cancelFlight.setForeground(CommonConstants.PRIMARY_COLOR);
+        show_cancelFlight.setBounds(43,500,420,60);
+        show_cancelFlight.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new CancelFlightGUI ();
+            }
+        });
+        clientPanel.add(show_cancelFlight);
 
 
         JButton adminProfile1 = new JButton ();
