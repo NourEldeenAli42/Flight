@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import com.toedter.calendar.JDateChooser;
+import myJDBC.myDB;
 
 public class PassengerDetailsGUI extends Form {
 
@@ -46,21 +47,21 @@ public class PassengerDetailsGUI extends Form {
         dateOfBirthLabel.setFont (new Font ("Dialog", Font.BOLD, 23));
         add (dateOfBirthLabel);
 
-        JDateChooser flightDateChooser = new JDateChooser();
-        flightDateChooser.setBounds(43, 435, 420, 50); 
-        flightDateChooser.setBackground(CommonConstants.PRIMARY_COLOR);
-        flightDateChooser.getCalendarButton().setBackground(CommonConstants.PRIMARY_COLOR);
-        flightDateChooser.getDateEditor().getUiComponent().setBackground(CommonConstants.PRIMARY_COLOR);
-        flightDateChooser.setForeground(CommonConstants.TEXT_COLOR);
-        flightDateChooser.getCalendarButton().setForeground(CommonConstants.TEXT_COLOR);
-        flightDateChooser.getDateEditor().getUiComponent().setForeground(CommonConstants.TEXT_COLOR);
-        flightDateChooser.getJCalendar().setBackground(CommonConstants.PRIMARY_COLOR);
-        flightDateChooser.getJCalendar().setForeground(CommonConstants.TEXT_COLOR);
-        flightDateChooser.getJCalendar().getDayChooser().getDayPanel().setBackground(CommonConstants.PRIMARY_COLOR);
-        flightDateChooser.getJCalendar().getDayChooser().getDayPanel().setForeground(CommonConstants.TEXT_COLOR);
-        flightDateChooser.setFont(new Font("Dialog", Font.PLAIN, 18));
-        flightDateChooser.setDateFormatString("yyyy-MM-dd");
-        add(flightDateChooser);
+        JDateChooser dateOfBirthChooser = new JDateChooser();
+        dateOfBirthChooser.setBounds(43, 435, 420, 50);
+        dateOfBirthChooser.setBackground(CommonConstants.PRIMARY_COLOR);
+        dateOfBirthChooser.getCalendarButton().setBackground(CommonConstants.PRIMARY_COLOR);
+        dateOfBirthChooser.getDateEditor().getUiComponent().setBackground(CommonConstants.PRIMARY_COLOR);
+        dateOfBirthChooser.setForeground(CommonConstants.TEXT_COLOR);
+        dateOfBirthChooser.getCalendarButton().setForeground(CommonConstants.TEXT_COLOR);
+        dateOfBirthChooser.getDateEditor().getUiComponent().setForeground(CommonConstants.TEXT_COLOR);
+        dateOfBirthChooser.getJCalendar().setBackground(CommonConstants.PRIMARY_COLOR);
+        dateOfBirthChooser.getJCalendar().setForeground(CommonConstants.TEXT_COLOR);
+        dateOfBirthChooser.getJCalendar().getDayChooser().getDayPanel().setBackground(CommonConstants.PRIMARY_COLOR);
+        dateOfBirthChooser.getJCalendar().getDayChooser().getDayPanel().setForeground(CommonConstants.TEXT_COLOR);
+        dateOfBirthChooser.setFont(new Font("Dialog", Font.PLAIN, 18));
+        dateOfBirthChooser.setDateFormatString("yyyy-MM-dd");
+        add(dateOfBirthChooser);
 
         JLabel backButton = new JLabel("Back");
         backButton.setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -84,13 +85,15 @@ public class PassengerDetailsGUI extends Form {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String passportNum = passportNumTextField.getText();
-                String dateOfBirth = ((JTextField) flightDateChooser.getDateEditor().getUiComponent()).getText();
+                String dateOfBirth = ((JTextField) dateOfBirthChooser.getDateEditor().getUiComponent()).getText();
 
                 if (passportNum.isEmpty() || dateOfBirth.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    int passportNumber = Integer.parseInt (passportNumTextField.getText ());
                     // Handle the confirmation logic here
                     JOptionPane.showMessageDialog(null, "Passenger details confirmed!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    myDB.setPassengerData (passportNumber,dateOfBirthChooser.getDate ());
                 }
 
                 dispose();

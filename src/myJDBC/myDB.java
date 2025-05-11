@@ -978,4 +978,26 @@ public class myDB {
         return null;
     }
 
+
+    public static void setPassengerData(int passportnumber,java.util.Date dateOfBirth){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement setPassengerData = conn.prepareStatement ("UPDATE users SET passportnumber=?, dateofbirth=? WHERE usersid=?");
+            setPassengerData.setInt (1,passportnumber);
+            setPassengerData.setDate (2,getDate(dateOfBirth));
+            setPassengerData.setInt (3,CommonConstants.CURRENT_USER_ID);
+            setPassengerData.executeUpdate ();
+            PreparedStatement logPassengerData = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logPassengerData.setInt (1,CommonConstants.CURRENT_USER_ID);
+            logPassengerData.setString (2,"User " + getUsername (CommonConstants.CURRENT_USER_ID) + " set passenger data");
+            logPassengerData.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logPassengerData.executeUpdate ();
+            JOptionPane .showMessageDialog (null, "Passenger data set successfully",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+        }catch (SQLException e){
+            e.printStackTrace();
+            JOptionPane .showMessageDialog (null, "Failed to set passenger data",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
