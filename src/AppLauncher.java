@@ -8,7 +8,7 @@ public class AppLauncher {
             @Override
             public void run() {
                 // instantiate an LoginFormGUI object and make it visible
-                new AddPaymentGUI (1).setVisible (true);
+                new PassengerDetailsGUI (1).setVisible (true);
             }
         });
     }

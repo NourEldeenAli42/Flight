@@ -199,10 +199,16 @@ public class CreatingNewBooking extends Form {
 
                     if (myDB.createBooking(username, password,flightno, classType)) {
                         JOptionPane.showMessageDialog(CreatingNewBooking.this, "Booking created successfully");
+                          if (myDB.hasPassengerData (CommonConstants.CURRENT_USER_ID)) {
                         DesignFlightProgram temp = new DesignFlightProgram();
                         DesignFlightProgram.setFlightNumber (flightno);
                         dispose();
                         temp.setVisible(true);
+                          }else {
+                            JOptionPane.showMessageDialog(CreatingNewBooking.this, "Failed to create booking\nPlease fill this missing data");
+                            dispose ();
+                            new PassengerDetailsGUI (flightno).setVisible (true);
+                          }
                     } else {
                         JOptionPane.showMessageDialog(CreatingNewBooking.this, "Failed to create booking");
                     }
