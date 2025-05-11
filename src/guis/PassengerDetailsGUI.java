@@ -37,17 +37,36 @@ public class PassengerDetailsGUI extends Form {
         passportNumTextField.setForeground (CommonConstants.TEXT_COLOR);
         passportNumTextField.setBackground (CommonConstants.PRIMARY_COLOR);
         passportNumTextField.setFont (new Font ("Dialog", Font.PLAIN, 24));
+        passportNumTextField.setCursor (Cursor.getPredefinedCursor (Cursor.TEXT_CURSOR));
+        passportNumTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (passportNumTextField.getText().length() >= 10) {
+                    e.consume();
+                }
+                if (e.getKeyChar () < '0' || e.getKeyChar () > '9') {
+                    e.consume ();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
         add (passportNumTextField);
 
 
         JLabel dateOfBirthLabel = new JLabel ("Date of Birth");
-        dateOfBirthLabel.setBounds (30, 210, 400, 400);
+        dateOfBirthLabel.setBounds (30, 160, 400, 400);
         dateOfBirthLabel.setForeground (CommonConstants.TEXT_COLOR);
         dateOfBirthLabel.setFont (new Font ("Dialog", Font.BOLD, 23));
         add (dateOfBirthLabel);
 
         JDateChooser flightDateChooser = new JDateChooser();
-        flightDateChooser.setBounds(43, 435, 420, 50); 
+        flightDateChooser.getDateEditor().getUiComponent().setEnabled(false);
+        flightDateChooser.setBounds(43, 385, 420, 50); 
         flightDateChooser.setBackground(CommonConstants.PRIMARY_COLOR);
         flightDateChooser.getCalendarButton().setBackground(CommonConstants.PRIMARY_COLOR);
         flightDateChooser.getDateEditor().getUiComponent().setBackground(CommonConstants.PRIMARY_COLOR);
@@ -79,7 +98,7 @@ public class PassengerDetailsGUI extends Form {
         confirmButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         confirmButton.setBackground(CommonConstants.TEXT_COLOR);
         confirmButton.setForeground(CommonConstants.SECONDARY_COLOR);
-        confirmButton.setBounds(200, 500, 500, 60); 
+        confirmButton.setBounds(75, 500, 350, 60); 
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,10 +110,11 @@ public class PassengerDetailsGUI extends Form {
                 } else {
                     // Handle the confirmation logic here
                     JOptionPane.showMessageDialog(null, "Passenger details confirmed!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    dispose();
+                    new AddPaymentGUI(flightID).setVisible(true);
                 }
 
-                dispose();
-                new AddPaymentGUI(flightID).setVisible(true);
 
             }
         });
