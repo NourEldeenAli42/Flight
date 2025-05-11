@@ -1,6 +1,8 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,14 +11,25 @@ import javax.swing.*;
 
 public class TicketGUI extends Form {
 
-    public TicketGUI() {
+    private static int flightID;
+    private static int userID;
+    public TicketGUI(int flightID,int userID) {
         super("Ticket");
+        TicketGUI.flightID = flightID;
+        TicketGUI.userID = userID;
         setSize(700, 400);
         addGuiComponents();
     }
 
     private void addGuiComponents() {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
+
+        String[] flightDetails = myDB.getFlightInfo (flightID);     //{from,to,date,A,B,Cseats,A,B,Creserved,airline}
+        int ticketType = myDB.getTicketType (userID,flightID);
+        if (flightDetails == null) {
+            JOptionPane.showMessageDialog(this, "Flight not found", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         JLabel ticketLabel = new JLabel("Ticket");
         ticketLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -37,6 +50,7 @@ public class TicketGUI extends Form {
         originTextField.setForeground(CommonConstants.TEXT_COLOR);
         originTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         originTextField.setEditable(false); // Make it non-editable
+        originTextField.setText(flightDetails[0]); // Set the text to the origin
         add(originTextField);
 
         JLabel destinationLabel = new JLabel("Destination : ");
@@ -51,6 +65,7 @@ public class TicketGUI extends Form {
         destinationTextField.setForeground(CommonConstants.TEXT_COLOR);
         destinationTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         destinationTextField.setEditable(false); // Make it non-editable
+        destinationTextField.setText(flightDetails[1]); // Set the text to the destination
         add(destinationTextField);
 
         JLabel dateLabel = new JLabel("Take-off date : ");
@@ -65,6 +80,7 @@ public class TicketGUI extends Form {
         dateTextField.setForeground(CommonConstants.TEXT_COLOR);
         dateTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         dateTextField.setEditable(false); // Make it non-editable
+        dateTextField.setText(flightDetails[2]); // Set the text to the date
         add(dateTextField);
 
         JLabel airLineLabel = new JLabel("Airline : ");
@@ -79,6 +95,7 @@ public class TicketGUI extends Form {
         airLineTextField.setForeground(CommonConstants.TEXT_COLOR);
         airLineTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         airLineTextField.setEditable(false); // Make it non-editable
+        airLineTextField.setText(flightDetails[6]); // Set the text to the airline
         add(airLineTextField);
 
         JLabel classLabel = new JLabel("Class : ");
@@ -116,6 +133,17 @@ public class TicketGUI extends Form {
         classButtonGroup.add(classBRadioButton);
         classButtonGroup.add(classCRadioButton);
 
+        if (ticketType == 1) {
+            classARadioButton.setSelected(true);
+            classARadioButton.setEnabled (true);
+        } else if (ticketType == 2) {
+            classBRadioButton.setSelected(true);
+            classBRadioButton.setEnabled (true);
+        } else if (ticketType == 3) {
+            classCRadioButton.setSelected(true);
+            classCRadioButton.setEnabled (true);
+        }
+
         JLabel ticketPriceLabel = new JLabel("Price : ");
         ticketPriceLabel.setForeground(CommonConstants.TEXT_COLOR);
         ticketPriceLabel.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -128,6 +156,7 @@ public class TicketGUI extends Form {
         ticketPriceTextField.setForeground(CommonConstants.TEXT_COLOR);
         ticketPriceTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         ticketPriceTextField.setEditable(false); // Make it non-editable
+        ticketPriceTextField.setText(String.valueOf (myDB.getTicketPrice (userID,flightID))); // Set the text to the price
         add(ticketPriceTextField);
 
         JLabel ticketNumberLabel = new JLabel("Ticket Number : ");
@@ -142,6 +171,17 @@ public class TicketGUI extends Form {
         ticketNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         ticketNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         ticketNumberTextField.setEditable(false); // Make it non-editable
+        if (ticketType==1){
+            String number = String.valueOf (Integer.parseInt (flightDetails[3])+1);
+            ticketNumberTextField.setText(number);
+        } else if (ticketType==2){
+            String number = String.valueOf (Integer.parseInt (flightDetails[4])+1);
+            ticketNumberTextField.setText(number);
+        } else if (ticketType==3){
+            String number = String.valueOf (Integer.parseInt (flightDetails[5])+1);
+            ticketNumberTextField.setText(number);
+        }
+
         add(ticketNumberTextField);
 
         JLabel flightProgramLabel = new JLabel("Click to see flight program");
@@ -171,5 +211,5 @@ public class TicketGUI extends Form {
         });
         add(backButton);
     }
-    
+
 }
