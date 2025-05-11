@@ -5,7 +5,6 @@ import components.CommonConstants;
 import myJDBC.myDB;
 import java.awt.event.*;
 import java.awt.*;
-
 import java.sql.ResultSet;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -104,7 +103,7 @@ public class GenerateReportGUI extends Form {
         add(generateReportButton);
 
         JButton showPassengers = new JButton("Show Passengers");
-        showPassengers.setBounds(200, 570, 500, 60); // Centered and widened
+        showPassengers.setBounds(200, 570, 500, 60); 
         showPassengers.setForeground(CommonConstants.PRIMARY_COLOR);
         showPassengers.setBackground(CommonConstants.TEXT_COLOR);
         showPassengers.setFont(new Font("Dialog", Font.BOLD, 25));

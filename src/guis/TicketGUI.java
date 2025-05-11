@@ -1,12 +1,11 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
+import myJDBC.myDB;
 
 
 public class TicketGUI extends Form {
@@ -133,15 +132,21 @@ public class TicketGUI extends Form {
         classButtonGroup.add(classBRadioButton);
         classButtonGroup.add(classCRadioButton);
 
-        if (ticketType == 1) {
-            classARadioButton.setSelected(true);
-            classARadioButton.setEnabled (true);
-        } else if (ticketType == 2) {
-            classBRadioButton.setSelected(true);
-            classBRadioButton.setEnabled (true);
-        } else if (ticketType == 3) {
-            classCRadioButton.setSelected(true);
-            classCRadioButton.setEnabled (true);
+        switch (ticketType) {
+            case 1:
+                classARadioButton.setSelected(true);
+                classARadioButton.setEnabled (true);
+                break;
+            case 2:
+                classBRadioButton.setSelected(true);
+                classBRadioButton.setEnabled (true);
+                break;
+            case 3:
+                classCRadioButton.setSelected(true);
+                classCRadioButton.setEnabled (true);
+                break;
+            default:
+                break;
         }
 
         JLabel ticketPriceLabel = new JLabel("Price : ");
@@ -171,15 +176,27 @@ public class TicketGUI extends Form {
         ticketNumberTextField.setForeground(CommonConstants.TEXT_COLOR);
         ticketNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
         ticketNumberTextField.setEditable(false); // Make it non-editable
-        if (ticketType==1){
-            String number = String.valueOf (Integer.parseInt (flightDetails[3])+1);
-            ticketNumberTextField.setText(number);
-        } else if (ticketType==2){
-            String number = String.valueOf (Integer.parseInt (flightDetails[4])+1);
-            ticketNumberTextField.setText(number);
-        } else if (ticketType==3){
-            String number = String.valueOf (Integer.parseInt (flightDetails[5])+1);
-            ticketNumberTextField.setText(number);
+        switch (ticketType) {
+            case 1:
+                {
+                    String number = String.valueOf (Integer.parseInt (flightDetails[3])+1);
+                    ticketNumberTextField.setText(number);
+                    break;
+                }
+            case 2:
+                {
+                    String number = String.valueOf (Integer.parseInt (flightDetails[4])+1);
+                    ticketNumberTextField.setText(number);
+                    break;
+                }
+            case 3:
+                {
+                    String number = String.valueOf (Integer.parseInt (flightDetails[5])+1);
+                    ticketNumberTextField.setText(number);
+                    break;
+                }
+            default:
+                break;
         }
 
         add(ticketNumberTextField);
