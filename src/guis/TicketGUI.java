@@ -16,23 +16,23 @@ import myJDBC.myDB;
 public class TicketGUI extends Form {
 
     private static int flightID;
-    private static int userID;
-    public TicketGUI(int flightID,int userID) {
+    private static final int userID= CommonConstants.CURRENT_USER_ID;
+    public TicketGUI() {
         super("Ticket");
-        TicketGUI.flightID = flightID;
-        TicketGUI.userID = userID;
         setSize(700, 400);
-        addGuiComponents();
     }
 
-    private void addGuiComponents() {
+    public void setFlightID (int flightID) {
+        TicketGUI.flightID = flightID;
+    }
+
+    public void addGuiComponents() {
         getContentPane().setBackground(CommonConstants.SECONDARY_COLOR);
 
         String[] flightDetails = myDB.getFlightInfo (flightID);     //{from,to,date,A,B,Cseats,A,B,Creserved,airline}
         int ticketType = myDB.getTicketType (userID,flightID);
         if (flightDetails == null) {
             JOptionPane.showMessageDialog(this, "Flight not found", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
         }
 
         JLabel ticketLabel = new JLabel("Ticket");
@@ -216,7 +216,12 @@ public class TicketGUI extends Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-                new FlightProgram().setVisible(true);
+               FlightProgram temp = new FlightProgram();
+               temp.setFlightid (flightID);
+               temp.addGuiComponents ();
+               temp.refresh ();
+               temp.setVisible (true);
+
             }
         });
         add(flightProgramLabel);
@@ -228,7 +233,11 @@ public class TicketGUI extends Form {
         backButton.setBounds(20, 20, 100, 30);
         backButton.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                navigateBack();
+                dispose ();
+                AddPaymentGUI temp = new AddPaymentGUI();
+                temp.setFlightid (flightID);
+                temp.refresh ();
+                temp.setVisible (true);
             }
         });
         add(backButton);
@@ -264,5 +273,10 @@ public class TicketGUI extends Form {
         });
         add(saveButton);
     }
-
+    public void refresh(){
+        getContentPane ().removeAll ();
+        addGuiComponents ();
+        revalidate ();
+        repaint ();
+    }
 }

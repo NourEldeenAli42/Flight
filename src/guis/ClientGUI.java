@@ -55,55 +55,33 @@ public class ClientGUI extends Form {
         });
 
 
-        JButton GetAvailableFlightsButton = new JButton("Get Available Flights");
-        GetAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        GetAvailableFlightsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        GetAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
-        GetAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        GetAvailableFlightsButton.setBounds(43,400,420,60);
-        add(GetAvailableFlightsButton);
-        GetAvailableFlightsButton.addActionListener(new ActionListener() {
+        JButton getAvailableFlightsButton = new JButton("Get Available Flights");
+        getAvailableFlightsButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        getAvailableFlightsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        getAvailableFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
+        getAvailableFlightsButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        getAvailableFlightsButton.setBounds(43,400,420,60);
+        add(getAvailableFlightsButton);
+        getAvailableFlightsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
                 new GetAvailableFlights().setVisible(true);
             }
         });
 
-        JButton AddPaymentMethodButton = new JButton("Add Payment Method");
-        AddPaymentMethodButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        AddPaymentMethodButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        AddPaymentMethodButton.setBackground(CommonConstants.TEXT_COLOR);
-        AddPaymentMethodButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        AddPaymentMethodButton.setBounds(43,500,420,60);
-        add(AddPaymentMethodButton);
-        
-
-        JLabel backButton = new JLabel("Back");
-        backButton.setFont(new Font("Dialog", Font.PLAIN, 18));
-        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        backButton.setForeground(CommonConstants.TEXT_COLOR);
-        backButton.setBounds(420, 20, 100, 30);
-        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navigateBack();
-
-            }
-        });
-        
-        add(backButton);
-
-        JButton clientProfile = new JButton ();
-        clientProfile.setBounds (10, 10, 60, 50);
-        clientProfile.setIcon (new ImageIcon (CommonConstants.USER_ICON_PATH));
-        clientProfile.setBackground (CommonConstants.SECONDARY_COLOR);
-        clientProfile.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        clientProfile.addActionListener (new ActionListener () {
+        JButton show_cancelFlight = new JButton("Show | Cancel Flight");
+        show_cancelFlight.setFont(new Font("Dialog", Font.BOLD, 18));
+        show_cancelFlight.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        show_cancelFlight.setBackground(CommonConstants.TEXT_COLOR);
+        show_cancelFlight.setForeground(CommonConstants.PRIMARY_COLOR);
+        show_cancelFlight.setBounds(43,500,420,60);
+        show_cancelFlight.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose ();
-                new ProfileGUI ().setVisible (true);
+                new CancelFlightGUI ().setVisible (true);
             }
         });
-        add (clientProfile);
+        add(show_cancelFlight);
     }
 }

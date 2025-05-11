@@ -232,7 +232,7 @@ public class AdminGUI extends Form {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose ();
-                new CancelFlightGUI ();
+                new CancelFlightGUI ().setVisible (true);
             }
         });
         clientPanel.add(show_cancelFlight);

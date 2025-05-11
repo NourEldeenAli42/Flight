@@ -4,7 +4,10 @@ import components.CommonConstants;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Date;
+
 import com.toedter.calendar.JDateChooser;
+import myJDBC.myDB;
 
 public class PassengerDetailsGUI extends Form {
 
@@ -13,6 +16,10 @@ public class PassengerDetailsGUI extends Form {
     public PassengerDetailsGUI(int flightID) {
         super("Passenger Details");
         PassengerDetailsGUI.flightID = flightID;
+        addGuiComponents();
+    }
+    public PassengerDetailsGUI() {
+        super("Passenger Details");
         addGuiComponents();
     }
 
@@ -102,17 +109,19 @@ public class PassengerDetailsGUI extends Form {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String passportNum = passportNumTextField.getText();
-                String dateOfBirth = ((JTextField) flightDateChooser.getDateEditor().getUiComponent()).getText();
+                int passportNum = Integer.parseInt (passportNumTextField.getText());
+                Date dateOfBirth =  flightDateChooser.getDate ();
 
-                if (passportNum.isEmpty() || dateOfBirth.isEmpty()) {
+                if (passportNumTextField.getText ().isEmpty() || ((JTextField) flightDateChooser.getDateEditor ().getUiComponent ()).getText ().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Handle the confirmation logic here
-                    JOptionPane.showMessageDialog(null, "Passenger details confirmed!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    
+                    myDB.setPassengerData (passportNum,dateOfBirth);
                     dispose();
-                    new AddPaymentGUI(flightID).setVisible(true);
+                    AddPaymentGUI temp = new AddPaymentGUI();
+                    temp.setFlightid (flightID);
+                    temp.refresh ();
+                    temp.setVisible (true);
                 }
 
 

@@ -12,10 +12,13 @@ import myJDBC.myDB;
 public class AddPaymentGUI extends Form {
     private static int flightid;
     private static boolean isCash;
-    public AddPaymentGUI(int flightid) {
+    public AddPaymentGUI() {
         super("Add Payment");
-        AddPaymentGUI.flightid = flightid;
         addGuiComponents();
+    }
+
+    public void setFlightid(int flightid) {
+        AddPaymentGUI.flightid = flightid;
     }
 
     private void addGuiComponents() {
@@ -173,7 +176,11 @@ public class AddPaymentGUI extends Form {
                     myDB.addPayment(CommonConstants.CURRENT_USER_ID, flightid, Integer.parseInt (amount), "Credit Card");
                 }
                 dispose ();
-                new TicketGUI (flightid,CommonConstants.CURRENT_USER_ID).setVisible (true);
+                TicketGUI temp = new TicketGUI ();
+                temp.setFlightID (flightid);
+                temp.addGuiComponents ();
+                temp.refresh ();
+                temp.setVisible (true);
             }
         });
         add(payButton);
@@ -186,7 +193,11 @@ public class AddPaymentGUI extends Form {
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                navigateBack();
+                dispose ();
+                FlightProgram temp = new FlightProgram();
+                temp.setFlightid (flightid);
+                temp.refresh ();
+                temp.setVisible (true);
             }
         });
         add(BackButton);
@@ -241,5 +252,10 @@ public class AddPaymentGUI extends Form {
         paymentMethodGroup.add(cashRadioButton);
 
     }
-
+    public void refresh(){
+        getContentPane().removeAll();
+        addGuiComponents();
+        revalidate();
+        repaint();
+    }
 }

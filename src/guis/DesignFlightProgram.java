@@ -121,7 +121,9 @@ public class DesignFlightProgram extends Form {
                 }
                 myDB.createProgram (CommonConstants.CURRENT_USER_ID,flightNumber,resident,meals,typeSelected);
                 JOptionPane.showMessageDialog(DesignFlightProgram.this, "Flight Program designed successfully!");
-                AddPaymentGUI temp = new AddPaymentGUI(flightNumber);
+                AddPaymentGUI temp = new AddPaymentGUI();
+                temp.setFlightid (flightNumber);
+                temp.refresh ();
                 dispose ();
                 temp.setVisible(true);
                 }

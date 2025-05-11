@@ -1,16 +1,24 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class FlightProgram extends Form{
+    public static int flightNumber;
     public FlightProgram() {
         super("Flight Program");
-        addGuiComponents();
     }
+
+    public void setFlightid(int flightNumber){
+        FlightProgram.flightNumber = flightNumber;
+
+    }
+
 
     public void addGuiComponents(){
 
@@ -36,6 +44,7 @@ public class FlightProgram extends Form{
         flightTypeField.setForeground(CommonConstants.TEXT_COLOR);
         flightTypeField.setEnabled(false);
         flightTypeField.setBorder(BorderFactory.createLineBorder(CommonConstants.TEXT_COLOR));
+        flightTypeField.setText (myDB.getFlightType (CommonConstants.CURRENT_USER_ID, flightNumber));
         add(flightTypeField);
 
         JLabel residentLabel = new JLabel("Resident : ");
@@ -51,6 +60,7 @@ public class FlightProgram extends Form{
         residentField.setForeground(CommonConstants.TEXT_COLOR);
         residentField.setEnabled(false);
         residentField.setBorder(BorderFactory.createLineBorder(CommonConstants.TEXT_COLOR));
+        residentField.setText (myDB.getFlightResident (CommonConstants.CURRENT_USER_ID, flightNumber));
         add(residentField);
 
         JLabel selsectedMealsLabel = new JLabel("Meals : ");
@@ -59,27 +69,16 @@ public class FlightProgram extends Form{
         selsectedMealsLabel.setForeground(CommonConstants.TEXT_COLOR);
         add(selsectedMealsLabel);
 
-        JCheckBox breakfastButton = new JCheckBox("Breakfast");
-        breakfastButton.setFont(new Font("Dialog", Font.PLAIN, 20));
-        breakfastButton.setBounds(200, 400, 150, 30);
-        breakfastButton.setBackground(CommonConstants.SECONDARY_COLOR);
-        breakfastButton.setForeground(CommonConstants.TEXT_COLOR);
-        breakfastButton.setEnabled(false);
-        breakfastButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        add(breakfastButton);
+        JTextField mealsTextField = new JTextField ();
+        mealsTextField.setFont(new Font("Dialog", Font.PLAIN, 20));
+        mealsTextField.setBounds(200, 400, 150, 30);
+        mealsTextField.setBackground(CommonConstants.SECONDARY_COLOR);
+        mealsTextField.setForeground(CommonConstants.TEXT_COLOR);
+        mealsTextField.setEnabled(false);
+        mealsTextField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        mealsTextField.setText (myDB.getNoMeals (CommonConstants.CURRENT_USER_ID, flightNumber)+"");
+        add(mealsTextField);
 
-        JCheckBox dinnerButton = new JCheckBox("Dinner");
-        dinnerButton.setFont(new Font("Dialog", Font.PLAIN, 20));
-        dinnerButton.setBounds(200, 445, 150, 30);
-        dinnerButton.setBackground(CommonConstants.SECONDARY_COLOR);
-        dinnerButton.setForeground(CommonConstants.TEXT_COLOR);
-        dinnerButton.setEnabled(false);
-        dinnerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        add(dinnerButton);
-        
-        ButtonGroup mealGroup = new ButtonGroup();
-        mealGroup.add(breakfastButton);
-        mealGroup.add(dinnerButton);
 
         JButton BackButton = new JButton("Back");
         BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -89,10 +88,18 @@ public class FlightProgram extends Form{
         BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         BackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                navigateBack();
+                dispose ();
+                new CreatingNewBooking ().setVisible (true);
             }
         });
         add(BackButton);
+    }
+
+    public void refresh(){
+        getContentPane().removeAll();
+        addGuiComponents();
+        revalidate();
+        repaint();
     }
     
 }
