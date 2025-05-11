@@ -3,13 +3,13 @@ package guis;
 
 import components.CommonConstants;
 import myJDBC.myDB;
-
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.sql.ResultSet;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 
 
 public class GenerateReportGUI extends Form {
@@ -54,6 +54,17 @@ public class GenerateReportGUI extends Form {
         scrollPane.setBorder(BorderFactory.createLineBorder(CommonConstants.TEXT_COLOR));
         add(scrollPane);
 
+        final Object[] flight = {null};
+        report.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) {
+                int selectedRow = report.getSelectedRow();
+                if (selectedRow != -1) {
+                    int columnIndex = 0;
+                    flight[0] = report.getValueAt(selectedRow, columnIndex);
+                }
+            }
+        });
+
         DefaultTableModel model = new DefaultTableModel();
         ResultSet rs = myDB.getFlightsReport();
         model.setColumnIdentifiers(new Object[]{"Flight ID", "Origin","Destination", "Available A Seats", "Available B Seats", "Available C Seats", "Total Earnings"});
@@ -92,17 +103,36 @@ public class GenerateReportGUI extends Form {
         });
         add(generateReportButton);
 
-        JButton BackButton = new JButton("Back");
-        BackButton.setBounds(200, 570, 500, 60); // Centered and widened
-        BackButton.setForeground(CommonConstants.PRIMARY_COLOR);
-        BackButton.setBackground(CommonConstants.TEXT_COLOR);
-        BackButton.setFont(new Font("Dialog", Font.BOLD, 25));
-        BackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        BackButton.addActionListener(new ActionListener() {
+        JButton showPassengers = new JButton("Show Passengers");
+        showPassengers.setBounds(200, 570, 500, 60); // Centered and widened
+        showPassengers.setForeground(CommonConstants.PRIMARY_COLOR);
+        showPassengers.setBackground(CommonConstants.TEXT_COLOR);
+        showPassengers.setFont(new Font("Dialog", Font.BOLD, 25));
+        showPassengers.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        showPassengers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                if (flight[0] == null) {
+                    JOptionPane.showMessageDialog(null, "Please select a flight first", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }else{
+                    dispose();
+                    new PassengersGUI().setVisible(true);
+                }
+                
+            }
+        });
+        add(showPassengers);
+
+        JLabel backButton = new JLabel("Back");
+        backButton.setFont(new Font("Dialog", Font.PLAIN, 18));
+        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backButton.setForeground(CommonConstants.TEXT_COLOR);
+        backButton.setBounds(20, 20, 100, 30);
+        backButton.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 navigateBack();
             }
         });
-        add(BackButton);
+        add(backButton);
     }
 }
