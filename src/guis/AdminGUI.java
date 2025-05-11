@@ -76,8 +76,6 @@ public class AdminGUI extends Form {
         });
         adminPanel.add(CreateNewAccountButton);
 
-
-        //TODO: make new GUI for editing existing account MAHDI
         JButton EditExistingAccountButton = new JButton("Edit Existing Account");
         EditExistingAccountButton.setFont(new Font("Dialog", Font.BOLD, 18));
         EditExistingAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -92,6 +90,22 @@ public class AdminGUI extends Form {
             }
         });
         adminPanel.add(EditExistingAccountButton);
+
+
+        JButton showLogsButton = new JButton("Show Logs");
+        showLogsButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        showLogsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        showLogsButton.setBackground(CommonConstants.TEXT_COLOR);
+        showLogsButton.setForeground(CommonConstants.PRIMARY_COLOR);
+        showLogsButton.setBounds(43, 500, 420, 60);
+        showLogsButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose ();
+                new SystemLogsGUI ().setVisible (true);
+            }
+        });
+        adminPanel.add (showLogsButton);
 
         JLabel agentLabel = new JLabel("Agent GUI");
         agentLabel.setForeground(CommonConstants.TEXT_COLOR);

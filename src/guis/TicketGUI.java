@@ -2,8 +2,13 @@ package guis;
 
 import components.CommonConstants;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import myJDBC.myDB;
 
@@ -69,8 +74,8 @@ public class TicketGUI extends Form {
 
         JLabel dateLabel = new JLabel("Take-off date : ");
         dateLabel.setForeground(CommonConstants.TEXT_COLOR);
-        dateLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-        dateLabel.setBounds(70, 150, 200, 30);
+        dateLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+        dateLabel.setBounds(70, 150, 200, 15);
         add(dateLabel);
 
         JTextField dateTextField = new JTextField();
@@ -227,6 +232,37 @@ public class TicketGUI extends Form {
             }
         });
         add(backButton);
+
+
+        JButton saveButton = new JButton("Save Ticket");
+        saveButton.setBounds(480, 20, 200, 50);
+        saveButton.setForeground(CommonConstants.SECONDARY_COLOR);
+        saveButton.setBackground(CommonConstants.TEXT_COLOR);
+        saveButton.setFont(new Font("Dialog", Font.BOLD, 25));
+        saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        saveButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Get the bounds of the TicketGUI
+                    Rectangle screenRect = TicketGUI.this.getBounds();
+                    screenRect.setLocation(TicketGUI.this.getLocationOnScreen());
+
+                    // Capture the screen area of the TicketGUI
+                    BufferedImage capture = new Robot().createScreenCapture(screenRect);
+
+                    // Save the captured image to a file
+                    File outputFile = new File("ticket.png");
+                    ImageIO.write(capture, "png", outputFile);
+
+                    JOptionPane.showMessageDialog(TicketGUI.this, "Ticket saved as ticket.png");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(TicketGUI.this, "Failed to save the ticket.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        add(saveButton);
     }
 
 }

@@ -25,34 +25,6 @@ public class ModifyingBooking extends Form {
         add(MBLabel);
 
 
-        //TO DO : REMOVE CLIENT USERNAME AND PASSWORD FROM THE GUI
-        JLabel clientUsernameLabel = new JLabel("Client username : ");
-        clientUsernameLabel.setForeground(CommonConstants.TEXT_COLOR);
-        clientUsernameLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        clientUsernameLabel.setBounds(30,-90,400,400);
-        add(clientUsernameLabel);
-
-        JTextField clientUsernameTextField = new JTextField();
-        clientUsernameTextField.setBounds(43,130,420,30);
-        clientUsernameTextField.setForeground(CommonConstants.TEXT_COLOR);
-        clientUsernameTextField.setBackground(CommonConstants.PRIMARY_COLOR);
-        clientUsernameTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        clientUsernameTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
-        add(clientUsernameTextField);
-
-        JLabel ClientPasswordLapel = new JLabel("Client password : ");
-        ClientPasswordLapel.setForeground(CommonConstants.TEXT_COLOR);
-        ClientPasswordLapel.setFont(new Font("Dialog", Font.PLAIN, 18));
-        ClientPasswordLapel.setBounds(30,0,400,400);
-        add(ClientPasswordLapel);
-
-        JPasswordField clientPasswordTextField = new JPasswordField();
-        clientPasswordTextField.setBounds(43,220,420,30);
-        clientPasswordTextField.setForeground(CommonConstants.TEXT_COLOR);
-        clientPasswordTextField.setBackground(CommonConstants.PRIMARY_COLOR);
-        clientPasswordTextField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        clientPasswordTextField.setFont(new Font("Dialog", Font.PLAIN, 15));
-        add(clientPasswordTextField);
 
         JLabel flightNumberLabel = new JLabel("Flight Number : ");
         flightNumberLabel.setForeground(CommonConstants.TEXT_COLOR);
@@ -138,19 +110,18 @@ public class ModifyingBooking extends Form {
         modifyBooking.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String password = String.valueOf(clientPasswordTextField.getPassword());
+                String username = myDB.getUsername (CommonConstants.CURRENT_USER_ID);
+                String password = myDB.getPassword (CommonConstants.CURRENT_USER_ID);
                 int flightNumber = Integer.parseInt(flightNumberTextField.getText());
                 int paymentAmount = Integer.parseInt(addPaymentAmountTextField.getText());
                 int newflightnumber = Integer.parseInt(ANFTextField.getText());
-                if(myDB.modifyBooking (clientUsernameTextField.getText (),password,paymentAmount,flightNumber,newflightnumber)){
+                if(myDB.modifyBooking (username,password,paymentAmount,flightNumber,newflightnumber)){
                     JOptionPane.showMessageDialog(null, "Booking modified successfully");
                     dispose();
-                    new ClientGUI().setVisible(true);
+                    navigateBack ();
                 }else{
                     JOptionPane.showMessageDialog(null, "Booking modification failed");
                 }
-                clientUsernameTextField.setText("");
-                clientPasswordTextField.setText("");
                 flightNumberTextField.setText("");
             }
         });

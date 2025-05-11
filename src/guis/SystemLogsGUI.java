@@ -26,7 +26,15 @@ public class SystemLogsGUI extends Form{
         logsTextArea.setForeground(CommonConstants.TEXT_COLOR);
         logsTextArea.setFont(new Font ("Dialog", Font.PLAIN, 18));
         logsTextArea.setEditable(false);
-        add(logsTextArea);
+        JScrollPane scrollPane = new JScrollPane(logsTextArea);
+        scrollPane.setBounds(35, 150, 440, 350);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBackground(CommonConstants.PRIMARY_COLOR);
+        scrollPane.setForeground(CommonConstants.TEXT_COLOR);
+        scrollPane.setBorder(BorderFactory.createLineBorder(CommonConstants.TEXT_COLOR, 2));
+        add(scrollPane);
+
 
 
         JButton loadLogsButton = new JButton("Show Logs");
