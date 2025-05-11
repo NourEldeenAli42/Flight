@@ -13,14 +13,10 @@ import javax.swing.*;
 public class AddPaymentGUI extends Form {
     private static int flightid;
     private static boolean isCash;
-    public AddPaymentGUI() {
+    public AddPaymentGUI(int flightid) {
         super("Add Payment");
-        addGuiComponents();
-    }
-
-    public static void setFlightid(int flightid) {
         AddPaymentGUI.flightid = flightid;
-
+        addGuiComponents();
     }
 
     private void addGuiComponents() {
