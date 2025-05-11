@@ -1,15 +1,18 @@
 package guis;
 
 import components.CommonConstants;
+import myJDBC.myDB;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class ShowCancelFlight extends Form {
+public class CancelFlightGUI extends Form {
 
 
-    public ShowCancelFlight() {
+    public CancelFlightGUI() {
         super("Cancel Flight");
         setSize(900, 700);
         addGuiComponents();
@@ -50,6 +53,30 @@ public class ShowCancelFlight extends Form {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{"Flight Number", "Origin", "Destination","Take-Off Date", "Class" });
 
+        ResultSet rs = myDB.showBookings ();
+        if (rs == null) {
+        JOptionPane.showMessageDialog(this, "No flights available", "Error", JOptionPane.ERROR_MESSAGE);}
+        else {
+            try {
+                while (rs.next()) {
+                    String flightNumber = rs.getString("flightid");
+                    String origin = rs.getString("from");
+                    String destination = rs.getString("to");
+                    String takeOffDate = rs.getString("takeoffdate");
+                    int flightClass = myDB.getTicketType (CommonConstants.CURRENT_USER_ID, Integer.parseInt (flightNumber));
+                    String classType = "N/A";
+                    switch (flightClass) {
+                        case 1 -> classType = "Class A";
+                        case 2 -> classType = "Class B";
+                        case 3 -> classType = "Class C";
+                    }
+                    model.addRow(new Object[]{flightNumber, origin, destination, takeOffDate, classType});
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+        }
+
+
         JButton showFlightsButton = new JButton("Show Flights");
         showFlightsButton.setBounds(100, 550, 300, 50);
         showFlightsButton.setBackground(CommonConstants.TEXT_COLOR);
@@ -81,6 +108,13 @@ public class ShowCancelFlight extends Form {
         cancelFlightButton.setBackground(CommonConstants.TEXT_COLOR);
         cancelFlightButton.setForeground(CommonConstants.SECONDARY_COLOR);
         cancelFlightButton.setFont(new Font("Arial", Font.BOLD, 20));
+        cancelFlightButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int flightID = Integer.parseInt(flight[0].toString());
+                myDB.cancelBooking (flightID);
+            }
+        });
         add(cancelFlightButton);
 
 
@@ -98,5 +132,6 @@ public class ShowCancelFlight extends Form {
 
         add(backButton);
 
+        }
     }
 }

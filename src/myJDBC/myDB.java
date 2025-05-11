@@ -333,9 +333,6 @@ public class myDB {
             String[] columnNames = {"Flight Number","From","To","Price","A Class","B Class","C Class"
                     ,"Take Off Date"};
             DefaultTableModel model = new DefaultTableModel (columnNames,0);
-            String[] row = {"Flight No.","From","To","Price","A Class","B Class","C Class"
-                    ,"Take Off"};
-            model.addRow (row);
             if (!rs.isBeforeFirst ()) {
                 JOptionPane.showMessageDialog (null, "No flights available", "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -998,6 +995,66 @@ public class myDB {
             e.printStackTrace();
             JOptionPane .showMessageDialog (null, "Failed to set passenger data",
                     "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    public static void cancelBooking(int flightID){
+        try{
+            int ticketType = getTicketType (CommonConstants.CURRENT_USER_ID,flightID);
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement cancelBooking = conn.prepareStatement ("DELETE FROM bookings WHERE flightid=? AND bookerid=?");
+            cancelBooking.setInt (1,flightID);
+            cancelBooking.setInt (2,CommonConstants.CURRENT_USER_ID);
+            cancelBooking.executeUpdate ();
+            PreparedStatement deletePayment = conn.prepareStatement ("DELETE FROM payments WHERE flight=? AND user=?");
+            deletePayment.setInt (1,flightID);
+            deletePayment.setInt (2,CommonConstants.CURRENT_USER_ID);
+            deletePayment.executeUpdate ();
+            PreparedStatement deletePassenger = conn.prepareStatement ("DELETE FROM passengers WHERE flight=? AND user=?");
+            deletePassenger.setInt (1,flightID);
+            deletePassenger.setInt (2,CommonConstants.CURRENT_USER_ID);
+            deletePassenger.executeUpdate ();
+            PreparedStatement logCancelBooking = conn.prepareStatement ("INSERT INTO logs (userid,action,timestamp) VALUES (?,?,?)");
+            logCancelBooking.setInt (1,CommonConstants.CURRENT_USER_ID);
+            logCancelBooking.setString (2,"User " + getUsername (CommonConstants.CURRENT_USER_ID) + " cancelled booking for flight " + flightID);
+            logCancelBooking.setTimestamp (3,new Timestamp (System.currentTimeMillis ()));
+            logCancelBooking.executeUpdate ();
+
+            switch (ticketType){
+                case 1:
+                    PreparedStatement addAseats = conn.prepareStatement ("UPDATE flights SET Areserved=Areserved+1 WHERE flightid=?");
+                    addAseats.setInt (1,flightID);
+                    addAseats.executeUpdate ();
+                    break;
+                case 2:
+                    PreparedStatement addBseats = conn.prepareStatement ("UPDATE flights SET Breserved=Breserved+1 WHERE flightid=?");
+                    addBseats.setInt (1,flightID);
+                    addBseats.executeUpdate ();
+                    break;
+                case 3:
+                    PreparedStatement addCseats = conn.prepareStatement ("UPDATE flights SET Creserved=Creserved+1 WHERE flightid=?");
+                    addCseats.setInt (1,flightID);
+                    addCseats.executeUpdate ();
+                    break;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace ();
+        }
+    }
+
+
+    public static ResultSet showBookings(){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement showBookings = conn.prepareStatement ("SELECT flightid FROM bookings WHERE bookerid=?");
+            showBookings.setInt (1,CommonConstants.CURRENT_USER_ID);
+            return showBookings.executeQuery ();
+            //TODO get flight data using flightid and push it into table
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

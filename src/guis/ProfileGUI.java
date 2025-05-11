@@ -1,4 +1,5 @@
 package guis;
+//TODO : improve Profile data collection
 
 import components.CommonConstants;
 import myJDBC.myDB;
