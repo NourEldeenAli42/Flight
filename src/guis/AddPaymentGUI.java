@@ -1,14 +1,13 @@
 package guis;
 
 import components.CommonConstants;
-import myJDBC.myDB;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
+import myJDBC.myDB;
 
 public class AddPaymentGUI extends Form {
     private static int flightid;
@@ -81,7 +80,6 @@ public class AddPaymentGUI extends Form {
         cardNumberLabel.setForeground(CommonConstants.TEXT_COLOR);
         cardNumberLabel.setFont(new Font("Dialog", Font.BOLD, 25));
         cardNumberLabel.setBounds(30, 220, 250, 50);
-
 
 
         JTextField cardNumberTextField = new JTextField();
