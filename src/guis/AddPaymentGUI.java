@@ -141,7 +141,8 @@ public class AddPaymentGUI extends Form {
                     //TODO make addPayment for credit card
                     myDB.addPayment(CommonConstants.CURRENT_USER_ID, flightid, Integer.parseInt (amount), "Credit Card");
                 }
-                navigateBack();
+                dispose ();
+                new TicketGUI (flightid,CommonConstants.CURRENT_USER_ID).setVisible (true);
             }
         });
         add(payButton);

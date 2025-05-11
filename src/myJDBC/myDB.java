@@ -960,4 +960,22 @@ public class myDB {
         }
         return null;
     }
+
+
+    public static String[] getFlightInfo(int flightID){
+        try {
+            Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
+            PreparedStatement getFlightInfo = conn.prepareStatement ("SELECT * FROM flights WHERE flightid=?");
+            getFlightInfo.setInt (1,flightID);
+            ResultSet rs = getFlightInfo.executeQuery ();
+            if (!rs.isBeforeFirst ()) return null;
+            rs.next ();
+            return new String[]{rs.getString ("from"),rs.getString ("to"),rs.getString ("takeoffdate"),
+                    rs.getString ("Areserved"),rs.getString ("Breserved"),rs.getString ("Creserved"),rs.getString ("airline")};
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
