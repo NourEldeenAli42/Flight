@@ -485,11 +485,11 @@ public class myDB {
     }
 
 
-    public static void createNewFlight(String origin, String destination, java.util.Date takeoffDate, int ticketPrice, int Aseats, int Bseats, int Cseats) {
+    public static void createNewFlight(String origin, String destination, java.util.Date takeoffDate, int ticketPrice, int Aseats, int Bseats, int Cseats,int airline) {
         try {
             Connection conn = DriverManager.getConnection (CommonConstants.DB_URL);
 
-            PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats,seats) VALUES (?,?,?,?,?,?,?,?)");
+            PreparedStatement createFlight = conn.prepareStatement ("INSERT INTO flights (`from`,`to`,takeoffdate,ticketprice,Aseats,Bseats,Cseats,seats,airline) VALUES (?,?,?,?,?,?,?,?,?)");
             createFlight.setString (1, origin);
             createFlight.setString (2, destination);
             createFlight.setDate (3, getDate (takeoffDate));
@@ -498,6 +498,7 @@ public class myDB {
             createFlight.setInt (6, Bseats);
             createFlight.setInt (7, Cseats);
             createFlight.setInt (8, Aseats + Bseats + Cseats);
+            createFlight.setInt (9, airline);
             createFlight.executeUpdate ();
             JOptionPane.showMessageDialog (null, "Flight created successfully",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -1043,17 +1044,17 @@ public class myDB {
             JOptionPane.showMessageDialog (null, "Booking cancelled successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
             switch (ticketType) {
                 case 1:
-                    PreparedStatement addAseats = conn.prepareStatement ("UPDATE flights SET Areserved=Areserved+1 WHERE flightid=?");
+                    PreparedStatement addAseats = conn.prepareStatement ("UPDATE flights SET Areserved=Areserved-1 WHERE flightid=?");
                     addAseats.setInt (1, flightID);
                     addAseats.executeUpdate ();
                     break;
                 case 2:
-                    PreparedStatement addBseats = conn.prepareStatement ("UPDATE flights SET Breserved=Breserved+1 WHERE flightid=?");
+                    PreparedStatement addBseats = conn.prepareStatement ("UPDATE flights SET Breserved=Breserved-1 WHERE flightid=?");
                     addBseats.setInt (1, flightID);
                     addBseats.executeUpdate ();
                     break;
                 case 3:
-                    PreparedStatement addCseats = conn.prepareStatement ("UPDATE flights SET Creserved=Creserved+1 WHERE flightid=?");
+                    PreparedStatement addCseats = conn.prepareStatement ("UPDATE flights SET Creserved=Creserved-1 WHERE flightid=?");
                     addCseats.setInt (1, flightID);
                     addCseats.executeUpdate ();
                     break;

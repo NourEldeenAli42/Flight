@@ -172,7 +172,6 @@ public class AddPaymentGUI extends Form {
                         JOptionPane.showMessageDialog(AddPaymentGUI.this, "Please enter card number and amount.");
                         return;
                     }
-                    //TODO make addPayment for credit card
                     myDB.addPayment(CommonConstants.CURRENT_USER_ID, flightid, Integer.parseInt (amount), "Credit Card");
                 }
                 dispose ();

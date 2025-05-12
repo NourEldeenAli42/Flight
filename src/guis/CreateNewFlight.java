@@ -341,7 +341,8 @@ public class CreateNewFlight extends Form {
                 myDB.createNewFlight (flightOriginTextField.getText (),flightDestinationTextField.getText (),
                         flightDateChooser.getDate (),Integer.parseInt (setPriceTextField.getText ()),
                         Integer.parseInt (aClassSeatsTextField.getText ()),Integer.parseInt (bClassSeatsTextField.getText ())
-                ,Integer.parseInt (cClassSeatsTextField.getText ()));
+                ,Integer.parseInt (cClassSeatsTextField.getText ()),
+                        Integer.parseInt (airlineNumberTextField.getText ()));
                 navigateBack ();
             }
         });
